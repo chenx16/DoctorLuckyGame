@@ -4,6 +4,10 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+/**
+ * A single game of Doctor Lucky.
+ */
+
 public interface WorldInterface {
   void loadFromFile(String filePath);
 
