@@ -3,13 +3,15 @@ package gameworld;
 import java.util.List;
 
 public interface RoomInterface {
-  void addItem(Item item);
+  void addItem(ItemInterface item);
 
   List<ItemInterface> getItems();
 
-  int getroomInd();
+  int getRoomInd();
 
   String getName();
+
+  void addNeighbor(RoomInterface room);
 
   List<RoomInterface> myListofNeighbors();
 

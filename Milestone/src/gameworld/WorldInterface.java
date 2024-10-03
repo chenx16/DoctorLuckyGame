@@ -2,6 +2,7 @@ package gameworld;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
  */
 
 public interface WorldInterface {
-  void loadFromFile(String filePath);
+  void loadFromFile(String filePath) throws IOException;
 
   List<RoomInterface> getNeighbors(RoomInterface room);
 

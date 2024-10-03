@@ -8,4 +8,8 @@ public interface TargetInterface {
   String getName();
 
   int getHealth();
+
+  void takeDamage(int amount);
+
+  boolean isAlive();
 }
