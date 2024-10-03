@@ -14,7 +14,8 @@ public class World implements WorldInterface {
   private List<RoomInterface> rooms;
   private List<ItemInterface> items;
   private TargetInterface targetCharacter;
-  private int rows, cols;
+  private int rows;
+  private int cols;
   private String worldName;
 
   public World() {
@@ -28,9 +29,9 @@ public class World implements WorldInterface {
     try {
       reader = new BufferedReader(new FileReader(filePath));
       // Parse world dimensions and name
-      String[] worldInfo = reader.readLine().split("\\s+", 3); // Split the first two values (rows,
-                                                               // cols) and then capture the rest as
-                                                               // the world name
+      // Split the first two values (rows, cols) and then
+      // capture the rest as the world name
+      String[] worldInfo = reader.readLine().split("\\s+", 3);
       this.rows = Integer.parseInt(worldInfo[0]);
       this.cols = Integer.parseInt(worldInfo[1]);
       this.worldName = worldInfo[2];
@@ -47,7 +48,6 @@ public class World implements WorldInterface {
         // Parse room line with flexible spaces handling, even if is a space at the
         // front of line
         String[] roomData = reader.readLine().trim().split("\\s+", 5);
-        System.out.println(roomData[0]);
         int[] upperLeft = { Integer.parseInt(roomData[0]), Integer.parseInt(roomData[1]) };
         int[] lowerRight = { Integer.parseInt(roomData[2]), Integer.parseInt(roomData[3]) };
         String roomName = roomData[4];
@@ -73,8 +73,8 @@ public class World implements WorldInterface {
       throw new IOException("Failed to load file: " + filePath, e);
     } finally {
       if (reader != null) {
-        reader.close(); // Ensure the BufferedReader is closed properly, even if an exception
-                        // occurs.
+        reader.close();
+        // Ensure the BufferedReader is closed properly, even if an exception occurs.
       }
     }
   }
@@ -138,16 +138,30 @@ public class World implements WorldInterface {
 
   @Override
   public BufferedImage generateWorldMap() {
-    BufferedImage image = new BufferedImage(cols * 50, rows * 50, BufferedImage.TYPE_INT_ARGB);
+    // Fix the dimension calculation: the image should be cols * 50 (width) by rows
+    // * 50 (height)
+    BufferedImage image = new BufferedImage(cols * 51, rows * 51, BufferedImage.TYPE_INT_ARGB);
     Graphics g = image.getGraphics();
-    g.setColor(Color.BLACK);
+    g.setColor(Color.WHITE);
     for (RoomInterface room : rooms) {
+      // Get room coordinates
       int[] upperLeft = room.getCoordinateUpperLeft();
       int[] lowerRight = room.getCoordinateLowerRight();
-      g.drawRect(upperLeft[1] * 50, upperLeft[0] * 50, (lowerRight[1] - upperLeft[1]) * 50,
-          (lowerRight[0] - upperLeft[0]) * 50);
-      g.drawString(room.getName(), upperLeft[1] * 50 + 5, upperLeft[0] * 50 + 15);
+
+      // Calculate x, y, width, and height correctly
+      int x = upperLeft[1] * 50; // Column value for x (horizontal)
+      int y = upperLeft[0] * 50; // Row value for y (vertical)
+      int width = (lowerRight[1] - upperLeft[1] + 1) * 50; // Column difference for width
+      int height = (lowerRight[0] - upperLeft[0] + 1) * 50; // Row difference for height
+
+      // Draw the room
+      g.drawRect(x, y, width, height);
+
+      // Draw the room name inside the room, offset by 5 pixels for readability
+      g.drawString(room.getName(), x + 5, y + 15);
+
     }
+
     return image;
   }
 

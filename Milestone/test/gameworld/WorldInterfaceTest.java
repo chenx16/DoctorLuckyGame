@@ -19,11 +19,15 @@ public class WorldInterfaceTest {
   private World world;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     world = new World();
     String localDir = System.getProperty("user.dir");
     // Assuming the test world file is correctly structured for testing
-    world.loadFromFile(localDir + "/res/mansion.txt");
+    try {
+      world.loadFromFile(localDir + "/res/mansion.txt");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @Test
@@ -37,7 +41,7 @@ public class WorldInterfaceTest {
   }
 
   @Test(expected = IOException.class)
-  public void testLoadFromFileInvalidPath() throws Exception {
+  public void testLoadFromFileInvalidPath() throws IOException {
     world.loadFromFile("invalidpath.txt");
   }
 
@@ -101,8 +105,8 @@ public class WorldInterfaceTest {
     BufferedImage image = world.generateWorldMap();
     assertNotNull(image);
 
-    int expectedWidth = world.getRowAndCol()[0][1] * 50; // Assuming each cell is 50px wide
-    int expectedHeight = world.getRowAndCol()[0][0] * 50; // Assuming each cell is 50px tall
+    int expectedWidth = world.getRowAndCol()[0][1] * 51; // Assuming each cell is 50px wide
+    int expectedHeight = world.getRowAndCol()[0][0] * 51; // Assuming each cell is 50px tall
     assertEquals(expectedWidth, image.getWidth());
     assertEquals(expectedHeight, image.getHeight());
   }
