@@ -1,4 +1,4 @@
-Loading world from: ./
+Loading world from: ./mansion.txt
 World: Doctor Lucky's Mansion
 Target character: Doctor Lucky with health: 50
 

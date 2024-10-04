@@ -8,7 +8,9 @@ import static org.junit.Assert.assertTrue;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,22 +27,77 @@ public class WorldInterfaceTest {
   /**
    * Sets up the test environment by creating a new instance of the world. Load
    * correct file into the world.
+   * 
    */
   @Before
   public void setUp() throws IOException {
-    world = new World();
-    // Assuming the test world file is correctly structured for testing
-    world.loadFromFile(localDir);
 
+    world = new World();
+
+    // Assuming the test world file is correctly structured for testing
+    File worldFile = new File(localDir + "mansion.txt");
+    FileReader fileReader = new FileReader(worldFile);
+    world.loadFromFile(fileReader);
   }
 
   /**
-   * Tests that the loadFromFile method throws an IOException when the file path
-   * is invalid.
+   * Tests loading a valid world from a StringReader (simulated file input).
+   * Verifies that rooms, items, and the target character are loaded correctly.
+   */
+  @Test
+  public void testLoadFromString() throws IOException {
+    world = new World();
+    String worldData = "36 30 Doctor Lucky's Mansion\n" + "50 Doctor Lucky\n" + "2\n"
+        + "0 0 2 2 Armory\n" + "3 0 5 2 Billiard Room\n" + "2\n"// 2 rooms
+        + "0 5 Revolver\n" + "1 3 Billiard Cue\n"; // 2 items
+
+    StringReader reader = new StringReader(worldData);
+    world.loadFromFile(reader);
+
+    // Assertions to verify the world is loaded correctly
+    assertEquals("Doctor Lucky's Mansion", world.getName());
+    assertEquals(2, world.getRooms().size());
+
+    RoomInterface armory = world.getRooms().get(0);
+    assertEquals("Armory", armory.getName());
+    assertEquals(1, armory.getItems().size());
+
+    ItemInterface revolver = armory.getItems().get(0);
+    assertEquals("Revolver", revolver.getName());
+    assertEquals(5, revolver.getDamage());
+
+    // Test target character
+    TargetInterface target = world.getTargetCharacter();
+    assertEquals("Doctor Lucky", target.getName());
+    assertEquals(50, target.getHealth());
+  }
+
+  /**
+   * Tests loading invalid world data to ensure that proper exceptions are thrown.
    */
   @Test(expected = IOException.class)
-  public void testLoadFromFileInvalidPath() throws IOException {
-    world.loadFromFile("invalid/path/to/file/");
+  public void testLoadInvalidWorldData() throws IOException {
+    String invalidWorldData = "Invalid data\n50 Doctor Lucky\n";
+    StringReader reader = new StringReader(invalidWorldData);
+    world.loadFromFile(reader);
+  }
+
+  /**
+   * Tests loading invalid world data to ensure that proper exceptions are thrown.
+   */
+  @Test(expected = IOException.class)
+  public void testLoadNull() throws IOException {
+    world.loadFromFile(null);
+  }
+
+  /**
+   * Tests loading invalid file to ensure that proper exceptions are thrown.
+   */
+  @Test(expected = IOException.class)
+  public void testLoadInvalidFile() throws IOException {
+    File worldFile = new File(localDir + "output.txt");
+    FileReader fileReader = new FileReader(worldFile);
+    world.loadFromFile(fileReader);
   }
 
   /**
@@ -49,7 +106,6 @@ public class WorldInterfaceTest {
    */
   @Test
   public void testLoadFromFileValid() throws IOException {
-    world.loadFromFile(localDir);
     assertNotNull(world.getRooms());
     assertNotNull(world.getItems());
     assertNotNull(world.getTargetCharacter());

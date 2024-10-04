@@ -1,13 +1,15 @@
 
 package gameworld;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * Driver class to demonstrate the functionality of the gameworld model. This
- * class accepts a world specification file path as a command-line argument and
- * demonstrates key functionality such as displaying space info, moving the
- * target character, generating the world map, and listing neighboring rooms.
+ * Driver class to demonstrate the functionality of the game world model. It
+ * takes a world specification file as input and showcases various
+ * functionalities of the model such as loading the world, displaying space
+ * information, moving the target character, and generating the world map.
  */
 public class Driver {
   /**
@@ -18,7 +20,7 @@ public class Driver {
    * <li>Loading the world from a file</li>
    * <li>Displaying information about each room (including items and
    * neighbors)</li>
-   * <li>Moving the target character to a new room</li>
+   * <li>Moving the target character to new rooms</li>
    * <li>Generating the world map and saving it as an image file</li>
    * </ul>
    *
@@ -32,12 +34,20 @@ public class Driver {
     }
 
     String worldFilePath = args[0];
+    File worldFile = new File(worldFilePath);
+
+    // Check if the input is a valid file
+    if (!worldFile.exists() || !worldFile.isFile()) {
+      System.err.println("Error: The specified file does not exist or is not a valid file.");
+      System.exit(1);
+    }
+
     WorldInterface world = new World();
 
-    try {
+    try (FileReader fileReader = new FileReader(worldFile)) {
       // Load the world from the specified file
       System.out.println("Loading world from: " + worldFilePath);
-      world.loadFromFile(worldFilePath);
+      world.loadFromFile(fileReader);
 
       // Show the name of the world
       System.out.println("World: " + world.getName());

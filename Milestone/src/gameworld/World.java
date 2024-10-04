@@ -7,8 +7,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
@@ -26,7 +26,6 @@ public class World implements WorldInterface {
   private int cols;
   private String worldName;
   private final int pixel;
-  private String path;
 
   /**
    * Constructs an empty world.
@@ -35,15 +34,15 @@ public class World implements WorldInterface {
     this.rooms = new ArrayList<RoomInterface>();
     this.items = new ArrayList<ItemInterface>();
     this.pixel = 50;
-    this.path = null;
   }
 
   @Override
-  public void loadFromFile(String filePath) throws IOException {
-    BufferedReader reader = null;
-    this.path = filePath;
+  public void loadFromFile(Readable source) throws IOException {
+    if (source == null) {
+      throw new IOException("parameter cannot be null");
+    }
+    BufferedReader reader = new BufferedReader((Reader) source);
     try {
-      reader = new BufferedReader(new FileReader(this.path + "mansion.txt"));
       // Parse world dimensions and name
       // Split the first two values (rows, cols) and then
       // capture the rest as the world name
@@ -87,13 +86,10 @@ public class World implements WorldInterface {
         items.add(item);
       }
 
-    } catch (IOException e) {
-      throw new IOException("Failed to load file: " + filePath, e);
+    } catch (NumberFormatException e) {
+      throw new IOException("Failed to load the world.", e);
     } finally {
-      if (reader != null) {
-        reader.close();
-        // Ensure the BufferedReader is closed properly, even if an exception occurs.
-      }
+      reader.close();
     }
   }
 
@@ -212,7 +208,7 @@ public class World implements WorldInterface {
       }
 
       // Save the image to the file
-      File outputfile = new File(this.path + "worldmap.png");
+      File outputfile = new File("worldmap.png");
       ImageIO.write(image, "png", outputfile);
       // System.out.println("World map saved as 'worldmap.png' !");
 

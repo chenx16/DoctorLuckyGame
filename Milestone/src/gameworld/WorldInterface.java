@@ -11,13 +11,14 @@ import java.util.List;
  * generated.
  */
 public interface WorldInterface {
+
   /**
-   * Loads the world from the specified file.
+   * Loads the world from the specified file or string.
    * 
-   * @param filePath the path of the file to load the world from
+   * @param source of the file or string to load the world from
    * @throws IOException if an error occurs while reading the file
    */
-  void loadFromFile(String filePath) throws IOException;
+  void loadFromFile(Readable source) throws IOException;
 
   /**
    * Returns the neighbors of the specified room.
