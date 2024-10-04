@@ -18,4 +18,4 @@ Replace /path/to/directory/containing/jar with the actual path where your JAR fi
 
 Run the JAR file using the following command:
 
-java -jar Milestone1.jar
+     java -jar Milestone1.jar
