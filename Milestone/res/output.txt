@@ -1,0 +1,184 @@
+Loading world from: ./
+World: Doctor Lucky's Mansion
+Target character: Doctor Lucky with health: 50
+
+Space information for each room:
+Room: Armory
+Items in this room:
+- Item Revolver with 3 damage.
+Neighboring rooms:
+- Billiard Room
+- Dining Hall
+- Drawing Room
+
+Room: Billiard Room
+Items in this room:
+- Item Billiard Cue with 2 damage.
+Neighboring rooms:
+- Armory
+- Dining Hall
+- Trophy Room
+
+Room: Carriage House
+Items in this room:
+- Item Chain Saw with 4 damage.
+- Item Big Red Hammer with 4 damage.
+Neighboring rooms:
+- Winter Garden
+
+Room: Dining Hall
+No items in this room.
+Neighboring rooms:
+- Armory
+- Billiard Room
+- Drawing Room
+- Kitchen
+- Parlor
+- Tennessee Room
+- Trophy Room
+- Wine Cellar
+
+Room: Drawing Room
+Items in this room:
+- Item Letter Opener with 2 damage.
+Neighboring rooms:
+- Armory
+- Dining Hall
+- Foyer
+- Wine Cellar
+
+Room: Foyer
+No items in this room.
+Neighboring rooms:
+- Drawing Room
+- Piazza
+
+Room: Green House
+Items in this room:
+- Item Trowel with 2 damage.
+- Item Pinking Shears with 2 damage.
+Neighboring rooms:
+- Hedge Maze
+
+Room: Hedge Maze
+Items in this room:
+- Item Loud Noise with 2 damage.
+Neighboring rooms:
+- Green House
+- Piazza
+
+Room: Kitchen
+Items in this room:
+- Item Crepe Pan with 3 damage.
+- Item Sharp Knife with 3 damage.
+Neighboring rooms:
+- Dining Hall
+- Parlor
+- Wine Cellar
+
+Room: Lancaster Room
+Items in this room:
+- Item Silken Cord with 3 damage.
+Neighboring rooms:
+- Lilac Room
+- Servants' Quarters
+
+Room: Library
+No items in this room.
+Neighboring rooms:
+- Master Suite
+- Nursery
+- Trophy Room
+
+Room: Lilac Room
+Items in this room:
+- Item Tight Hat with 2 damage.
+Neighboring rooms:
+- Lancaster Room
+- Master Suite
+- Servants' Quarters
+- Tennessee Room
+
+Room: Master Suite
+Items in this room:
+- Item Shoe Horn with 2 damage.
+Neighboring rooms:
+- Library
+- Lilac Room
+- Nursery
+- Tennessee Room
+
+Room: Nursery
+Items in this room:
+- Item Bad Cream with 2 damage.
+Neighboring rooms:
+- Library
+- Master Suite
+
+Room: Parlor
+No items in this room.
+Neighboring rooms:
+- Dining Hall
+- Kitchen
+- Servants' Quarters
+- Tennessee Room
+
+Room: Piazza
+Items in this room:
+- Item Civil War Cannon with 3 damage.
+Neighboring rooms:
+- Foyer
+- Hedge Maze
+- Winter Garden
+
+Room: Servants' Quarters
+Items in this room:
+- Item Broom Stick with 2 damage.
+Neighboring rooms:
+- Lancaster Room
+- Lilac Room
+- Parlor
+
+Room: Tennessee Room
+No items in this room.
+Neighboring rooms:
+- Dining Hall
+- Lilac Room
+- Master Suite
+- Parlor
+- Trophy Room
+
+Room: Trophy Room
+Items in this room:
+- Item Duck Decoy with 3 damage.
+- Item Monkey Hand with 2 damage.
+Neighboring rooms:
+- Billiard Room
+- Dining Hall
+- Library
+- Tennessee Room
+
+Room: Wine Cellar
+Items in this room:
+- Item Rat Poison with 2 damage.
+- Item Piece of Rope with 2 damage.
+Neighboring rooms:
+- Dining Hall
+- Drawing Room
+- Kitchen
+
+Room: Winter Garden
+No items in this room.
+Neighboring rooms:
+- Carriage House
+- Piazza
+
+Target is now in: Armory
+
+Moving the target character...
+Target is now in: Billiard Room
+Target is now in: Carriage House
+Target is now in: Dining Hall
+
+Generating world map...
+World map saved successfully!

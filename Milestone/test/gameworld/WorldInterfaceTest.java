@@ -138,8 +138,11 @@ public class WorldInterfaceTest {
   public void testMoveTargetCharacter() {
     RoomInterface initialRoom = world.getTargetCharacter().getCurrentRoom();
     world.moveTargetCharacter();
-    RoomInterface newRoom = world.getTargetCharacter().getCurrentRoom();
-    assertNotEquals(initialRoom, newRoom);
+    RoomInterface secondRoom = world.getTargetCharacter().getCurrentRoom();
+    assertNotEquals(initialRoom, secondRoom);
+    world.moveTargetCharacter();
+    RoomInterface thirdRoom = world.getTargetCharacter().getCurrentRoom();
+    assertNotEquals(thirdRoom, secondRoom);
   }
 
   /**

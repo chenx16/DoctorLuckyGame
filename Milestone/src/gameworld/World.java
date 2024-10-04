@@ -2,6 +2,7 @@
 package gameworld;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -195,7 +196,7 @@ public class World implements WorldInterface {
     try {
       g = image.getGraphics();
       g.setColor(Color.BLACK);
-
+      g.setFont(new Font("Arial", Font.PLAIN, 12));
       // Draw each room
       for (RoomInterface room : rooms) {
         int[] upperLeft = room.getCoordinateUpperLeft();
