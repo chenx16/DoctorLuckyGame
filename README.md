@@ -11,7 +11,7 @@ To run this JAR file, ensure you have the following:
 
 ### Steps to Run the JAR
 1. Open a terminal or command prompt.
-2. Navigate to the directory containing the `Milestone1.jar` file. You can use the `cd` command to change directories:
+2. Navigate to the directory /res which containing the `Milestone1.jar` file. You can use the `cd` command to change directories:
    ```bash
    cd /Users/zhuzhu/eclipse-workspace/CS5010/DoctorLuckyGame/Milestone/res
 
@@ -23,6 +23,7 @@ To create a text file that captures the output and save it in plain text format 
 
      java -jar Milestone1.jar ./mansion.txt > output.txt
 
+output.txt file is saved out file which can be seen in the directory you at.
 
 ## Running the Program
 
