@@ -5,17 +5,28 @@ This semester, we are going to develop a kind of board game that is very loosely
 
 ### Prerequisites
 To run this JAR file, ensure you have the following:
-- Java installed (JDK version 11)
-- The `Milestone1.jar` file is located in the res
+- Java installed (JDK version > 8)
+- The `Milestone1.jar` file is located in the Milstone/res
+
 
 ### Steps to Run the JAR
 1. Open a terminal or command prompt.
 2. Navigate to the directory containing the `Milestone1.jar` file. You can use the `cd` command to change directories:
    ```bash
-   cd /path/to/directory/containing/jar
-
-Replace /path/to/directory/containing/jar with the actual path where your JAR file is located.
+   cd /Users/zhuzhu/eclipse-workspace/CS5010/DoctorLuckyGame/Milestone/res
 
 Run the JAR file using the following command:
 
-     java -jar Milestone1.jar
+     java -jar Milestone1.jar ./
+
+To create a text file that captures the output and save it in plain text format (i.e., .txt), use the following command
+
+     java -jar Milestone1.jar ./ > output.txt
+
+
+## Running the Program
+
+To run the driver class and demonstrate the functionality of the world model, you can also use the following command:
+
+```bash
+java -jar Milestone1.jar /path/to/world/specification/file.txt
