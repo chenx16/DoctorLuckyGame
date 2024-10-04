@@ -181,13 +181,13 @@ public class World implements WorldInterface {
 
   @Override
   public BufferedImage generateWorldMap() throws IOException {
-    BufferedImage image = new BufferedImage(cols * pixel, rows * pixel,
-        BufferedImage.TYPE_INT_ARGB);
+    BufferedImage image = new BufferedImage(cols * (pixel + 1), rows * (pixel + 1),
+        BufferedImage.TYPE_INT_ARGB); // need a bigger background to see all the lines
     Graphics g = null;
 
     try {
       g = image.getGraphics();
-      g.setColor(Color.WHITE);
+      g.setColor(Color.BLACK);
 
       // Draw each room
       for (RoomInterface room : rooms) {
@@ -206,7 +206,7 @@ public class World implements WorldInterface {
       // Save the image to the file
       File outputfile = new File(this.path + "worldmap.png");
       ImageIO.write(image, "png", outputfile);
-      System.out.println("World map saved as 'worldmap.png' in " + this.path + '!');
+      // System.out.println("World map saved as 'worldmap.png' !");
 
     } catch (IOException e) {
       // Log the error and throw new error
