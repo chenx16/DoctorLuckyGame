@@ -173,8 +173,8 @@ public class WorldInterfaceTest {
     BufferedImage image = world.generateWorldMap();
     assertNotNull(image);
 
-    int expectedWidth = world.getRowAndCol()[0][1] * 51; // Assuming each cell is 51px wide
-    int expectedHeight = world.getRowAndCol()[0][0] * 51; // Assuming each cell is 51px tall
+    int expectedWidth = world.getRowAndCol()[0][1] * 50; // Assuming each cell is 50px wide
+    int expectedHeight = world.getRowAndCol()[0][0] * 50; // Assuming each cell is 50px tall
     assertEquals(expectedWidth, image.getWidth());
     assertEquals(expectedHeight, image.getHeight());
   }

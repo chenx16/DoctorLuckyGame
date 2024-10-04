@@ -181,8 +181,8 @@ public class World implements WorldInterface {
 
   @Override
   public BufferedImage generateWorldMap() throws IOException {
-    BufferedImage image = new BufferedImage(cols * (pixel + 1), rows * (pixel + 1),
-        BufferedImage.TYPE_INT_ARGB); // need a bigger background to see all the lines
+    BufferedImage image = new BufferedImage(cols * pixel, rows * pixel,
+        BufferedImage.TYPE_INT_ARGB);
     Graphics g = null;
 
     try {
