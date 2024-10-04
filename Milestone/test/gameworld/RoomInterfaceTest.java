@@ -10,22 +10,30 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Unit tests for the Room class. These tests verify room behavior including
+ * item handling and neighbor relationships.
+ */
+
 public class RoomInterfaceTest {
 
   private RoomInterface room;
   private ItemInterface item;
 
+  /**
+   * Sets up the test environment by creating a room and an item. This method runs
+   * before each test.
+   */
   @Before
   public void setUp() {
     int[] upperLeft = { 0, 0 };
     int[] lowerRight = { 2, 2 };
-    room = new Room(upperLeft, lowerRight, "Armory", 0); // Use RoomInterface
-    item = new Item(10, "Revolver"); // Use ItemInterface
+    room = new Room(upperLeft, lowerRight, "Armory", 0);
+    item = new Item(10, "Revolver");
   }
 
   @Test
   public void testConstructorValid() {
-    // Test if the constructor correctly initializes the room
     assertEquals("Armory", room.getName());
     assertArrayEquals(new int[] { 0, 0 }, room.getCoordinateUpperLeft());
     assertArrayEquals(new int[] { 2, 2 }, room.getCoordinateLowerRight());
@@ -34,7 +42,6 @@ public class RoomInterfaceTest {
 
   @Test
   public void testAddItem() {
-    // Test adding an item to the room
     room.addItem(item);
     List<ItemInterface> items = room.getItems();
     assertNotNull(items);
@@ -43,7 +50,6 @@ public class RoomInterfaceTest {
 
   @Test
   public void testGetItems() {
-    // Test retrieving items from the room
     room.addItem(item);
     List<ItemInterface> items = room.getItems();
     assertEquals(1, items.size()); // Only one item should be present
@@ -52,7 +58,6 @@ public class RoomInterfaceTest {
 
   @Test
   public void testAddNeighbor() {
-    // Test adding a neighbor to the room
     RoomInterface neighborRoom = new Room(new int[] { 0, 3 }, new int[] { 2, 5 }, "Billiard Room",
         1);
     room.addNeighbor(neighborRoom);
@@ -62,7 +67,6 @@ public class RoomInterfaceTest {
 
   @Test
   public void testGetNeighbors() {
-    // Test retrieving neighbors from the room
     RoomInterface neighborRoom = new Room(new int[] { 0, 3 }, new int[] { 2, 5 }, "Billiard Room",
         1);
     room.addNeighbor(neighborRoom);
@@ -73,7 +77,16 @@ public class RoomInterfaceTest {
 
   @Test
   public void testGetRoomInd() {
-    // Test retrieving the room index
     assertEquals(0, room.getRoomInd()); // The room index should be correctly returned
   }
+
+  /**
+   * Tests the toString method when the item has a valid name and damage.
+   */
+  @Test
+  public void testToStringValidItem() {
+    String expectedOutput = "The item Revolver has 10 damage.";
+    assertEquals(expectedOutput, item.toString());
+  }
+
 }

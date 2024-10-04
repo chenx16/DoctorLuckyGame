@@ -5,11 +5,19 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
+/**
+ * Represents the game world, consisting of multiple rooms, items, and a target
+ * character. The world can be loaded from a file, and a graphical map of the
+ * world can be generated.
+ */
 public class World implements WorldInterface {
   private List<RoomInterface> rooms;
   private List<ItemInterface> items;
@@ -17,17 +25,25 @@ public class World implements WorldInterface {
   private int rows;
   private int cols;
   private String worldName;
+  private final int pixel;
+  private String path;
 
+  /**
+   * Constructs an empty world.
+   */
   public World() {
     this.rooms = new ArrayList<>();
     this.items = new ArrayList<>();
+    this.pixel = 50;
+    this.path = null;
   }
 
   @Override
   public void loadFromFile(String filePath) throws IOException {
     BufferedReader reader = null;
+    this.path = filePath;
     try {
-      reader = new BufferedReader(new FileReader(filePath));
+      reader = new BufferedReader(new FileReader(this.path + "mansion.txt"));
       // Parse world dimensions and name
       // Split the first two values (rows, cols) and then
       // capture the rest as the world name
@@ -125,7 +141,34 @@ public class World implements WorldInterface {
 
   @Override
   public String getSpaceInfo(RoomInterface room) {
-    return room.getName() + " contains: " + room.getItems();
+    // Collect room information
+    StringBuilder spaceInfo = new StringBuilder();
+    spaceInfo.append("Room: ").append(room.getName()).append("\n");
+
+    // Add information about the items in the room
+    List<ItemInterface> roomItems = room.getItems();
+    if (roomItems.isEmpty()) {
+      spaceInfo.append("No items in this room.\n");
+    } else {
+      spaceInfo.append("Items in this room:\n");
+      for (ItemInterface item : roomItems) {
+        spaceInfo.append("- ").append(item.getName()).append(" (Damage: ").append(item.getDamage())
+            .append(")\n");
+      }
+    }
+
+    // Add information about neighboring rooms
+    List<RoomInterface> neighbors = room.myListofNeighbors();
+    if (neighbors.isEmpty()) {
+      spaceInfo.append("This room has no neighboring rooms.\n");
+    } else {
+      spaceInfo.append("Neighboring rooms:\n");
+      for (RoomInterface neighbor : neighbors) {
+        spaceInfo.append("- ").append(neighbor.getName()).append("\n");
+      }
+    }
+
+    return spaceInfo.toString();
   }
 
   @Override
@@ -137,38 +180,59 @@ public class World implements WorldInterface {
   }
 
   @Override
-  public BufferedImage generateWorldMap() {
-    // Fix the dimension calculation: the image should be cols * 50 (width) by rows
-    // * 50 (height)
-    BufferedImage image = new BufferedImage(cols * 51, rows * 51, BufferedImage.TYPE_INT_ARGB);
-    Graphics g = image.getGraphics();
-    g.setColor(Color.WHITE);
-    for (RoomInterface room : rooms) {
-      // Get room coordinates
-      int[] upperLeft = room.getCoordinateUpperLeft();
-      int[] lowerRight = room.getCoordinateLowerRight();
+  public BufferedImage generateWorldMap() throws IOException {
+    BufferedImage image = new BufferedImage(cols * pixel, rows * pixel,
+        BufferedImage.TYPE_INT_ARGB);
+    Graphics g = null;
 
-      // Calculate x, y, width, and height correctly
-      int x = upperLeft[1] * 50; // Column value for x (horizontal)
-      int y = upperLeft[0] * 50; // Row value for y (vertical)
-      int width = (lowerRight[1] - upperLeft[1] + 1) * 50; // Column difference for width
-      int height = (lowerRight[0] - upperLeft[0] + 1) * 50; // Row difference for height
+    try {
+      g = image.getGraphics();
+      g.setColor(Color.WHITE);
 
-      // Draw the room
-      g.drawRect(x, y, width, height);
+      // Draw each room
+      for (RoomInterface room : rooms) {
+        int[] upperLeft = room.getCoordinateUpperLeft();
+        int[] lowerRight = room.getCoordinateLowerRight();
+        int x = upperLeft[1] * pixel;
+        int y = upperLeft[0] * pixel;
+        int width = (lowerRight[1] - upperLeft[1] + 1) * pixel;
+        int height = (lowerRight[0] - upperLeft[0] + 1) * pixel;
 
-      // Draw the room name inside the room, offset by 5 pixels for readability
-      g.drawString(room.getName(), x + 5, y + 15);
+        // Draw room's outline and name
+        g.drawRect(x, y, width, height);
+        g.drawString(room.getName(), x + 5, y + 15);
+      }
 
+      // Save the image to the file
+      File outputfile = new File(this.path + "worldmap.png");
+      ImageIO.write(image, "png", outputfile);
+      System.out.println("World map saved as 'worldmap.png' in " + this.path + '!');
+
+    } catch (IOException e) {
+      // Log the error and throw new error
+      System.err.println("Failed to save world map: " + e.getMessage());
+      throw new IOException("Error saving the world map to file", e);
+    } finally {
+      // Clean up the Graphics object
+      if (g != null) {
+        g.dispose();
+      }
     }
 
+    // Return the generated BufferedImage
     return image;
   }
 
   @Override
-  public Graphics getGraphics() {
-    BufferedImage image = generateWorldMap();
-    return image.getGraphics();
+  public Graphics getGraphics() throws IOException {
+    BufferedImage image;
+    try {
+      image = generateWorldMap();
+    } catch (IOException e) {
+      System.err.println("Error generating world map for Graphics: " + e.getMessage());
+      return null;
+    }
+    return image.getGraphics(); // Return the Graphics object from the BufferedImage
   }
 
   @Override

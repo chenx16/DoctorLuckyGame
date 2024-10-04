@@ -7,15 +7,23 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Unit tests for the Target class. These tests verify that the target's health,
+ * movement, and state are handled correctly.
+ */
 public class TargetInterfaceTest {
 
   private TargetInterface target;
   private RoomInterface room;
 
+  /**
+   * Sets up the test environment by creating a new target in a room. This method
+   * runs before each test.
+   */
   @Before
   public void setUp() {
-    room = new Room(new int[] { 0, 0 }, new int[] { 2, 2 }, "Armory", 0); // Use RoomInterface
-    target = new Target(room, 50, "Doctor Lucky"); // Use TargetInterface
+    room = new Room(new int[] { 0, 0 }, new int[] { 2, 2 }, "Armory", 0);
+    target = new Target(room, 50, "Doctor Lucky");
   }
 
   @Test
@@ -59,7 +67,7 @@ public class TargetInterfaceTest {
     assertTrue(target.isAlive());
 
     // Reduce health to 0 and check if the target is no longer alive
-    target.takeDamage(50); // Exact amount to bring health to 0
+    target.takeDamage(50);
     assertFalse(target.isAlive()); // The target should now be "dead"
   }
 
@@ -71,6 +79,6 @@ public class TargetInterfaceTest {
 
     // Further damage to make health exactly 0
     target.takeDamage(1); // Reducing health to exactly 0
-    assertFalse(target.isAlive()); // Should now
+    assertFalse(target.isAlive()); // Should die now
   }
 }
