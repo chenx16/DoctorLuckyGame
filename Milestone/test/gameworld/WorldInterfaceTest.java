@@ -83,7 +83,7 @@ public class WorldInterfaceTest {
   }
 
   /**
-   * Tests loading invalid world data to ensure that proper exceptions are thrown.
+   * Tests loading null data to ensure that proper exceptions are thrown.
    */
   @Test(expected = IOException.class)
   public void testLoadNull() throws IOException {
