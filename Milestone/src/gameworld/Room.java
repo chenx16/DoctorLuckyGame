@@ -1,14 +1,16 @@
 package gameworld;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents a room in the game world. A room has coordinates, a name, and can
  * contain items. Rooms can also have neighbors, which are other rooms directly
  * adjacent.
  */
-public class Room implements RoomInterface {
+public class Room implements RoomInterface, Cloneable {
   private int[] coordinateUpperLeft;
   private int[] coordinateLowerRight;
   private String name;
@@ -31,8 +33,8 @@ public class Room implements RoomInterface {
     this.coordinateLowerRight = coordinateLowerRight;
     this.name = name;
     this.roomInd = roomInd;
-    this.items = new ArrayList<>();
-    this.neighbors = new ArrayList<>();
+    this.items = new ArrayList<ItemInterface>();
+    this.neighbors = new ArrayList<RoomInterface>();
   }
 
   @Override
@@ -74,4 +76,42 @@ public class Room implements RoomInterface {
   public int[] getCoordinateLowerRight() {
     return coordinateLowerRight;
   }
+
+  /**
+   * Generates a hash code for this room. The hash code is based on the room's
+   * coordinates and name.
+   *
+   * @return the hash code for the room
+   */
+  @Override
+  public int hashCode() {
+    // Generate the hash code using the coordinates and the name
+    int result = Objects.hash(name); // Start with the hash of the room name
+    result = 31 * result + Arrays.hashCode(coordinateUpperLeft);
+    result = 31 * result + Arrays.hashCode(coordinateLowerRight);
+    return result;
+  }
+
+  /**
+   * Checks if this room is equal to another room. Two rooms are considered equal
+   * if they have the same coordinates and the same name.
+   *
+   * @param obj the object to compare with
+   * @return true if the rooms are having same hashCode, false otherwise
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof Room)) {
+      return false;
+    }
+    Room other = (Room) obj;
+    return this.hashCode() == other.hashCode();
+  }
+
 }

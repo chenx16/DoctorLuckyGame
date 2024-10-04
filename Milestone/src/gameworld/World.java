@@ -32,8 +32,8 @@ public class World implements WorldInterface {
    * Constructs an empty world.
    */
   public World() {
-    this.rooms = new ArrayList<>();
-    this.items = new ArrayList<>();
+    this.rooms = new ArrayList<RoomInterface>();
+    this.items = new ArrayList<ItemInterface>();
     this.pixel = 50;
     this.path = null;
   }
@@ -152,8 +152,7 @@ public class World implements WorldInterface {
     } else {
       spaceInfo.append("Items in this room:\n");
       for (ItemInterface item : roomItems) {
-        spaceInfo.append("- ").append(item.getName()).append(" (Damage: ").append(item.getDamage())
-            .append(")\n");
+        spaceInfo.append("- ").append(item.toString()).append("\n");
       }
     }
 

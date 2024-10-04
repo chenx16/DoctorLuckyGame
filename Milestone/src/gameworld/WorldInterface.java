@@ -55,7 +55,7 @@ public interface WorldInterface {
    * Returns the graphical object used for rendering the world.
    * 
    * @return the Graphics object for rendering the world map
-   * @throws IOException if an error occurs while saving the image file
+   * @throws IOException if an error occurs while saving the world map image file
    */
   Graphics getGraphics() throws IOException;
 

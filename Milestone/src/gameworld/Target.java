@@ -29,7 +29,9 @@ public class Target implements TargetInterface {
 
   @Override
   public void move(RoomInterface room) {
-    this.currentRoom = room;
+    RoomInterface roomCopy = new Room(room.getCoordinateUpperLeft(), room.getCoordinateLowerRight(),
+        room.getName(), room.getRoomInd());
+    this.currentRoom = roomCopy;
   }
 
   @Override
@@ -54,4 +56,5 @@ public class Target implements TargetInterface {
   public boolean isAlive() {
     return this.health > 0;
   }
+
 }

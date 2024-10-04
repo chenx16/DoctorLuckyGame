@@ -29,14 +29,11 @@ public class WorldInterfaceTest {
    * correct file into the world.
    */
   @Before
-  public void setUp() {
+  public void setUp() throws IOException {
     world = new World();
     // Assuming the test world file is correctly structured for testing
-    try {
-      world.loadFromFile(localDir);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    world.loadFromFile(localDir);
+
   }
 
   /**
@@ -76,8 +73,9 @@ public class WorldInterfaceTest {
   public void testGetSpaceInfoWithItemsAndNeighbors() {
     RoomInterface armory = world.getRooms().get(0); // Room 0 is Armory
 
-    String expectedOutput = "Room: Armory\n" + "Items in this room:\n" + "- Revolver (Damage: 3)\n"
-        + "Neighboring rooms:\n" + "- Billiard Room\n" + "- Dining Hall\n" + "- Drawing Room\n";
+    String expectedOutput = "Room: Armory\n" + "Items in this room:\n"
+        + "- Item Revolver with 3 damage.\n" + "Neighboring rooms:\n" + "- Billiard Room\n"
+        + "- Dining Hall\n" + "- Drawing Room\n";
 
     String actualOutput = world.getSpaceInfo(armory);
     assertEquals(expectedOutput, actualOutput);

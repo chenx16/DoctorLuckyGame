@@ -2,6 +2,8 @@ package gameworld;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -18,6 +20,11 @@ import org.junit.Test;
 public class RoomInterfaceTest {
 
   private RoomInterface room;
+  private RoomInterface room1;
+  private RoomInterface room2;
+  private RoomInterface room3;
+  private RoomInterface roomWithDifferentName;
+  private RoomInterface roomWithDifferentCoordinates;
   private ItemInterface item;
 
   /**
@@ -30,6 +37,19 @@ public class RoomInterfaceTest {
     int[] lowerRight = { 2, 2 };
     room = new Room(upperLeft, lowerRight, "Armory", 0);
     item = new Item(10, "Revolver");
+
+    // Create two rooms with the same coordinates and name
+    room1 = new Room(new int[] { 0, 0 }, new int[] { 2, 2 }, "Armory", 1);
+    room2 = new Room(new int[] { 0, 0 }, new int[] { 2, 2 }, "Armory", 1);
+
+    // Create a room with a different name but same coordinates
+    roomWithDifferentName = new Room(new int[] { 0, 0 }, new int[] { 2, 2 }, "Library", 2);
+
+    // Create a room with different coordinates but same name
+    roomWithDifferentCoordinates = new Room(new int[] { 3, 3 }, new int[] { 5, 5 }, "Armory", 3);
+
+    // Create a completely different room
+    room3 = new Room(new int[] { 3, 3 }, new int[] { 5, 5 }, "Library", 2);
   }
 
   @Test
@@ -85,8 +105,47 @@ public class RoomInterfaceTest {
    */
   @Test
   public void testToStringValidItem() {
-    String expectedOutput = "The item Revolver has 10 damage.";
+    String expectedOutput = "Item Revolver with 10 damage.";
     assertEquals(expectedOutput, item.toString());
+  }
+
+  /**
+   * Tests that two rooms with the same coordinates and name are equal.
+   */
+  @Test
+  public void testEqualsSameRooms() {
+    assertTrue(room1.equals(room2));
+    assertTrue(room2.equals(room1));
+  }
+
+  /**
+   * Tests that two rooms are different.
+   */
+  @Test
+  public void testEqualsDifferent() {
+    assertFalse(room1.equals(roomWithDifferentCoordinates));
+    assertFalse(room1.equals(roomWithDifferentName));
+    assertFalse(room1.equals(room3));
+    assertFalse(room1.equals(null));
+    assertFalse(room1.equals("NotARoom"));
+  }
+
+  /**
+   * Tests that two equal rooms have the same hash code.
+   */
+  @Test
+  public void testHashCodeSameRooms() {
+    assertEquals(room1.hashCode(), room2.hashCode());
+  }
+
+  /**
+   * Tests that rooms with have different hash codes.
+   */
+  @Test
+  public void testHashCodeDifferent() {
+    assertNotEquals(room1.hashCode(), roomWithDifferentName.hashCode());
+    assertNotEquals(room1.hashCode(), roomWithDifferentCoordinates.hashCode());
+    assertNotEquals(room1.hashCode(), room3.hashCode());
   }
 
 }
