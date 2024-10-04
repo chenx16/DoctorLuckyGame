@@ -1,5 +1,7 @@
 package gameworld;
 
+import java.util.Arrays;
+
 /**
  * Represents a target character in the game world. The target character has
  * health and can move between rooms in the world.
@@ -29,14 +31,20 @@ public class Target implements TargetInterface {
 
   @Override
   public void move(RoomInterface room) {
-    RoomInterface roomCopy = new Room(room.getCoordinateUpperLeft(), room.getCoordinateLowerRight(),
+    if (room == null) {
+      throw new IllegalArgumentException("Room cannot be null.");
+    }
+    RoomInterface roomCopy = new Room(
+        Arrays.copyOf(room.getCoordinateUpperLeft(), room.getCoordinateUpperLeft().length),
+        Arrays.copyOf(room.getCoordinateLowerRight(), room.getCoordinateLowerRight().length),
         room.getName(), room.getRoomInd());
     this.currentRoom = roomCopy;
   }
 
   @Override
   public RoomInterface getCurrentRoom() {
-    return currentRoom;
+    return new Room(currentRoom.getCoordinateUpperLeft(), currentRoom.getCoordinateLowerRight(),
+        currentRoom.getName(), currentRoom.getRoomInd());
   }
 
   @Override

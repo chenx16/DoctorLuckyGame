@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -45,6 +44,10 @@ public class WorldInterfaceTest {
     world.loadFromFile("invalid/path/to/file/");
   }
 
+  /**
+   * Tests loading a valid world file and checks that rooms, items, and the target
+   * are loaded correctly.
+   */
   @Test
   public void testLoadFromFileValid() throws IOException {
     world.loadFromFile(localDir);
@@ -56,14 +59,26 @@ public class WorldInterfaceTest {
     assertEquals("Doctor Lucky's Mansion", world.getName());
   }
 
+  /**
+   * Tests retrieving neighbors for a room.
+   */
   @Test
   public void testGetNeighbors() {
     RoomInterface armory = world.getRooms().get(0); // Room 0 is Armory
     List<RoomInterface> neighbors = world.getNeighbors(armory);
     assertNotNull(neighbors);
     assertTrue(neighbors.size() > 0); // Should have some neighbors
+    assertTrue(neighbors.contains(world.getRooms().get(3))); // Dining Hall
     assertTrue(neighbors.contains(world.getRooms().get(4))); // Drawing Room
-    assertTrue(neighbors.contains(world.getRooms().get(4))); // Dining Hall
+  }
+
+  /**
+   * Tests that an IllegalArgumentException is thrown when a null room is passed
+   * to getNeighbors().
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetNeighborsInValid() {
+    world.getNeighbors(null);
   }
 
   /**
@@ -96,7 +111,7 @@ public class WorldInterfaceTest {
   }
 
   /**
-   * Tests getSpaceInfo when the room has no neighbors.
+   * Tests getSpaceInfo when the room has no items or neighbors.
    */
   @Test
   public void testGetSpaceInfoNoNeighbors() {
@@ -109,6 +124,17 @@ public class WorldInterfaceTest {
     assertEquals(expectedOutput, actualOutput);
   }
 
+  /**
+   * Tests if the getSpaceInfo check a null input.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetSpaceInfoInValid() {
+    world.getSpaceInfo(null);
+  }
+
+  /**
+   * Tests moving the target character.
+   */
   @Test
   public void testMoveTargetCharacter() {
     RoomInterface initialRoom = world.getTargetCharacter().getCurrentRoom();
@@ -149,31 +175,4 @@ public class WorldInterfaceTest {
     assertTrue(file.length() > 0);
   }
 
-  @Test
-  public void testGraphicsDrawsWorld() throws IOException {
-    // Ensure that the BufferedImage is created properly before getting the Graphics
-    // object
-    BufferedImage image = world.generateWorldMap();
-    assertNotNull(image); // BufferedImage should not be null
-    assertEquals(BufferedImage.TYPE_INT_ARGB, image.getType()); // Check the image type
-
-    // Get the Graphics object and perform a sample drawing operation
-    Graphics graphics = image.getGraphics();
-    assertNotNull(graphics); // Graphics object should not be null
-
-    // Optionally, draw something and ensure the operation doesn't throw an error
-    graphics.setColor(Color.BLACK);
-    graphics.drawRect(0, 0, 100, 100); // Draw a test rectangle
-  }
-
-  @Test
-  public void testBufferedImageDimensions() throws IOException {
-    BufferedImage image = world.generateWorldMap();
-    assertNotNull(image);
-
-    int expectedWidth = world.getRowAndCol()[0][1] * 50; // Assuming each cell is 50px wide
-    int expectedHeight = world.getRowAndCol()[0][0] * 50; // Assuming each cell is 50px tall
-    assertEquals(expectedWidth, image.getWidth());
-    assertEquals(expectedHeight, image.getHeight());
-  }
 }

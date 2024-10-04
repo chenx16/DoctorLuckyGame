@@ -56,7 +56,6 @@ public class World implements WorldInterface {
       String[] targetInfo = reader.readLine().split("\\s+", 2);
       int health = Integer.parseInt(targetInfo[0]);
       String targetName = targetInfo[1]; // Target name could be multiple words
-      this.targetCharacter = new Target(null, health, targetName);
 
       // Parse rooms
       int roomCount = Integer.parseInt(reader.readLine().trim());
@@ -72,6 +71,9 @@ public class World implements WorldInterface {
 
       // After rooms are loaded, calculate neighbors
       calculateNeighbors();
+
+      // After rooms are loaded, set Target to the room 0
+      this.targetCharacter = new Target(this.rooms.get(0), health, targetName);
 
       // Parse items
       int itemCount = Integer.parseInt(reader.readLine());
@@ -136,11 +138,18 @@ public class World implements WorldInterface {
 
   @Override
   public List<RoomInterface> getNeighbors(RoomInterface room) {
-    return room.myListofNeighbors();
+    if (room == null) {
+      throw new IllegalArgumentException("Room cannot be null.");
+    }
+    // Return a copy to avoid modification
+    return new ArrayList<RoomInterface>(room.myListofNeighbors());
   }
 
   @Override
   public String getSpaceInfo(RoomInterface room) {
+    if (room == null) {
+      throw new IllegalArgumentException("Room cannot be null.");
+    }
     // Collect room information
     StringBuilder spaceInfo = new StringBuilder();
     spaceInfo.append("Room: ").append(room.getName()).append("\n");
@@ -246,16 +255,21 @@ public class World implements WorldInterface {
 
   @Override
   public TargetInterface getTargetCharacter() {
-    return targetCharacter;
+    // Create a defensive copy of the targetCharacter to prevent external
+    // modifications
+    return new Target(targetCharacter.getCurrentRoom(), // Defensive copy of current room
+        targetCharacter.getHealth(), // Health is a primitive type, so it's safe to return directly
+        targetCharacter.getName() // String is immutable, so it's safe to return directly
+    );
   }
 
   @Override
   public List<RoomInterface> getRooms() {
-    return rooms;
+    return new ArrayList<RoomInterface>(rooms);
   }
 
   @Override
   public List<ItemInterface> getItems() {
-    return items;
+    return new ArrayList<ItemInterface>(items);
   }
 }

@@ -21,22 +21,36 @@ public class ItemInterfaceTest {
     item = new Item(10, "Revolver");
   }
 
+  /**
+   * Tests the constructor with valid parameters. Verifies that the name and
+   * damage are set correctly.
+   */
   @Test
   public void testConstructorValid() {
     assertEquals("Revolver", item.getName());
     assertEquals(10, item.getDamage());
   }
 
+  /**
+   * Tests the constructor with invalid damage value. Expects
+   * IllegalArgumentException to be thrown.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorInvalidDamage() {
     new Item(-5, "Broken Item");
   }
 
+  /**
+   * Tests the getName() method to ensure the correct item name is returned.
+   */
   @Test
   public void testGetName() {
     assertEquals("Revolver", item.getName());
   }
 
+  /**
+   * Tests the getDamage() method to ensure the correct damage value is returned.
+   */
   @Test
   public void testGetDamage() {
     assertEquals(10, item.getDamage());

@@ -44,7 +44,7 @@ public class Room implements RoomInterface, Cloneable {
 
   @Override
   public List<ItemInterface> getItems() {
-    return items;
+    return new ArrayList<ItemInterface>(items);
   }
 
   @Override
@@ -64,7 +64,7 @@ public class Room implements RoomInterface, Cloneable {
 
   @Override
   public List<RoomInterface> myListofNeighbors() {
-    return neighbors;
+    return new ArrayList<RoomInterface>(neighbors);
   }
 
   @Override
@@ -85,10 +85,10 @@ public class Room implements RoomInterface, Cloneable {
    */
   @Override
   public int hashCode() {
-    // Generate the hash code using the coordinates and the name
-    int result = Objects.hash(name); // Start with the hash of the room name
-    result = 31 * result + Arrays.hashCode(coordinateUpperLeft);
-    result = 31 * result + Arrays.hashCode(coordinateLowerRight);
+    int prime = 31;
+    int result = Objects.hash(name);
+    result = prime * result + Arrays.hashCode(coordinateUpperLeft);
+    result = prime * result + Arrays.hashCode(coordinateLowerRight);
     return result;
   }
 

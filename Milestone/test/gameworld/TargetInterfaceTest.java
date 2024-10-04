@@ -17,8 +17,7 @@ public class TargetInterfaceTest {
   private RoomInterface room;
 
   /**
-   * Sets up the test environment by creating a new target in a room. This method
-   * runs before each test.
+   * Sets up the test environment by creating a new target in a room.
    */
   @Before
   public void setUp() {
@@ -26,6 +25,10 @@ public class TargetInterfaceTest {
     target = new Target(room, 50, "Doctor Lucky");
   }
 
+  /**
+   * Tests the Target constructor to verify that the target is initialized with
+   * valid health and name.
+   */
   @Test
   public void testConstructorValid() {
     assertEquals("Doctor Lucky", target.getName());
@@ -33,11 +36,18 @@ public class TargetInterfaceTest {
     assertEquals(room, target.getCurrentRoom());
   }
 
+  /**
+   * Tests that an IllegalArgumentException is thrown when the health is set to a
+   * negative value.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorInvalidHealth() {
     new Target(room, -10, "Sick Doctor");
   }
 
+  /**
+   * Tests the movement of the target to a new room.
+   */
   @Test
   public void testMove() {
     RoomInterface newRoom = new Room(new int[] { 3, 3 }, new int[] { 5, 5 }, "Billiard Room", 1);
@@ -45,11 +55,25 @@ public class TargetInterfaceTest {
     assertEquals(newRoom, target.getCurrentRoom());
   }
 
+  /**
+   * Tests if the movement of the target check a null input.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testMoveInValid() {
+    target.move(null);
+  }
+
+  /**
+   * Tests the getHealth() method to verify the correct health is returned.
+   */
   @Test
   public void testGetHealth() {
     assertEquals(50, target.getHealth());
   }
 
+  /**
+   * Tests the takeDamage() method to ensure health is reduced correctly.
+   */
   @Test
   public void testTakeDamage() {
     // Test reducing health by a valid amount
@@ -61,18 +85,13 @@ public class TargetInterfaceTest {
     assertEquals(0, target.getHealth()); // Health should not go below 0
   }
 
+  /**
+   * Tests the isAlive() method to ensure it returns true for positive health and
+   * false for zero health.
+   */
   @Test
   public void testIsAlive() {
-    // Test when the target is alive (health > 0)
     assertTrue(target.isAlive());
-
-    // Reduce health to 0 and check if the target is no longer alive
-    target.takeDamage(50);
-    assertFalse(target.isAlive()); // The target should now be "dead"
-  }
-
-  @Test
-  public void testIsAliveAfterDamage() {
     // Test health reduction and alive status
     target.takeDamage(49); // Reducing health, but not enough to kill
     assertTrue(target.isAlive()); // Should still be alive

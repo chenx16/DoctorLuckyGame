@@ -28,8 +28,7 @@ public class RoomInterfaceTest {
   private ItemInterface item;
 
   /**
-   * Sets up the test environment by creating a room and an item. This method runs
-   * before each test.
+   * Sets up the test environment by creating rooms and items for testing.
    */
   @Before
   public void setUp() {
@@ -52,6 +51,9 @@ public class RoomInterfaceTest {
     room3 = new Room(new int[] { 3, 3 }, new int[] { 5, 5 }, "Library", 2);
   }
 
+  /**
+   * Tests the room constructor to verify valid coordinates, name, and index.
+   */
   @Test
   public void testConstructorValid() {
     assertEquals("Armory", room.getName());
@@ -60,6 +62,10 @@ public class RoomInterfaceTest {
     assertEquals(0, room.getRoomInd());
   }
 
+  /**
+   * Tests adding an item to the room. Verifies that the item is correctly added
+   * to the room's item list.
+   */
   @Test
   public void testAddItem() {
     room.addItem(item);
@@ -68,6 +74,10 @@ public class RoomInterfaceTest {
     assertTrue(items.contains(item)); // Check if the item is in the room
   }
 
+  /**
+   * Tests getting items from the room. Ensures that the correct items are
+   * retrieved.
+   */
   @Test
   public void testGetItems() {
     room.addItem(item);
@@ -76,6 +86,9 @@ public class RoomInterfaceTest {
     assertEquals(item, items.get(0)); // The item should be the same we added
   }
 
+  /**
+   * Tests adding a neighboring room to the room.
+   */
   @Test
   public void testAddNeighbor() {
     RoomInterface neighborRoom = new Room(new int[] { 0, 3 }, new int[] { 2, 5 }, "Billiard Room",
@@ -85,6 +98,9 @@ public class RoomInterfaceTest {
     assertTrue(neighbors.contains(neighborRoom)); // The neighbor should be added
   }
 
+  /**
+   * Tests getting neighbors for the room.
+   */
   @Test
   public void testGetNeighbors() {
     RoomInterface neighborRoom = new Room(new int[] { 0, 3 }, new int[] { 2, 5 }, "Billiard Room",
@@ -95,6 +111,9 @@ public class RoomInterfaceTest {
     assertEquals(neighborRoom, neighbors.get(0)); // The neighbor should be correctly returned
   }
 
+  /**
+   * Tests getting index of the room.
+   */
   @Test
   public void testGetRoomInd() {
     assertEquals(0, room.getRoomInd()); // The room index should be correctly returned
