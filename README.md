@@ -17,11 +17,11 @@ To run this JAR file, ensure you have the following:
 
 Run the JAR file using the following command:
 
-     java -jar Milestone1.jar ./
+     java -jar Milestone1.jar ./mansion.txt
 
 To create a text file that captures the output and save it in plain text format (i.e., .txt), use the following command
 
-     java -jar Milestone1.jar ./ > output.txt
+     java -jar Milestone1.jar ./mansion.txt > output.txt
 
 
 ## Running the Program
