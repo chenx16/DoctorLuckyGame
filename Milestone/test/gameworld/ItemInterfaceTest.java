@@ -1,6 +1,9 @@
 package gameworld;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,5 +57,26 @@ public class ItemInterfaceTest {
   @Test
   public void testGetDamage() {
     assertEquals(10, item.getDamage());
+  }
+
+  /**
+   * Tests if two items are equal using hash code.
+   */
+  @Test
+  public void testEqualsAndHashCode() {
+    Item item1 = new Item(10, "Knife");
+    Item item2 = new Item(10, "Knife");
+    Item item3 = new Item(5, "Knife");
+
+    // Test equals
+    assertTrue(item1.equals(item2));
+    assertFalse(item1.equals(item3));
+    assertFalse(item1.equals(null));
+    assertFalse(item1.equals("Invalid"));
+
+    // Test hashCode
+    assertEquals(item1.hashCode(), item2.hashCode());
+    assertNotEquals(item1.hashCode(), item3.hashCode());
+
   }
 }

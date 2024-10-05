@@ -1,6 +1,7 @@
 package gameworld;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -11,6 +12,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +24,8 @@ import org.junit.Test;
 public class WorldInterfaceTest {
 
   private WorldInterface world;
+  private WorldInterface worldSame;
+  private WorldInterface worldDiff;
   private final String localDir = "./res/";
 
   /**
@@ -33,11 +37,16 @@ public class WorldInterfaceTest {
   public void setUp() throws IOException {
 
     world = new World();
-
+    worldSame = new World();
+    worldDiff = new World();
     // Assuming the test world file is correctly structured for testing
     File worldFile = new File(localDir + "mansion.txt");
-    FileReader fileReader = new FileReader(worldFile);
-    world.loadFromFile(fileReader);
+    FileReader fileReader1 = new FileReader(worldFile);
+    world.loadFromFile(fileReader1);
+
+    FileReader fileReader2 = new FileReader(worldFile);
+    worldSame.loadFromFile(fileReader2);
+
   }
 
   /**
@@ -46,19 +55,18 @@ public class WorldInterfaceTest {
    */
   @Test
   public void testLoadFromString() throws IOException {
-    world = new World();
     String worldData = "36 30 Doctor Lucky's Mansion\n" + "50 Doctor Lucky\n" + "2\n"
         + "0 0 2 2 Armory\n" + "3 0 5 2 Billiard Room\n" + "2\n"// 2 rooms
         + "0 5 Revolver\n" + "1 3 Billiard Cue\n"; // 2 items
 
     StringReader reader = new StringReader(worldData);
-    world.loadFromFile(reader);
+    worldDiff.loadFromFile(reader);
 
     // Assertions to verify the world is loaded correctly
     assertEquals("Doctor Lucky's Mansion", world.getName());
-    assertEquals(2, world.getRooms().size());
+    assertEquals(2, worldDiff.getRooms().size());
 
-    RoomInterface armory = world.getRooms().get(0);
+    RoomInterface armory = worldDiff.getRooms().get(0);
     assertEquals("Armory", armory.getName());
     assertEquals(1, armory.getItems().size());
 
@@ -67,7 +75,7 @@ public class WorldInterfaceTest {
     assertEquals(5, revolver.getDamage());
 
     // Test target character
-    TargetInterface target = world.getTargetCharacter();
+    TargetInterface target = worldDiff.getTargetCharacter();
     assertEquals("Doctor Lucky", target.getName());
     assertEquals(50, target.getHealth());
   }
@@ -145,7 +153,7 @@ public class WorldInterfaceTest {
 
     String expectedOutput = "Room: Armory\n" + "Items in this room:\n"
         + "- Item Revolver with 3 damage.\n" + "Neighboring rooms:\n" + "- Billiard Room\n"
-        + "- Dining Hall\n" + "- Drawing Room\n";
+        + "- Dining Hall\n" + "- Drawing Room\n\n";
 
     String actualOutput = world.getSpaceInfo(armory);
     assertEquals(expectedOutput, actualOutput);
@@ -159,7 +167,7 @@ public class WorldInterfaceTest {
     RoomInterface dining = world.getRooms().get(5); // Room 5 is Foyer without items
 
     String expectedOutput = "Room: Foyer\n" + "No items in this room.\n" + "Neighboring rooms:\n"
-        + "- Drawing Room\n" + "- Piazza\n";
+        + "- Drawing Room\n" + "- Piazza\n\n";
 
     String actualOutput = world.getSpaceInfo(dining);
     assertEquals(expectedOutput, actualOutput);
@@ -170,7 +178,8 @@ public class WorldInterfaceTest {
    */
   @Test
   public void testGetSpaceInfoNoNeighbors() {
-    RoomInterface newRoom = new Room(new int[] { 3, 0 }, new int[] { 5, 2 }, "New Room", 1);
+    RoomInterface newRoom = new Room(new int[] { 3, 0 }, new int[] { 5, 2 }, "New Room", 1,
+        new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
 
     String expectedOutput = "Room: New Room\n" + "No items in this room.\n"
         + "This room has no neighboring rooms.\n";
@@ -206,7 +215,7 @@ public class WorldInterfaceTest {
    */
   @Test
   public void testGetGraphics() throws IOException {
-    Graphics graphics = world.getGraphics();
+    Graphics graphics = world.getGraphics(localDir);
 
     // Ensure graphics is not null (meaning the world map was generated correctly)
     assertNotNull(graphics);
@@ -218,19 +227,35 @@ public class WorldInterfaceTest {
   @Test
   public void testGenerateWorldMapValidPath() throws IOException {
     // Generate the world map with a valid path
-    BufferedImage image = world.generateWorldMap();
+    BufferedImage image = world.generateWorldMap(localDir);
 
     // Assert the image is not null and the file is created
     assertNotNull(image);
 
     // Check if the file is created and exists
-    String filePath = localDir + "/worldmap.png";
-
+    String filePath = localDir + "worldmap.png";
     File file = new File(filePath);
     assertTrue(file.exists());
 
     // Check if the file is non-empty (i.e., it contains data)
     assertTrue(file.length() > 0);
+  }
+
+  /**
+   * Tests if two targets are equal using hash code.
+   */
+  @Test
+  public void testEqualsAndHashCode() {
+
+    // Test equals
+    assertTrue(world.equals(world));
+    assertTrue(world.equals(worldSame));
+    assertFalse(world.equals(worldDiff));
+    assertFalse(world.equals(null));
+    assertFalse(world.equals("Invalid"));
+
+    // Test hashCode
+    assertEquals(world.hashCode(), worldSame.hashCode());
   }
 
 }

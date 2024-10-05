@@ -1,9 +1,12 @@
 
 package gameworld;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
 /**
  * Driver class to demonstrate the functionality of the game world model. It
@@ -43,52 +46,92 @@ public class Driver {
     }
 
     WorldInterface world = new World();
+    StringBuilder output = new StringBuilder();
 
     try (FileReader fileReader = new FileReader(worldFile)) {
       // Load the world from the specified file
       System.out.println("Loading world from: " + worldFilePath);
+      output.append("Loading world from: ").append(worldFilePath).append("\n");
       world.loadFromFile(fileReader);
 
       // Show the name of the world
       System.out.println("World: " + world.getName());
+      output.append("World: ").append(world.getName()).append("\n");
 
       // Display target character information
       TargetInterface target = world.getTargetCharacter();
-      System.out
-          .println("Target character: " + target.getName() + " with health: " + target.getHealth());
+      System.out.println(target.toString());
+      output.append(target.toString());
+      ;
 
-      // Show space information for each room in the world
+      // Show space information, including items
       System.out.println("\nSpace information for each room:");
       for (RoomInterface room : world.getRooms()) {
         System.out.println(world.getSpaceInfo(room));
+        output.append(world.getSpaceInfo(room));
       }
 
-      // Display target character initial room information
-      RoomInterface initialRoom = world.getTargetCharacter().getCurrentRoom();
-      System.out.println("Target is now in: " + initialRoom.getName());
+      // Display initial space information
+      RoomInterface initialRoom = target.getCurrentRoom();
+      System.out.println("Target is in: " + initialRoom.getName());
+      System.out.println(world.getSpaceInfo(initialRoom));
+      output.append(world.getSpaceInfo(initialRoom));
 
-      // Move the target character and display the updated room
-      System.out.println("\nMoving the target character...");
-      world.moveTargetCharacter();
-      RoomInterface secondRoom = world.getTargetCharacter().getCurrentRoom();
-      System.out.println("Target is now in: " + secondRoom.getName());
+      try (Scanner scanner = new Scanner(System.in)) {
+        while (true) {
+          System.out.println("Enter 'm' to move the target or 'q' to quit: ");
+          output.append("Enter 'm' to move the target or 'q' to quit: ");
+          String input = scanner.nextLine();
+          output.append(input).append("\n");
 
-      world.moveTargetCharacter();
-      RoomInterface thirdRoom = world.getTargetCharacter().getCurrentRoom();
-      System.out.println("Target is now in: " + thirdRoom.getName());
-
-      world.moveTargetCharacter();
-      RoomInterface fourthRoom = world.getTargetCharacter().getCurrentRoom();
-      System.out.println("Target is now in: " + fourthRoom.getName());
-
+          if ("q".equalsIgnoreCase(input)) {
+            System.out.println("Exiting the program.");
+            output.append("Exiting the program.\n");
+            break;
+          } else if ("m".equalsIgnoreCase(input)) {
+            world.moveTargetCharacter();
+            TargetInterface targetMove = world.getTargetCharacter();
+            RoomInterface currentRoom = targetMove.getCurrentRoom();
+            System.out.println(targetMove.toString());
+            output.append(targetMove.toString());
+            System.out.println("Target is now in: " + currentRoom.getName());
+            System.out.println(world.getSpaceInfo(currentRoom));
+            output.append(world.getSpaceInfo(currentRoom));
+            System.out.println();
+            output.append("Target is now in: ").append(currentRoom.getName()).append("\n");
+          } else {
+            System.out.println("Invalid input. Please enter 'm' or 'q'.");
+            output.append("Invalid input. Please enter 'm' or 'q'.\n");
+          }
+        }
+      }
       // Generate the world map and save it as an image
       System.out.println("\nGenerating world map...");
-      world.generateWorldMap();
-
+      output.append("\nGenerating world map...\n");
+      world.generateWorldMap("");
       System.out.println("World map saved successfully!");
+      output.append("World map saved successfully!\n");
+
+      // Save the output to a file in the res directory
+      saveOutputToFile(output.toString());
 
     } catch (IOException e) {
-      System.err.println("Failed to load or process the world file: " + e.getMessage());
+      System.err.println("Failed to load scanner or process the world file: " + e.getMessage());
+    }
+  }
+
+  /**
+   * Saves the program output to a file in the res directory.
+   * 
+   * @param content The content to be saved.
+   */
+  private static void saveOutputToFile(String content) {
+    File outputFile = new File("output.txt");
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
+      writer.write(content);
+      System.out.println("Output saved to output.txt");
+    } catch (IOException e) {
+      System.err.println("Failed to save output: " + e.getMessage());
     }
   }
 }

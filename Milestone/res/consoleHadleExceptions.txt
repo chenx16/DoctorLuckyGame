@@ -1,0 +1,6 @@
+zhuzhu@Doris-Chens-MacBook-Pro res % java -jar Milestone1.jar            
+Usage: java -jar Milestone1.jar <path-to-world-specification-file>
+zhuzhu@Doris-Chens-MacBook-Pro res % java -jar Milestone1.jar output.txt
+Error: The specified file does not exist or is not a valid file.
+zhuzhu@Doris-Chens-MacBook-Pro res % java -jar Milestone1.jar invalidText
+Error: The specified file does not exist or is not a valid file.

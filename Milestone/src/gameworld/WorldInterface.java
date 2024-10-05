@@ -50,7 +50,7 @@ public interface WorldInterface {
    * @return a BufferedImage representing the world map
    * @throws IOException if an error occurs while saving the image file
    */
-  BufferedImage generateWorldMap() throws IOException;
+  BufferedImage generateWorldMap(String fileDir) throws IOException;
 
   /**
    * Returns the graphical object used for rendering the world.
@@ -58,7 +58,7 @@ public interface WorldInterface {
    * @return the Graphics object for rendering the world map
    * @throws IOException if an error occurs while saving the world map image file
    */
-  Graphics getGraphics() throws IOException;
+  Graphics getGraphics(String fileDir) throws IOException;
 
   /**
    * Returns the name of the world.

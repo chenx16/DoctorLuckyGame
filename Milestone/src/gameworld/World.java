@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.imageio.ImageIO;
 
 /**
@@ -65,14 +66,12 @@ public class World implements WorldInterface {
         int[] upperLeft = { Integer.parseInt(roomData[0]), Integer.parseInt(roomData[1]) };
         int[] lowerRight = { Integer.parseInt(roomData[2]), Integer.parseInt(roomData[3]) };
         String roomName = roomData[4];
-        rooms.add(new Room(upperLeft, lowerRight, roomName, roomInd));
+        rooms.add(new Room(upperLeft, lowerRight, roomName, roomInd, new ArrayList<ItemInterface>(),
+            new ArrayList<RoomInterface>()));
       }
 
       // After rooms are loaded, calculate neighbors
       calculateNeighbors();
-
-      // After rooms are loaded, set Target to the room 0
-      this.targetCharacter = new Target(this.rooms.get(0), health, targetName);
 
       // Parse items
       int itemCount = Integer.parseInt(reader.readLine());
@@ -85,6 +84,9 @@ public class World implements WorldInterface {
         rooms.get(roomInd).addItem(item);
         items.add(item);
       }
+
+      // After rooms are loaded, set Target to the room 0
+      this.targetCharacter = new Target(this.getRooms().get(0), health, targetName);
 
     } catch (NumberFormatException e) {
       throw new IOException("Failed to load the world.", e);
@@ -170,6 +172,7 @@ public class World implements WorldInterface {
       for (RoomInterface neighbor : neighbors) {
         spaceInfo.append("- ").append(neighbor.getName()).append("\n");
       }
+      spaceInfo.append("\n");
     }
 
     return spaceInfo.toString();
@@ -177,6 +180,7 @@ public class World implements WorldInterface {
 
   @Override
   public void moveTargetCharacter() {
+
     RoomInterface currentRoom = targetCharacter.getCurrentRoom();
     int currentIndex = rooms.indexOf(currentRoom);
     int nextIndex = (currentIndex + 1) % rooms.size(); // Ensures the index stays within bounds
@@ -184,8 +188,8 @@ public class World implements WorldInterface {
   }
 
   @Override
-  public BufferedImage generateWorldMap() throws IOException {
-    BufferedImage image = new BufferedImage(cols * pixel, rows * pixel,
+  public BufferedImage generateWorldMap(String fileDir) throws IOException {
+    BufferedImage image = new BufferedImage(cols * (pixel + 1), rows * (pixel + 1),
         BufferedImage.TYPE_INT_ARGB);
     Graphics g = null;
 
@@ -208,7 +212,7 @@ public class World implements WorldInterface {
       }
 
       // Save the image to the file
-      File outputfile = new File("worldmap.png");
+      File outputfile = new File(fileDir + "worldmap.png");
       ImageIO.write(image, "png", outputfile);
       // System.out.println("World map saved as 'worldmap.png' !");
 
@@ -228,10 +232,10 @@ public class World implements WorldInterface {
   }
 
   @Override
-  public Graphics getGraphics() throws IOException {
+  public Graphics getGraphics(String fileDir) throws IOException {
     BufferedImage image;
     try {
-      image = generateWorldMap();
+      image = generateWorldMap(fileDir);
     } catch (IOException e) {
       System.err.println("Error generating world map for Graphics: " + e.getMessage());
       return null;
@@ -261,11 +265,42 @@ public class World implements WorldInterface {
 
   @Override
   public List<RoomInterface> getRooms() {
-    return new ArrayList<RoomInterface>(rooms);
+    return new ArrayList<>(rooms);
   }
 
   @Override
   public List<ItemInterface> getItems() {
-    return new ArrayList<ItemInterface>(items);
+    return new ArrayList<>(items);
+  }
+
+  /**
+   * Checks if this world is equal to another world.
+   * 
+   * @param obj the object to compare with
+   * @return true if the worlds are having same hashCode, false otherwise
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof World)) {
+      return false;
+    }
+    World other = (World) obj;
+    return this.hashCode() == other.hashCode();
+  }
+
+  /**
+   * Generates a hash code for this world.
+   *
+   * @return the hash code for the world
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(rooms, items, targetCharacter, rows, cols, worldName);
   }
 }

@@ -10,7 +10,7 @@ import java.util.Objects;
  * contain items. Rooms can also have neighbors, which are other rooms directly
  * adjacent.
  */
-public class Room implements RoomInterface, Cloneable {
+public class Room implements RoomInterface {
   private int[] coordinateUpperLeft;
   private int[] coordinateLowerRight;
   private String name;
@@ -27,8 +27,11 @@ public class Room implements RoomInterface, Cloneable {
    *                             room
    * @param name                 the name of the room
    * @param roomInd              the index of the room
+   * @param items                the list of items in the room
+   * @param neighbors            the ilist of neighbors of the room
    */
-  public Room(int[] coordinateUpperLeft, int[] coordinateLowerRight, String name, int roomInd) {
+  public Room(int[] coordinateUpperLeft, int[] coordinateLowerRight, String name, int roomInd,
+      List<ItemInterface> items, List<RoomInterface> neighbors) {
     this.coordinateUpperLeft = coordinateUpperLeft;
     this.coordinateLowerRight = coordinateLowerRight;
     this.name = name;
@@ -44,7 +47,7 @@ public class Room implements RoomInterface, Cloneable {
 
   @Override
   public List<ItemInterface> getItems() {
-    return new ArrayList<ItemInterface>(items);
+    return new ArrayList<>(items);
   }
 
   @Override
@@ -64,17 +67,17 @@ public class Room implements RoomInterface, Cloneable {
 
   @Override
   public List<RoomInterface> myListofNeighbors() {
-    return new ArrayList<RoomInterface>(neighbors);
+    return new ArrayList<>(neighbors);
   }
 
   @Override
   public int[] getCoordinateUpperLeft() {
-    return coordinateUpperLeft;
+    return Arrays.copyOf(coordinateUpperLeft, coordinateUpperLeft.length);
   }
 
   @Override
   public int[] getCoordinateLowerRight() {
-    return coordinateLowerRight;
+    return Arrays.copyOf(coordinateLowerRight, coordinateLowerRight.length);
   }
 
   /**

@@ -1,12 +1,13 @@
 package gameworld;
 
-import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Represents a target character in the game world. The target character has
  * health and can move between rooms in the world.
  */
 public class Target implements TargetInterface {
+
   private RoomInterface currentRoom;
   private int health;
   private String name;
@@ -34,17 +35,13 @@ public class Target implements TargetInterface {
     if (room == null) {
       throw new IllegalArgumentException("Room cannot be null.");
     }
-    RoomInterface roomCopy = new Room(
-        Arrays.copyOf(room.getCoordinateUpperLeft(), room.getCoordinateUpperLeft().length),
-        Arrays.copyOf(room.getCoordinateLowerRight(), room.getCoordinateLowerRight().length),
-        room.getName(), room.getRoomInd());
-    this.currentRoom = roomCopy;
+
+    this.currentRoom = room;
   }
 
   @Override
   public RoomInterface getCurrentRoom() {
-    return new Room(currentRoom.getCoordinateUpperLeft(), currentRoom.getCoordinateLowerRight(),
-        currentRoom.getName(), currentRoom.getRoomInd());
+    return currentRoom;
   }
 
   @Override
@@ -65,4 +62,46 @@ public class Target implements TargetInterface {
     return this.health > 0;
   }
 
+  /**
+   * Checks if this target is equal to another target.
+   * 
+   * @param obj the object to compare with
+   * @return true if the targets are having same hashCode, false otherwise
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof Target)) {
+      return false;
+    }
+    Target other = (Target) obj;
+    return this.hashCode() == other.hashCode();
+  }
+
+  /**
+   * Generates a hash code for this target.
+   *
+   * @return the hash code for the target
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(currentRoom, health, name);
+  }
+
+  /**
+   * Returns a string representation of the Target, including its name, health,
+   * and current room.
+   * 
+   * @return a string representing the target's details
+   */
+  @Override
+  public String toString() {
+    return String.format("Target character name: %s, health: %d, currentRoom: %s\n", name, health,
+        (currentRoom != null ? currentRoom.getName() : "None"));
+  }
 }

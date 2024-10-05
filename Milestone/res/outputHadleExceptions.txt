@@ -1,8 +1,6 @@
-Loading world from: ./mansion.txt
+Loading world from: mansion.txt
 World: Doctor Lucky's Mansion
-Target character: Doctor Lucky with health: 50
-
-Space information for each room:
+Target character name: Doctor Lucky, health: 50, currentRoom: Armory
 Room: Armory
 Items in this room:
 - Item Revolver with 3 damage.
@@ -173,12 +171,24 @@ Neighboring rooms:
 - Carriage House
 - Piazza
 
-Target is now in: Armory
+Room: Armory
+Items in this room:
+- Item Revolver with 3 damage.
+Neighboring rooms:
+- Billiard Room
+- Dining Hall
+- Drawing Room
 
-Moving the target character...
-Target is now in: Billiard Room
-Target is now in: Carriage House
-Target is now in: Dining Hall
+Enter 'm' to move the target or 'q' to quit: textInvalid
+Invalid input. Please enter 'm' or 'q'.
+Enter 'm' to move the target or 'q' to quit: 2134
+Invalid input. Please enter 'm' or 'q'.
+Enter 'm' to move the target or 'q' to quit: 0
+Invalid input. Please enter 'm' or 'q'.
+Enter 'm' to move the target or 'q' to quit: 
+Invalid input. Please enter 'm' or 'q'.
+Enter 'm' to move the target or 'q' to quit: q
+Exiting the program.
 
 Generating world map...
 World map saved successfully!
