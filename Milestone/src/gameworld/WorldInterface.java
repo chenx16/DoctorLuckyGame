@@ -47,6 +47,7 @@ public interface WorldInterface {
    * Generates a graphical representation of the world map as a BufferedImage. The
    * image shows the layout of the rooms and their names.
    * 
+   * @param fileDir file directory path
    * @return a BufferedImage representing the world map
    * @throws IOException if an error occurs while saving the image file
    */
@@ -55,6 +56,7 @@ public interface WorldInterface {
   /**
    * Returns the graphical object used for rendering the world.
    * 
+   * @param fileDir file directory path
    * @return the Graphics object for rendering the world map
    * @throws IOException if an error occurs while saving the world map image file
    */

@@ -53,9 +53,11 @@ public class World implements WorldInterface {
       this.worldName = worldInfo[2];
 
       // Parse target character
+      int health;
+      String targetName;
       String[] targetInfo = reader.readLine().split("\\s+", 2);
-      int health = Integer.parseInt(targetInfo[0]);
-      String targetName = targetInfo[1]; // Target name could be multiple words
+      health = Integer.parseInt(targetInfo[0]);
+      targetName = targetInfo[1]; // Target name could be multiple words
 
       // Parse rooms
       int roomCount = Integer.parseInt(reader.readLine().trim());
