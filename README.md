@@ -54,4 +54,5 @@ This output shows a successful interaction where the target character moves thro
 - Programiz: "Java BufferedWriter." [https://www.programiz.com/java-programming/bufferedwriter](https://www.programiz.com/java-programming/bufferedwriter)
 
 3. Course Material
-- Milestone 1 - The World, CS 5010 — Programming Design Paradigms, Northeastern University Vancouver, [https://northeastern.instructure.com/courses/192582/assignments/2382089][https://northeastern.instructure.com/courses/192582/pages/manual-grading-checklist]
+- Milestone 1 - The World, CS 5010 — Programming Design Paradigms, Northeastern University Vancouver. [https://northeastern.instructure.com/courses/192582/assignments/2382089](https://northeastern.instructure.com/courses/192582/assignments/2382089), [Manual Grading Checklist](https://northeastern.instructure.com/courses/192582/pages/manual-grading-checklist)
+
