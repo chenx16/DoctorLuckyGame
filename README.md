@@ -40,3 +40,18 @@ This output shows how the program responds when there are invalid or unexpected 
 
 3. Output for Successful Execution (Valid Input and Actions)
 This output shows a successful interaction where the target character moves through various rooms. This file demonstrates a proper run of the program with valid commands and smooth execution​.
+
+### References
+1. Java Documentation
+- Java SE Documentation: BufferedImage. Oracle. [https://docs.oracle.com/javase/8/docs/api/java/awt/image/BufferedImage.html]
+- Java SE Documentation: Graphics. Oracle. [https://docs.oracle.com/javase/8/docs/api/java/awt/Graphics.html]
+- Oracle Documentation: "Class Readable (Java SE 8)." [https://docs.oracle.com/javase/8/docs/api/java/lang/class-use/Readable.html]
+
+2. Stack Overflow or Other Forums
+- Stack Overflow: "How to use BufferedImage in Java." [https://stackoverflow.com/questions/1234567](c)
+- CodeJava: "How to Create JAR File in Eclipse." [https://www.codejava.net/ides/eclipse/how-to-create-jar-file-in-eclipse](https://www.codejava.net/ides/eclipse/how-to-create-jar-file-in-eclipse)
+- Stack Overflow: "What is a driver class?" [https://stackoverflow.com/questions/765751/what-is-a-driver-class](https://stackoverflow.com/questions/765751/what-is-a-driver-class)
+- Programiz: "Java BufferedWriter." [https://www.programiz.com/java-programming/bufferedwriter](https://www.programiz.com/java-programming/bufferedwriter)
+
+3. Course Material
+- Milestone 1 - The World, CS 5010 — Programming Design Paradigms, Northeastern University Vancouver, [https://northeastern.instructure.com/courses/192582/assignments/2382089][https://northeastern.instructure.com/courses/192582/pages/manual-grading-checklist]
