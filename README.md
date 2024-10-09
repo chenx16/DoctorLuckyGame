@@ -33,12 +33,15 @@ To run the driver class and demonstrate the functionality of the world model, yo
 
 ### demonstrating ouput files in /res
 1. Console Handling Exceptions (Invalid Input Scenarios) - consoleHadleExceptions.txt
+   
 This file shows how the program handles invalid inputs or non-existent file paths. When the file does not exist or is not valid, the program correctly print an error in console.
 
-2. Output Handling Exceptions (Incorrect Input or Errors during Input) - outputHadleExceptions.txt
+3. Output Handling Exceptions (Incorrect Input or Errors during Input) - outputHadleExceptions.txt
+   
 This output shows how the program responds when there are invalid or unexpected inputs during the character interaction phase. This file shows that invalid commands during gameplay (like entering commands other than 'm' or 'q' characters) prompt the user again until valid input is received​.
 
-3. Output for Successful Execution (Valid Input and Actions) - outputSucceed.txt
+5. Output for Successful Execution (Valid Input and Actions) - outputSucceed.txt
+   
 This output shows a successful interaction where the target character moves through various rooms. This file demonstrates a proper run of the program with valid commands and smooth execution​.
 
 ### References
