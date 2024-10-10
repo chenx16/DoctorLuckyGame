@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,11 +22,11 @@ import org.junit.Test;
  * Unit tests for the World class. These tests verify that the world loads
  * correctly, generates neighbors, and handles items.
  */
-public class WorldInterfaceTest {
+public class IWorldTest {
 
-  private WorldInterface world;
-  private WorldInterface worldSame;
-  private WorldInterface worldDiff;
+  private IWorld world;
+  private IWorld worldSame;
+  private IWorld worldDiff;
   private final String localDir = "./res/";
 
   /**
@@ -66,16 +67,16 @@ public class WorldInterfaceTest {
     assertEquals("Doctor Lucky's Mansion", world.getName());
     assertEquals(2, worldDiff.getRooms().size());
 
-    RoomInterface armory = worldDiff.getRooms().get(0);
+    IRoom armory = worldDiff.getRooms().get(0);
     assertEquals("Armory", armory.getName());
     assertEquals(1, armory.getItems().size());
 
-    ItemInterface revolver = armory.getItems().get(0);
+    IItem revolver = armory.getItems().get(0);
     assertEquals("Revolver", revolver.getName());
     assertEquals(5, revolver.getDamage());
 
     // Test target character
-    TargetInterface target = worldDiff.getTargetCharacter();
+    ITarget target = worldDiff.getTargetCharacter();
     assertEquals("Doctor Lucky", target.getName());
     assertEquals(50, target.getHealth());
   }
@@ -127,8 +128,8 @@ public class WorldInterfaceTest {
    */
   @Test
   public void testGetNeighbors() {
-    RoomInterface armory = world.getRooms().get(0); // Room 0 is Armory
-    List<RoomInterface> neighbors = world.getNeighbors(armory);
+    IRoom armory = world.getRooms().get(0); // Room 0 is Armory
+    List<IRoom> neighbors = world.getNeighbors(armory);
     assertNotNull(neighbors);
     assertTrue(neighbors.size() > 0); // Should have some neighbors
     assertTrue(neighbors.contains(world.getRooms().get(3))); // Dining Hall
@@ -149,7 +150,7 @@ public class WorldInterfaceTest {
    */
   @Test
   public void testGetSpaceInfoWithItemsAndNeighbors() {
-    RoomInterface armory = world.getRooms().get(0); // Room 0 is Armory
+    IRoom armory = world.getRooms().get(0); // Room 0 is Armory
 
     String expectedOutput = "Room: Armory\n" + "Items in this room:\n"
         + "- Item Revolver with 3 damage.\n" + "Neighboring rooms:\n" + "- Billiard Room\n"
@@ -164,7 +165,7 @@ public class WorldInterfaceTest {
    */
   @Test
   public void testGetSpaceInfoNoItems() {
-    RoomInterface dining = world.getRooms().get(5); // Room 5 is Foyer without items
+    IRoom dining = world.getRooms().get(5); // Room 5 is Foyer without items
 
     String expectedOutput = "Room: Foyer\n" + "No items in this room.\n" + "Neighboring rooms:\n"
         + "- Drawing Room\n" + "- Piazza\n\n";
@@ -178,8 +179,8 @@ public class WorldInterfaceTest {
    */
   @Test
   public void testGetSpaceInfoNoNeighbors() {
-    RoomInterface newRoom = new Room(new int[] { 3, 0 }, new int[] { 5, 2 }, "New Room", 1,
-        new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
+    IRoom newRoom = new Room(new int[] { 3, 0 }, new int[] { 5, 2 }, "New Room", 1,
+        new ArrayList<IItem>(), new ArrayList<IRoom>());
 
     String expectedOutput = "Room: New Room\n" + "No items in this room.\n"
         + "This room has no neighboring rooms.\n";
@@ -201,12 +202,12 @@ public class WorldInterfaceTest {
    */
   @Test
   public void testMoveTargetCharacter() {
-    RoomInterface initialRoom = world.getTargetCharacter().getCurrentRoom();
+    IRoom initialRoom = world.getTargetCharacter().getCurrentRoom();
     world.moveTargetCharacter();
-    RoomInterface secondRoom = world.getTargetCharacter().getCurrentRoom();
+    IRoom secondRoom = world.getTargetCharacter().getCurrentRoom();
     assertNotEquals(initialRoom, secondRoom);
     world.moveTargetCharacter();
-    RoomInterface thirdRoom = world.getTargetCharacter().getCurrentRoom();
+    IRoom thirdRoom = world.getTargetCharacter().getCurrentRoom();
     assertNotEquals(thirdRoom, secondRoom);
   }
 

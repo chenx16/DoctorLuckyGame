@@ -12,6 +12,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 import javax.imageio.ImageIO;
 
 /**
@@ -19,10 +20,10 @@ import javax.imageio.ImageIO;
  * character. The world can be loaded from a file, and a graphical map of the
  * world can be generated.
  */
-public class World implements WorldInterface {
-  private List<RoomInterface> rooms;
-  private List<ItemInterface> items;
-  private TargetInterface targetCharacter;
+public class World implements IWorld {
+  private List<IRoom> rooms;
+  private List<IItem> items;
+  private ITarget targetCharacter;
   private int rows;
   private int cols;
   private String worldName;
@@ -32,8 +33,8 @@ public class World implements WorldInterface {
    * Constructs an empty world.
    */
   public World() {
-    this.rooms = new ArrayList<RoomInterface>();
-    this.items = new ArrayList<ItemInterface>();
+    this.rooms = new ArrayList<IRoom>();
+    this.items = new ArrayList<IItem>();
     this.pixel = 50;
   }
 
@@ -68,8 +69,8 @@ public class World implements WorldInterface {
         int[] upperLeft = { Integer.parseInt(roomData[0]), Integer.parseInt(roomData[1]) };
         int[] lowerRight = { Integer.parseInt(roomData[2]), Integer.parseInt(roomData[3]) };
         String roomName = roomData[4];
-        rooms.add(new Room(upperLeft, lowerRight, roomName, roomInd, new ArrayList<ItemInterface>(),
-            new ArrayList<RoomInterface>()));
+        rooms.add(new Room(upperLeft, lowerRight, roomName, roomInd, new ArrayList<IItem>(),
+            new ArrayList<IRoom>()));
       }
 
       // After rooms are loaded, calculate neighbors
@@ -98,8 +99,8 @@ public class World implements WorldInterface {
   }
 
   private void calculateNeighbors() {
-    for (RoomInterface room : rooms) {
-      for (RoomInterface otherRoom : rooms) {
+    for (IRoom room : rooms) {
+      for (IRoom otherRoom : rooms) {
         if (!room.equals(otherRoom) && isNeighbor(room, otherRoom)) {
           room.addNeighbor(otherRoom); // Add the neighboring room
         }
@@ -107,7 +108,7 @@ public class World implements WorldInterface {
     }
   }
 
-  private boolean isNeighbor(RoomInterface room1, RoomInterface room2) {
+  private boolean isNeighbor(IRoom room1, IRoom room2) {
     // Logic to check if rooms share a wall (neighbors)
     int[] upperLeft1 = room1.getCoordinateUpperLeft();
     int[] lowerRight1 = room1.getCoordinateLowerRight();
@@ -137,16 +138,16 @@ public class World implements WorldInterface {
   }
 
   @Override
-  public List<RoomInterface> getNeighbors(RoomInterface room) {
+  public List<IRoom> getNeighbors(IRoom room) {
     if (room == null) {
       throw new IllegalArgumentException("Room cannot be null.");
     }
     // Return a copy to avoid modification
-    return new ArrayList<RoomInterface>(room.myListofNeighbors());
+    return new ArrayList<IRoom>(room.myListofNeighbors());
   }
 
   @Override
-  public String getSpaceInfo(RoomInterface room) {
+  public String getSpaceInfo(IRoom room) {
     if (room == null) {
       throw new IllegalArgumentException("Room cannot be null.");
     }
@@ -155,23 +156,23 @@ public class World implements WorldInterface {
     spaceInfo.append("Room: ").append(room.getName()).append("\n");
 
     // Add information about the items in the room
-    List<ItemInterface> roomItems = room.getItems();
+    List<IItem> roomItems = room.getItems();
     if (roomItems.isEmpty()) {
       spaceInfo.append("No items in this room.\n");
     } else {
       spaceInfo.append("Items in this room:\n");
-      for (ItemInterface item : roomItems) {
+      for (IItem item : roomItems) {
         spaceInfo.append("- ").append(item.toString()).append("\n");
       }
     }
 
     // Add information about neighboring rooms
-    List<RoomInterface> neighbors = room.myListofNeighbors();
+    List<IRoom> neighbors = room.myListofNeighbors();
     if (neighbors.isEmpty()) {
       spaceInfo.append("This room has no neighboring rooms.\n");
     } else {
       spaceInfo.append("Neighboring rooms:\n");
-      for (RoomInterface neighbor : neighbors) {
+      for (IRoom neighbor : neighbors) {
         spaceInfo.append("- ").append(neighbor.getName()).append("\n");
       }
       spaceInfo.append("\n");
@@ -183,7 +184,7 @@ public class World implements WorldInterface {
   @Override
   public void moveTargetCharacter() {
 
-    RoomInterface currentRoom = targetCharacter.getCurrentRoom();
+    IRoom currentRoom = targetCharacter.getCurrentRoom();
     int currentIndex = rooms.indexOf(currentRoom);
     int nextIndex = (currentIndex + 1) % rooms.size(); // Ensures the index stays within bounds
     targetCharacter.move(rooms.get(nextIndex));
@@ -200,7 +201,7 @@ public class World implements WorldInterface {
       g.setColor(Color.BLACK);
       g.setFont(new Font("Arial", Font.PLAIN, 12));
       // Draw each room
-      for (RoomInterface room : rooms) {
+      for (IRoom room : rooms) {
         int[] upperLeft = room.getCoordinateUpperLeft();
         int[] lowerRight = room.getCoordinateLowerRight();
         int x = upperLeft[1] * pixel;
@@ -256,7 +257,7 @@ public class World implements WorldInterface {
   }
 
   @Override
-  public TargetInterface getTargetCharacter() {
+  public ITarget getTargetCharacter() {
     // Create a defensive copy of the targetCharacter to prevent external
     // modifications
     return new Target(targetCharacter.getCurrentRoom(), // Defensive copy of current room
@@ -266,12 +267,12 @@ public class World implements WorldInterface {
   }
 
   @Override
-  public List<RoomInterface> getRooms() {
+  public List<IRoom> getRooms() {
     return new ArrayList<>(rooms);
   }
 
   @Override
-  public List<ItemInterface> getItems() {
+  public List<IItem> getItems() {
     return new ArrayList<>(items);
   }
 

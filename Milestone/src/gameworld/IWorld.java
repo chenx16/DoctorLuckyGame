@@ -10,7 +10,7 @@ import java.util.List;
  * The world can be loaded from a file, and a graphical map of the world can be
  * generated.
  */
-public interface WorldInterface {
+public interface IWorld {
 
   /**
    * Loads the world from the specified file or string.
@@ -26,7 +26,7 @@ public interface WorldInterface {
    * @param room the room whose neighbors are to be returned
    * @return the list of neighboring rooms
    */
-  List<RoomInterface> getNeighbors(RoomInterface room);
+  List<IRoom> getNeighbors(IRoom room);
 
   /**
    * Provides information about a specified space in the world, including its
@@ -36,7 +36,7 @@ public interface WorldInterface {
    * @return a string containing the room's name, its items, and visible
    *         neighboring spaces
    */
-  String getSpaceInfo(RoomInterface room);
+  String getSpaceInfo(IRoom room);
 
   /**
    * Moves the target character to the next room in the world.
@@ -81,19 +81,19 @@ public interface WorldInterface {
    * 
    * @return the target character
    */
-  TargetInterface getTargetCharacter();
+  ITarget getTargetCharacter();
 
   /**
    * Returns the list of rooms in the world.
    * 
    * @return the list of rooms
    */
-  List<RoomInterface> getRooms();
+  List<IRoom> getRooms();
 
   /**
    * Returns the list of items in the world.
    * 
    * @return the list of items
    */
-  List<ItemInterface> getItems();
+  List<IItem> getItems();
 }

@@ -45,7 +45,7 @@ public class Driver {
       System.exit(1);
     }
 
-    WorldInterface world = new World();
+    IWorld world = new World();
     StringBuilder output = new StringBuilder();
 
     try (FileReader fileReader = new FileReader(worldFile)) {
@@ -59,20 +59,20 @@ public class Driver {
       output.append("World: ").append(world.getName()).append("\n");
 
       // Display target character information
-      TargetInterface target = world.getTargetCharacter();
+      ITarget target = world.getTargetCharacter();
       System.out.println(target.toString());
       output.append(target.toString());
       ;
 
       // Show space information, including items
       System.out.println("\nSpace information for each room:");
-      for (RoomInterface room : world.getRooms()) {
+      for (IRoom room : world.getRooms()) {
         System.out.println(world.getSpaceInfo(room));
         output.append(world.getSpaceInfo(room));
       }
 
       // Display initial space information
-      RoomInterface initialRoom = target.getCurrentRoom();
+      IRoom initialRoom = target.getCurrentRoom();
       System.out.println("Target is in: " + initialRoom.getName());
       System.out.println(world.getSpaceInfo(initialRoom));
       output.append(world.getSpaceInfo(initialRoom));
@@ -90,8 +90,8 @@ public class Driver {
             break;
           } else if ("m".equalsIgnoreCase(input)) {
             world.moveTargetCharacter();
-            TargetInterface targetMove = world.getTargetCharacter();
-            RoomInterface currentRoom = targetMove.getCurrentRoom();
+            ITarget targetMove = world.getTargetCharacter();
+            IRoom currentRoom = targetMove.getCurrentRoom();
             System.out.println(targetMove.toString());
             output.append(targetMove.toString());
             System.out.println("Target is now in: " + currentRoom.getName());

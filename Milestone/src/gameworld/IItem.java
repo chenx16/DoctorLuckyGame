@@ -4,7 +4,7 @@ package gameworld;
  * Represents an item in the game world. An item can have a name and can cause
  * damage to a target.
  */
-public interface ItemInterface {
+public interface IItem {
   /**
    * Returns the name of the item.
    * 

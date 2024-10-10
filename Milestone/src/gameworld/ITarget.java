@@ -4,20 +4,20 @@ package gameworld;
  * Represents a target character in the game world. The target can move between
  * rooms and has a health value.
  */
-public interface TargetInterface {
+public interface ITarget {
   /**
    * Moves the target character to the specified room.
    * 
    * @param room the room to move the target to
    */
-  void move(RoomInterface room);
+  void move(IRoom room);
 
   /**
    * Returns the current room the target character is in.
    * 
    * @return the current room
    */
-  RoomInterface getCurrentRoom();
+  IRoom getCurrentRoom();
 
   /**
    * Returns the name of the target character.

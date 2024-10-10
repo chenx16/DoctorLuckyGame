@@ -6,9 +6,9 @@ import java.util.Objects;
  * Represents a target character in the game world. The target character has
  * health and can move between rooms in the world.
  */
-public class Target implements TargetInterface {
+public class Target implements ITarget {
 
-  private RoomInterface currentRoom;
+  private IRoom currentRoom;
   private int health;
   private String name;
 
@@ -20,8 +20,7 @@ public class Target implements TargetInterface {
    * @param health      the health of the target character
    * @param name        the name of the target character
    */
-  public Target(RoomInterface currentRoom, int health, String name)
-      throws IllegalArgumentException {
+  public Target(IRoom currentRoom, int health, String name) throws IllegalArgumentException {
     if (health < 0) {
       throw new IllegalArgumentException();
     }
@@ -31,7 +30,7 @@ public class Target implements TargetInterface {
   }
 
   @Override
-  public void move(RoomInterface room) {
+  public void move(IRoom room) {
     if (room == null) {
       throw new IllegalArgumentException("Room cannot be null.");
     }
@@ -40,7 +39,7 @@ public class Target implements TargetInterface {
   }
 
   @Override
-  public RoomInterface getCurrentRoom() {
+  public IRoom getCurrentRoom() {
     return currentRoom;
   }
 

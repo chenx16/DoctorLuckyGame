@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Represents an item in the game world.
  */
-public class Item implements ItemInterface {
+public class Item implements IItem {
   private int damage;
   private String name;
 
