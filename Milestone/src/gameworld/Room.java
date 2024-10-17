@@ -10,12 +10,6 @@ import java.util.Objects;
  * adjacent.
  */
 public class Room implements RoomInterface {
-//  private int[] coordinateUpperLeft;
-//  private int[] coordinateLowerRight;
-//  private String name;
-//  private List<ItemInterface> items;
-//  private List<RoomInterface> neighbors;
-//  private int roomInd;
 
   private CoordinateInterface upperLeft;
   private CoordinateInterface lowerRight;
@@ -36,8 +30,8 @@ public class Room implements RoomInterface {
    */
   public Room(CoordinateInterface upperLeft, CoordinateInterface lowerRight, String name,
       int roomInd, List<ItemInterface> items, List<RoomInterface> neighbors) {
-    this.upperLeft = upperLeft.copy();
-    this.lowerRight = lowerRight.copy();
+    this.upperLeft = upperLeft;
+    this.lowerRight = lowerRight;
     this.name = name;
     this.roomInd = roomInd;
     this.items = new ArrayList<ItemInterface>();

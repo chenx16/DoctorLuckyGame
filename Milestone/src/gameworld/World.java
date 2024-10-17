@@ -21,6 +21,7 @@ import javax.imageio.ImageIO;
  * world can be generated.
  */
 public class World implements WorldInterface {
+
   private List<RoomInterface> rooms;
   private List<ItemInterface> items;
   private TargetInterface targetCharacter;
