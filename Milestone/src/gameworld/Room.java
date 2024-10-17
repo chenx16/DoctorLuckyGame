@@ -1,7 +1,6 @@
 package gameworld;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,8 +10,15 @@ import java.util.Objects;
  * adjacent.
  */
 public class Room implements RoomInterface {
-  private int[] coordinateUpperLeft;
-  private int[] coordinateLowerRight;
+//  private int[] coordinateUpperLeft;
+//  private int[] coordinateLowerRight;
+//  private String name;
+//  private List<ItemInterface> items;
+//  private List<RoomInterface> neighbors;
+//  private int roomInd;
+
+  private CoordinateInterface upperLeft;
+  private CoordinateInterface lowerRight;
   private String name;
   private List<ItemInterface> items;
   private List<RoomInterface> neighbors;
@@ -21,19 +27,17 @@ public class Room implements RoomInterface {
   /**
    * Creates a new room with specified coordinates and name.
    *
-   * @param coordinateUpperLeft  the coordinates of the upper-left corner of the
-   *                             room
-   * @param coordinateLowerRight the coordinates of the lower-right corner of the
-   *                             room
-   * @param name                 the name of the room
-   * @param roomInd              the index of the room
-   * @param items                the list of items in the room
-   * @param neighbors            the ilist of neighbors of the room
+   * @param upperLeft  the upper-left coordinate of the room
+   * @param lowerRight the lower-right coordinate of the room
+   * @param name       the name of the room
+   * @param roomInd    the index of the room
+   * @param items      the list of items in the room
+   * @param neighbors  the list of neighbors of the room
    */
-  public Room(int[] coordinateUpperLeft, int[] coordinateLowerRight, String name, int roomInd,
-      List<ItemInterface> items, List<RoomInterface> neighbors) {
-    this.coordinateUpperLeft = coordinateUpperLeft;
-    this.coordinateLowerRight = coordinateLowerRight;
+  public Room(CoordinateInterface upperLeft, CoordinateInterface lowerRight, String name,
+      int roomInd, List<ItemInterface> items, List<RoomInterface> neighbors) {
+    this.upperLeft = upperLeft.copy();
+    this.lowerRight = lowerRight.copy();
     this.name = name;
     this.roomInd = roomInd;
     this.items = new ArrayList<ItemInterface>();
@@ -71,13 +75,13 @@ public class Room implements RoomInterface {
   }
 
   @Override
-  public int[] getCoordinateUpperLeft() {
-    return Arrays.copyOf(coordinateUpperLeft, coordinateUpperLeft.length);
+  public CoordinateInterface getCoordinateUpperLeft() {
+    return upperLeft.copy();
   }
 
   @Override
-  public int[] getCoordinateLowerRight() {
-    return Arrays.copyOf(coordinateLowerRight, coordinateLowerRight.length);
+  public CoordinateInterface getCoordinateLowerRight() {
+    return lowerRight.copy();
   }
 
   /**
@@ -88,11 +92,7 @@ public class Room implements RoomInterface {
    */
   @Override
   public int hashCode() {
-    int prime = 31;
-    int result = Objects.hash(name);
-    result = prime * result + Arrays.hashCode(coordinateUpperLeft);
-    result = prime * result + Arrays.hashCode(coordinateLowerRight);
-    return result;
+    return Objects.hash(upperLeft, lowerRight, name, roomInd);
   }
 
   /**
@@ -115,6 +115,11 @@ public class Room implements RoomInterface {
     }
     Room other = (Room) obj;
     return this.hashCode() == other.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return "Room{name=" + name + ", upperLeft=" + upperLeft + ", lowerRight=" + lowerRight + '}';
   }
 
 }

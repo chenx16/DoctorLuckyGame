@@ -50,16 +50,16 @@ public interface RoomInterface {
   List<RoomInterface> myListofNeighbors();
 
   /**
-   * Gets the upper left coordinate of the room.
+   * /** Gets the upper-left coordinate of the room.
    * 
-   * @return the upper left coordinate
+   * @return the upper-left coordinate
    */
-  int[] getCoordinateUpperLeft();
+  CoordinateInterface getCoordinateUpperLeft();
 
   /**
-   * Gets the lower right coordinate of the room.
+   * Gets the lower-right coordinate of the room.
    * 
-   * @return the lower right coordinate
+   * @return the lower-right coordinate
    */
-  int[] getCoordinateLowerRight();
+  CoordinateInterface getCoordinateLowerRight();
 }

@@ -1,6 +1,5 @@
 package gameworld;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -33,28 +32,28 @@ public class RoomInterfaceTest {
    */
   @Before
   public void setUp() {
-    int[] upperLeft = { 0, 0 };
-    int[] lowerRight = { 2, 2 };
+    Coordinate upperLeft = new Coordinate(0, 0);
+    Coordinate lowerRight = new Coordinate(2, 2);
     room = new Room(upperLeft, lowerRight, "Armory", 0, new ArrayList<ItemInterface>(),
         new ArrayList<RoomInterface>());
     item = new Item(10, "Revolver");
 
     // Create two rooms with the same coordinates and name
-    room1 = new Room(new int[] { 0, 0 }, new int[] { 2, 2 }, "Armory", 1,
+    room1 = new Room(new Coordinate(0, 0), new Coordinate(2, 2), "Armory", 1,
         new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
-    room2 = new Room(new int[] { 0, 0 }, new int[] { 2, 2 }, "Armory", 1,
+    room2 = new Room(new Coordinate(0, 0), new Coordinate(2, 2), "Armory", 1,
         new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
 
     // Create a room with a different name but same coordinates
-    roomWithDifferentName = new Room(new int[] { 0, 0 }, new int[] { 2, 2 }, "Library", 2,
+    roomWithDifferentName = new Room(new Coordinate(0, 0), new Coordinate(2, 2), "Library", 2,
         new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
 
     // Create a room with different coordinates but same name
-    roomWithDifferentCoordinates = new Room(new int[] { 3, 3 }, new int[] { 5, 5 }, "Armory", 3,
+    roomWithDifferentCoordinates = new Room(new Coordinate(3, 3), new Coordinate(5, 5), "Armory", 3,
         new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
 
     // Create a completely different room
-    room3 = new Room(new int[] { 3, 3 }, new int[] { 5, 5 }, "Library", 2,
+    room3 = new Room(new Coordinate(3, 3), new Coordinate(5, 5), "Library", 2,
         new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
   }
 
@@ -64,8 +63,8 @@ public class RoomInterfaceTest {
   @Test
   public void testConstructorValid() {
     assertEquals("Armory", room.getName());
-    assertArrayEquals(new int[] { 0, 0 }, room.getCoordinateUpperLeft());
-    assertArrayEquals(new int[] { 2, 2 }, room.getCoordinateLowerRight());
+    assertEquals(new Coordinate(0, 0), room.getCoordinateUpperLeft());
+    assertEquals(new Coordinate(2, 2), room.getCoordinateLowerRight());
     assertEquals(0, room.getRoomInd());
   }
 
@@ -98,8 +97,8 @@ public class RoomInterfaceTest {
    */
   @Test
   public void testAddNeighbor() {
-    RoomInterface neighborRoom = new Room(new int[] { 0, 3 }, new int[] { 2, 5 }, "Billiard Room",
-        1, new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
+    RoomInterface neighborRoom = new Room(new Coordinate(0, 3), new Coordinate(2, 5),
+        "Billiard Room", 1, new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
     room.addNeighbor(neighborRoom);
     List<RoomInterface> neighbors = room.myListofNeighbors();
     assertTrue(neighbors.contains(neighborRoom)); // The neighbor should be added
@@ -110,8 +109,8 @@ public class RoomInterfaceTest {
    */
   @Test
   public void testGetNeighbors() {
-    RoomInterface neighborRoom = new Room(new int[] { 0, 3 }, new int[] { 2, 5 }, "Billiard Room",
-        1, new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
+    RoomInterface neighborRoom = new Room(new Coordinate(0, 3), new Coordinate(2, 5),
+        "Billiard Room", 1, new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
     room.addNeighbor(neighborRoom);
     List<RoomInterface> neighbors = room.myListofNeighbors();
     assertEquals(1, neighbors.size()); // One neighbor should be present

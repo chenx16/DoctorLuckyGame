@@ -89,12 +89,11 @@ public class World implements WorldInterface {
         String roomData = reader.readLine().trim();
         // System.out.println("Room Data: " + roomData);
         String[] roomParts = roomData.split("\\s+", 5);
-        int[] upperLeft = { Integer.parseInt(roomParts[0].trim()),
-            Integer.parseInt(roomParts[1].trim()) };
-        int[] lowerRight = { Integer.parseInt(roomParts[2].trim()),
-            Integer.parseInt(roomParts[3].trim()) };
+        Coordinate upperLeft = new Coordinate(Integer.parseInt(roomParts[0].trim()),
+            Integer.parseInt(roomParts[1].trim()));
+        Coordinate lowerRight = new Coordinate(Integer.parseInt(roomParts[2].trim()),
+            Integer.parseInt(roomParts[3].trim()));
         String roomName = roomParts[4].trim();
-
         rooms.add(new Room(upperLeft, lowerRight, roomName, roomInd, new ArrayList<ItemInterface>(),
             new ArrayList<RoomInterface>()));
       }
@@ -141,20 +140,22 @@ public class World implements WorldInterface {
 
   private boolean isNeighbor(RoomInterface room1, RoomInterface room2) {
     // Logic to check if rooms share a wall (neighbors)
-    int[] upperLeft1 = room1.getCoordinateUpperLeft();
-    int[] lowerRight1 = room1.getCoordinateLowerRight();
-    int[] upperLeft2 = room2.getCoordinateUpperLeft();
-    int[] lowerRight2 = room2.getCoordinateLowerRight();
+    CoordinateInterface upperLeft1 = room1.getCoordinateUpperLeft();
+    CoordinateInterface lowerRight1 = room1.getCoordinateLowerRight();
+    CoordinateInterface upperLeft2 = room2.getCoordinateUpperLeft();
+    CoordinateInterface lowerRight2 = room2.getCoordinateLowerRight();
 
-    int room1UpperLeftRow = upperLeft1[0];
-    int room1UpperLeftCol = upperLeft1[1];
-    int room1LowerRightRow = lowerRight1[0];
-    int room1LowerRightCol = lowerRight1[1];
+    // Room 1 coordinates
+    int room1UpperLeftRow = upperLeft1.getX();
+    int room1UpperLeftCol = upperLeft1.getY();
+    int room1LowerRightRow = lowerRight1.getX();
+    int room1LowerRightCol = lowerRight1.getY();
 
-    int room2UpperLeftRow = upperLeft2[0];
-    int room2UpperLeftCol = upperLeft2[1];
-    int room2LowerRightRow = lowerRight2[0];
-    int room2LowerRightCol = lowerRight2[1];
+    // Room 2 coordinates
+    int room2UpperLeftRow = upperLeft2.getX();
+    int room2UpperLeftCol = upperLeft2.getY();
+    int room2LowerRightRow = lowerRight2.getX();
+    int room2LowerRightCol = lowerRight2.getY();
 
     // Check if the rooms share any walls (they must touch each other)
     boolean horizontallyShared = (room1LowerRightRow == room2UpperLeftRow - 1
@@ -238,12 +239,12 @@ public class World implements WorldInterface {
 
       // Draw each room
       for (RoomInterface room : rooms) {
-        int[] upperLeft = room.getCoordinateUpperLeft();
-        int[] lowerRight = room.getCoordinateLowerRight();
-        int x = upperLeft[1] * pixel;
-        int y = upperLeft[0] * pixel;
-        int width = (lowerRight[1] - upperLeft[1] + 1) * pixel;
-        int height = (lowerRight[0] - upperLeft[0] + 1) * pixel;
+        CoordinateInterface upperLeft = room.getCoordinateUpperLeft();
+        CoordinateInterface lowerRight = room.getCoordinateLowerRight();
+        int x = upperLeft.getY() * pixel;
+        int y = upperLeft.getX() * pixel;
+        int width = (lowerRight.getY() - upperLeft.getY() + 1) * pixel;
+        int height = (lowerRight.getX() - upperLeft.getX() + 1) * pixel;
 
         // Draw room's outline and name
         g.drawRect(x, y, width, height);

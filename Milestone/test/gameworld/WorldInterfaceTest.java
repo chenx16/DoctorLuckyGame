@@ -179,7 +179,7 @@ public class WorldInterfaceTest {
    */
   @Test
   public void testGetSpaceInfoNoNeighbors() {
-    RoomInterface newRoom = new Room(new int[] { 3, 0 }, new int[] { 5, 2 }, "New Room", 1,
+    RoomInterface newRoom = new Room(new Coordinate(3, 0), new Coordinate(5, 2), "New Room", 1,
         new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
 
     String expectedOutput = "Room: New Room\n" + "No items in this room.\n"

@@ -225,6 +225,22 @@ Neighboring rooms:
 - Winter Garden
 
 
+Enter 'm' to move the target or 'q' to quit: m
+Target character name: Doctor Lucky, health: 50, currentRoom: Dining Hall
+
+Room: Dining Hall
+No items in this room.
+Neighboring rooms:
+- Armory
+- Billiard Room
+- Drawing Room
+- Kitchen
+- Parlor
+- Tennessee Room
+- Trophy Room
+- Wine Cellar
+
+
 Enter 'm' to move the target or 'q' to quit: q
 Exiting the program.
 

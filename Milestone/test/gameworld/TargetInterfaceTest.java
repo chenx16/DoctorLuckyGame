@@ -24,7 +24,7 @@ public class TargetInterfaceTest {
    */
   @Before
   public void setUp() {
-    room = new Room(new int[] { 0, 0 }, new int[] { 2, 2 }, "Armory", 0,
+    room = new Room(new Coordinate(0, 0), new Coordinate(2, 2), "Armory", 0,
         new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
     target = new Target(room, 50, "Doctor Lucky");
   }
@@ -54,7 +54,7 @@ public class TargetInterfaceTest {
    */
   @Test
   public void testMove() {
-    RoomInterface newRoom = new Room(new int[] { 3, 3 }, new int[] { 5, 5 }, "Billiard Room", 1,
+    RoomInterface newRoom = new Room(new Coordinate(3, 3), new Coordinate(5, 5), "Billiard Room", 1,
         new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
     target.move(newRoom);
     assertEquals(newRoom, target.getCurrentRoom());
@@ -111,9 +111,9 @@ public class TargetInterfaceTest {
    */
   @Test
   public void testEqualsAndHashCode() {
-    RoomInterface room1 = new Room(new int[] { 0, 0 }, new int[] { 1, 1 }, "Room1", 0,
+    RoomInterface room1 = new Room(new Coordinate(0, 0), new Coordinate(1, 1), "Room1", 0,
         new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
-    RoomInterface room2 = new Room(new int[] { 1, 1 }, new int[] { 2, 2 }, "Room2", 1,
+    RoomInterface room2 = new Room(new Coordinate(1, 1), new Coordinate(2, 2), "Room2", 1,
         new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
 
     Target target1 = new Target(room1, 50, "Doctor Lucky");
