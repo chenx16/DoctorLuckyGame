@@ -95,6 +95,8 @@ public class World implements IWorld {
         rooms.add(new Room(upperLeft, lowerRight, roomName, roomInd, new ArrayList<IItem>(),
             new ArrayList<IRoom>()));
       }
+      // After rooms are loaded, calculate neighbors
+      calculateNeighbors();
 
       // Parse the items
       String itemCountLine = reader.readLine().trim(); // Trim item count line
