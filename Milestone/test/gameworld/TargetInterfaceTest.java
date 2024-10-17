@@ -14,18 +14,18 @@ import org.junit.Test;
  * Unit tests for the Target class. These tests verify that the target's health,
  * movement, and state are handled correctly.
  */
-public class ITargetTest {
+public class TargetInterfaceTest {
 
-  private ITarget target;
-  private IRoom room;
+  private TargetInterface target;
+  private RoomInterface room;
 
   /**
    * Sets up the test environment by creating a new target in a room.
    */
   @Before
   public void setUp() {
-    room = new Room(new int[] { 0, 0 }, new int[] { 2, 2 }, "Armory", 0, new ArrayList<IItem>(),
-        new ArrayList<IRoom>());
+    room = new Room(new int[] { 0, 0 }, new int[] { 2, 2 }, "Armory", 0,
+        new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
     target = new Target(room, 50, "Doctor Lucky");
   }
 
@@ -54,8 +54,8 @@ public class ITargetTest {
    */
   @Test
   public void testMove() {
-    IRoom newRoom = new Room(new int[] { 3, 3 }, new int[] { 5, 5 }, "Billiard Room", 1,
-        new ArrayList<IItem>(), new ArrayList<IRoom>());
+    RoomInterface newRoom = new Room(new int[] { 3, 3 }, new int[] { 5, 5 }, "Billiard Room", 1,
+        new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
     target.move(newRoom);
     assertEquals(newRoom, target.getCurrentRoom());
   }
@@ -111,10 +111,10 @@ public class ITargetTest {
    */
   @Test
   public void testEqualsAndHashCode() {
-    IRoom room1 = new Room(new int[] { 0, 0 }, new int[] { 1, 1 }, "Room1", 0,
-        new ArrayList<IItem>(), new ArrayList<IRoom>());
-    IRoom room2 = new Room(new int[] { 1, 1 }, new int[] { 2, 2 }, "Room2", 1,
-        new ArrayList<IItem>(), new ArrayList<IRoom>());
+    RoomInterface room1 = new Room(new int[] { 0, 0 }, new int[] { 1, 1 }, "Room1", 0,
+        new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
+    RoomInterface room2 = new Room(new int[] { 1, 1 }, new int[] { 2, 2 }, "Room2", 1,
+        new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
 
     Target target1 = new Target(room1, 50, "Doctor Lucky");
     Target target2 = new Target(room1, 50, "Doctor Lucky");

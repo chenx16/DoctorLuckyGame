@@ -18,15 +18,15 @@ import org.junit.Test;
  * item handling and neighbor relationships.
  */
 
-public class IRoomTest {
+public class RoomInterfaceTest {
 
-  private IRoom room;
-  private IRoom room1;
-  private IRoom room2;
-  private IRoom room3;
-  private IRoom roomWithDifferentName;
-  private IRoom roomWithDifferentCoordinates;
-  private IItem item;
+  private RoomInterface room;
+  private RoomInterface room1;
+  private RoomInterface room2;
+  private RoomInterface room3;
+  private RoomInterface roomWithDifferentName;
+  private RoomInterface roomWithDifferentCoordinates;
+  private ItemInterface item;
 
   /**
    * Sets up the test environment by creating rooms and items for testing.
@@ -35,27 +35,27 @@ public class IRoomTest {
   public void setUp() {
     int[] upperLeft = { 0, 0 };
     int[] lowerRight = { 2, 2 };
-    room = new Room(upperLeft, lowerRight, "Armory", 0, new ArrayList<IItem>(),
-        new ArrayList<IRoom>());
+    room = new Room(upperLeft, lowerRight, "Armory", 0, new ArrayList<ItemInterface>(),
+        new ArrayList<RoomInterface>());
     item = new Item(10, "Revolver");
 
     // Create two rooms with the same coordinates and name
-    room1 = new Room(new int[] { 0, 0 }, new int[] { 2, 2 }, "Armory", 1, new ArrayList<IItem>(),
-        new ArrayList<IRoom>());
-    room2 = new Room(new int[] { 0, 0 }, new int[] { 2, 2 }, "Armory", 1, new ArrayList<IItem>(),
-        new ArrayList<IRoom>());
+    room1 = new Room(new int[] { 0, 0 }, new int[] { 2, 2 }, "Armory", 1,
+        new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
+    room2 = new Room(new int[] { 0, 0 }, new int[] { 2, 2 }, "Armory", 1,
+        new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
 
     // Create a room with a different name but same coordinates
     roomWithDifferentName = new Room(new int[] { 0, 0 }, new int[] { 2, 2 }, "Library", 2,
-        new ArrayList<IItem>(), new ArrayList<IRoom>());
+        new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
 
     // Create a room with different coordinates but same name
     roomWithDifferentCoordinates = new Room(new int[] { 3, 3 }, new int[] { 5, 5 }, "Armory", 3,
-        new ArrayList<IItem>(), new ArrayList<IRoom>());
+        new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
 
     // Create a completely different room
-    room3 = new Room(new int[] { 3, 3 }, new int[] { 5, 5 }, "Library", 2, new ArrayList<IItem>(),
-        new ArrayList<IRoom>());
+    room3 = new Room(new int[] { 3, 3 }, new int[] { 5, 5 }, "Library", 2,
+        new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
   }
 
   /**
@@ -76,7 +76,7 @@ public class IRoomTest {
   @Test
   public void testAddItem() {
     room.addItem(item);
-    List<IItem> items = room.getItems();
+    List<ItemInterface> items = room.getItems();
     assertNotNull(items);
     assertTrue(items.contains(item)); // Check if the item is in the room
   }
@@ -88,7 +88,7 @@ public class IRoomTest {
   @Test
   public void testGetItems() {
     room.addItem(item);
-    List<IItem> items = room.getItems();
+    List<ItemInterface> items = room.getItems();
     assertEquals(1, items.size()); // Only one item should be present
     assertEquals(item, items.get(0)); // The item should be the same we added
   }
@@ -98,10 +98,10 @@ public class IRoomTest {
    */
   @Test
   public void testAddNeighbor() {
-    IRoom neighborRoom = new Room(new int[] { 0, 3 }, new int[] { 2, 5 }, "Billiard Room", 1,
-        new ArrayList<IItem>(), new ArrayList<IRoom>());
+    RoomInterface neighborRoom = new Room(new int[] { 0, 3 }, new int[] { 2, 5 }, "Billiard Room",
+        1, new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
     room.addNeighbor(neighborRoom);
-    List<IRoom> neighbors = room.myListofNeighbors();
+    List<RoomInterface> neighbors = room.myListofNeighbors();
     assertTrue(neighbors.contains(neighborRoom)); // The neighbor should be added
   }
 
@@ -110,10 +110,10 @@ public class IRoomTest {
    */
   @Test
   public void testGetNeighbors() {
-    IRoom neighborRoom = new Room(new int[] { 0, 3 }, new int[] { 2, 5 }, "Billiard Room", 1,
-        new ArrayList<IItem>(), new ArrayList<IRoom>());
+    RoomInterface neighborRoom = new Room(new int[] { 0, 3 }, new int[] { 2, 5 }, "Billiard Room",
+        1, new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
     room.addNeighbor(neighborRoom);
-    List<IRoom> neighbors = room.myListofNeighbors();
+    List<RoomInterface> neighbors = room.myListofNeighbors();
     assertEquals(1, neighbors.size()); // One neighbor should be present
     assertEquals(neighborRoom, neighbors.get(0)); // The neighbor should be correctly returned
   }

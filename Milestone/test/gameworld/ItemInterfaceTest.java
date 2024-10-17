@@ -12,9 +12,9 @@ import org.junit.Test;
  * Unit tests for the Item class. These tests verify item's name and damage are
  * handled correctly.
  */
-public class IItemTest {
+public class ItemInterfaceTest {
 
-  private IItem item;
+  private ItemInterface item;
 
   /**
    * Sets up the test environment by creating an item.

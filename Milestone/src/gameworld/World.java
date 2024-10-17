@@ -20,10 +20,10 @@ import javax.imageio.ImageIO;
  * character. The world can be loaded from a file, and a graphical map of the
  * world can be generated.
  */
-public class World implements IWorld {
-  private List<IRoom> rooms;
-  private List<IItem> items;
-  private ITarget targetCharacter;
+public class World implements WorldInterface {
+  private List<RoomInterface> rooms;
+  private List<ItemInterface> items;
+  private TargetInterface targetCharacter;
   private int rows;
   private int cols;
   private String worldName;
@@ -33,8 +33,8 @@ public class World implements IWorld {
    * Constructs an empty world.
    */
   public World() {
-    this.rooms = new ArrayList<IRoom>();
-    this.items = new ArrayList<IItem>();
+    this.rooms = new ArrayList<RoomInterface>();
+    this.items = new ArrayList<ItemInterface>();
     this.pixel = 50;
   }
 
@@ -50,41 +50,44 @@ public class World implements IWorld {
       if (firstLine == null) {
         throw new IOException("No content to read, input seems empty.");
       }
-      System.out.println("First line: " + firstLine);
+      // System.out.println("First line: " + firstLine);
 
       String[] worldInfo = firstLine.split("\\s+", 3);
       this.rows = Integer.parseInt(worldInfo[0]);
       this.cols = Integer.parseInt(worldInfo[1]);
       this.worldName = worldInfo[2];
 
-      System.out.println("World Dimensions: " + rows + "x" + cols + ", Name: " + worldName);
+      // System.out.println("World Dimensions: " + rows + "x" + cols + ", Name: " +
+      // worldName);
 
       // Parse target character
       String secondLine = reader.readLine().trim(); // Trim the second line
-      System.out.println("Second line (Target Info): " + secondLine);
+      // System.out.println("Second line (Target Info): " + secondLine);
       if (secondLine == null) {
         throw new IOException("Expected target info but found null.");
       }
 
       String[] targetInfo = secondLine.split("\\s+", 2);
-      int health = Integer.parseInt(targetInfo[0].trim()); // Trim the number
-      String targetName = targetInfo[1].trim(); // Trim the target name
+      int health;
+      String targetName;
+      health = Integer.parseInt(targetInfo[0].trim()); // Trim the number
+      targetName = targetInfo[1].trim(); // Trim the target name
 
-      System.out.println("Target: " + targetName + ", Health: " + health);
+      // System.out.println("Target: " + targetName + ", Health: " + health);
 
       // Parse the number of rooms
       String thirdLine = reader.readLine().trim(); // Trim the third line
-      System.out.println("Third line (Room count): " + thirdLine);
+      // System.out.println("Third line (Room count): " + thirdLine);
       if (thirdLine == null) {
         throw new IOException("Expected room count but found null.");
       }
 
       int roomCount = Integer.parseInt(thirdLine.trim());
-      System.out.println("Room Count: " + roomCount);
+      // System.out.println("Room Count: " + roomCount);
 
       for (int roomInd = 0; roomInd < roomCount; roomInd++) {
         String roomData = reader.readLine().trim();
-        System.out.println("Room Data: " + roomData);
+        // System.out.println("Room Data: " + roomData);
         String[] roomParts = roomData.split("\\s+", 5);
         int[] upperLeft = { Integer.parseInt(roomParts[0].trim()),
             Integer.parseInt(roomParts[1].trim()) };
@@ -92,20 +95,20 @@ public class World implements IWorld {
             Integer.parseInt(roomParts[3].trim()) };
         String roomName = roomParts[4].trim();
 
-        rooms.add(new Room(upperLeft, lowerRight, roomName, roomInd, new ArrayList<IItem>(),
-            new ArrayList<IRoom>()));
+        rooms.add(new Room(upperLeft, lowerRight, roomName, roomInd, new ArrayList<ItemInterface>(),
+            new ArrayList<RoomInterface>()));
       }
       // After rooms are loaded, calculate neighbors
       calculateNeighbors();
 
       // Parse the items
       String itemCountLine = reader.readLine().trim(); // Trim item count line
-      System.out.println("Item count line: " + itemCountLine);
+      // System.out.println("Item count line: " + itemCountLine);
       int itemCount = Integer.parseInt(itemCountLine.trim());
 
       for (int i = 0; i < itemCount; i++) {
         String itemData = reader.readLine().trim();
-        System.out.println("Item Data: " + itemData);
+        // System.out.println("Item Data: " + itemData);
         String[] itemParts = itemData.split("\\s+", 3);
         int roomInd = Integer.parseInt(itemParts[0].trim());
         int damage = Integer.parseInt(itemParts[1].trim());
@@ -127,8 +130,8 @@ public class World implements IWorld {
   }
 
   private void calculateNeighbors() {
-    for (IRoom room : rooms) {
-      for (IRoom otherRoom : rooms) {
+    for (RoomInterface room : rooms) {
+      for (RoomInterface otherRoom : rooms) {
         if (!room.equals(otherRoom) && isNeighbor(room, otherRoom)) {
           room.addNeighbor(otherRoom); // Add the neighboring room
         }
@@ -136,7 +139,7 @@ public class World implements IWorld {
     }
   }
 
-  private boolean isNeighbor(IRoom room1, IRoom room2) {
+  private boolean isNeighbor(RoomInterface room1, RoomInterface room2) {
     // Logic to check if rooms share a wall (neighbors)
     int[] upperLeft1 = room1.getCoordinateUpperLeft();
     int[] lowerRight1 = room1.getCoordinateLowerRight();
@@ -166,16 +169,16 @@ public class World implements IWorld {
   }
 
   @Override
-  public List<IRoom> getNeighbors(IRoom room) {
+  public List<RoomInterface> getNeighbors(RoomInterface room) {
     if (room == null) {
       throw new IllegalArgumentException("Room cannot be null.");
     }
     // Return a copy to avoid modification
-    return new ArrayList<IRoom>(room.myListofNeighbors());
+    return new ArrayList<RoomInterface>(room.myListofNeighbors());
   }
 
   @Override
-  public String getSpaceInfo(IRoom room) {
+  public String getSpaceInfo(RoomInterface room) {
     if (room == null) {
       throw new IllegalArgumentException("Room cannot be null.");
     }
@@ -184,23 +187,23 @@ public class World implements IWorld {
     spaceInfo.append("Room: ").append(room.getName()).append("\n");
 
     // Add information about the items in the room
-    List<IItem> roomItems = room.getItems();
+    List<ItemInterface> roomItems = room.getItems();
     if (roomItems.isEmpty()) {
       spaceInfo.append("No items in this room.\n");
     } else {
       spaceInfo.append("Items in this room:\n");
-      for (IItem item : roomItems) {
+      for (ItemInterface item : roomItems) {
         spaceInfo.append("- ").append(item.toString()).append("\n");
       }
     }
 
     // Add information about neighboring rooms
-    List<IRoom> neighbors = room.myListofNeighbors();
+    List<RoomInterface> neighbors = room.myListofNeighbors();
     if (neighbors.isEmpty()) {
       spaceInfo.append("This room has no neighboring rooms.\n");
     } else {
       spaceInfo.append("Neighboring rooms:\n");
-      for (IRoom neighbor : neighbors) {
+      for (RoomInterface neighbor : neighbors) {
         spaceInfo.append("- ").append(neighbor.getName()).append("\n");
       }
       spaceInfo.append("\n");
@@ -212,7 +215,7 @@ public class World implements IWorld {
   @Override
   public void moveTargetCharacter() {
 
-    IRoom currentRoom = targetCharacter.getCurrentRoom();
+    RoomInterface currentRoom = targetCharacter.getCurrentRoom();
     int currentIndex = rooms.indexOf(currentRoom);
     int nextIndex = (currentIndex + 1) % rooms.size(); // Ensures the index stays within bounds
     targetCharacter.move(rooms.get(nextIndex));
@@ -234,7 +237,7 @@ public class World implements IWorld {
       g.setFont(font);
 
       // Draw each room
-      for (IRoom room : rooms) {
+      for (RoomInterface room : rooms) {
         int[] upperLeft = room.getCoordinateUpperLeft();
         int[] lowerRight = room.getCoordinateLowerRight();
         int x = upperLeft[1] * pixel;
@@ -290,7 +293,7 @@ public class World implements IWorld {
   }
 
   @Override
-  public ITarget getTargetCharacter() {
+  public TargetInterface getTargetCharacter() {
     // Create a defensive copy of the targetCharacter to prevent external
     // modifications
     return new Target(targetCharacter.getCurrentRoom(), // Defensive copy of current room
@@ -300,12 +303,12 @@ public class World implements IWorld {
   }
 
   @Override
-  public List<IRoom> getRooms() {
+  public List<RoomInterface> getRooms() {
     return new ArrayList<>(rooms);
   }
 
   @Override
-  public List<IItem> getItems() {
+  public List<ItemInterface> getItems() {
     return new ArrayList<>(items);
   }
 

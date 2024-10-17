@@ -10,12 +10,12 @@ import java.util.Objects;
  * contain items. Rooms can also have neighbors, which are other rooms directly
  * adjacent.
  */
-public class Room implements IRoom {
+public class Room implements RoomInterface {
   private int[] coordinateUpperLeft;
   private int[] coordinateLowerRight;
   private String name;
-  private List<IItem> items;
-  private List<IRoom> neighbors;
+  private List<ItemInterface> items;
+  private List<RoomInterface> neighbors;
   private int roomInd;
 
   /**
@@ -31,22 +31,22 @@ public class Room implements IRoom {
    * @param neighbors            the ilist of neighbors of the room
    */
   public Room(int[] coordinateUpperLeft, int[] coordinateLowerRight, String name, int roomInd,
-      List<IItem> items, List<IRoom> neighbors) {
+      List<ItemInterface> items, List<RoomInterface> neighbors) {
     this.coordinateUpperLeft = coordinateUpperLeft;
     this.coordinateLowerRight = coordinateLowerRight;
     this.name = name;
     this.roomInd = roomInd;
-    this.items = new ArrayList<IItem>();
-    this.neighbors = new ArrayList<IRoom>();
+    this.items = new ArrayList<ItemInterface>();
+    this.neighbors = new ArrayList<RoomInterface>();
   }
 
   @Override
-  public void addItem(IItem item) {
+  public void addItem(ItemInterface item) {
     items.add(item);
   }
 
   @Override
-  public List<IItem> getItems() {
+  public List<ItemInterface> getItems() {
     return new ArrayList<>(items);
   }
 
@@ -61,12 +61,12 @@ public class Room implements IRoom {
   }
 
   @Override
-  public void addNeighbor(IRoom room) {
+  public void addNeighbor(RoomInterface room) {
     neighbors.add(room);
   }
 
   @Override
-  public List<IRoom> myListofNeighbors() {
+  public List<RoomInterface> myListofNeighbors() {
     return new ArrayList<>(neighbors);
   }
 
