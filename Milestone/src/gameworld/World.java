@@ -46,53 +46,79 @@ public class World implements IWorld {
     BufferedReader reader = new BufferedReader((Reader) source);
     try {
       // Parse world dimensions and name
-      // Split the first two values (rows, cols) and then
-      // capture the rest as the world name
-      String[] worldInfo = reader.readLine().split("\\s+", 3);
+      String firstLine = reader.readLine().trim(); // Trim the first line
+      if (firstLine == null) {
+        throw new IOException("No content to read, input seems empty.");
+      }
+      System.out.println("First line: " + firstLine);
+
+      String[] worldInfo = firstLine.split("\\s+", 3);
       this.rows = Integer.parseInt(worldInfo[0]);
       this.cols = Integer.parseInt(worldInfo[1]);
       this.worldName = worldInfo[2];
 
-      // Parse target character
-      int health;
-      String targetName;
-      String[] targetInfo = reader.readLine().split("\\s+", 2);
-      health = Integer.parseInt(targetInfo[0]);
-      targetName = targetInfo[1]; // Target name could be multiple words
+      System.out.println("World Dimensions: " + rows + "x" + cols + ", Name: " + worldName);
 
-      // Parse rooms
-      int roomCount = Integer.parseInt(reader.readLine().trim());
+      // Parse target character
+      String secondLine = reader.readLine().trim(); // Trim the second line
+      System.out.println("Second line (Target Info): " + secondLine);
+      if (secondLine == null) {
+        throw new IOException("Expected target info but found null.");
+      }
+
+      String[] targetInfo = secondLine.split("\\s+", 2);
+      int health = Integer.parseInt(targetInfo[0].trim()); // Trim the number
+      String targetName = targetInfo[1].trim(); // Trim the target name
+
+      System.out.println("Target: " + targetName + ", Health: " + health);
+
+      // Parse the number of rooms
+      String thirdLine = reader.readLine().trim(); // Trim the third line
+      System.out.println("Third line (Room count): " + thirdLine);
+      if (thirdLine == null) {
+        throw new IOException("Expected room count but found null.");
+      }
+
+      int roomCount = Integer.parseInt(thirdLine.trim());
+      System.out.println("Room Count: " + roomCount);
+
       for (int roomInd = 0; roomInd < roomCount; roomInd++) {
-        // Parse room line with flexible spaces handling, even if is a space at the
-        // front of line
-        String[] roomData = reader.readLine().trim().split("\\s+", 5);
-        int[] upperLeft = { Integer.parseInt(roomData[0]), Integer.parseInt(roomData[1]) };
-        int[] lowerRight = { Integer.parseInt(roomData[2]), Integer.parseInt(roomData[3]) };
-        String roomName = roomData[4];
+        String roomData = reader.readLine().trim();
+        System.out.println("Room Data: " + roomData);
+        String[] roomParts = roomData.split("\\s+", 5);
+        int[] upperLeft = { Integer.parseInt(roomParts[0].trim()),
+            Integer.parseInt(roomParts[1].trim()) };
+        int[] lowerRight = { Integer.parseInt(roomParts[2].trim()),
+            Integer.parseInt(roomParts[3].trim()) };
+        String roomName = roomParts[4].trim();
+
         rooms.add(new Room(upperLeft, lowerRight, roomName, roomInd, new ArrayList<IItem>(),
             new ArrayList<IRoom>()));
       }
 
-      // After rooms are loaded, calculate neighbors
-      calculateNeighbors();
+      // Parse the items
+      String itemCountLine = reader.readLine().trim(); // Trim item count line
+      System.out.println("Item count line: " + itemCountLine);
+      int itemCount = Integer.parseInt(itemCountLine.trim());
 
-      // Parse items
-      int itemCount = Integer.parseInt(reader.readLine());
       for (int i = 0; i < itemCount; i++) {
-        String[] itemData = reader.readLine().split("\\s+", 3);
-        int roomInd = Integer.parseInt(itemData[0]);
-        int damage = Integer.parseInt(itemData[1]);
-        String itemName = itemData[2]; // Item name could be multiple words
+        String itemData = reader.readLine().trim();
+        System.out.println("Item Data: " + itemData);
+        String[] itemParts = itemData.split("\\s+", 3);
+        int roomInd = Integer.parseInt(itemParts[0].trim());
+        int damage = Integer.parseInt(itemParts[1].trim());
+        String itemName = itemParts[2].trim();
+
         Item item = new Item(damage, itemName);
         rooms.get(roomInd).addItem(item);
         items.add(item);
       }
 
-      // After rooms are loaded, set Target to the room 0
+      // Set the target character in the first room
       this.targetCharacter = new Target(this.getRooms().get(0), health, targetName);
 
     } catch (NumberFormatException e) {
-      throw new IOException("Failed to load the world.", e);
+      throw new IOException("Failed to load the world: Invalid number format", e);
     } finally {
       reader.close();
     }
@@ -199,7 +225,12 @@ public class World implements IWorld {
     try {
       g = image.getGraphics();
       g.setColor(Color.BLACK);
-      g.setFont(new Font("Arial", Font.PLAIN, 12));
+
+      Font font = new Font("Arial", Font.PLAIN, 12);
+
+      g.setColor(Color.BLACK);
+      g.setFont(font);
+
       // Draw each room
       for (IRoom room : rooms) {
         int[] upperLeft = room.getCoordinateUpperLeft();

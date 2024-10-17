@@ -1,0 +1,118 @@
+Loading world...
+World: Doctor Lucky's Mansion
+Target character name: Doctor Lucky, health: 50, currentRoom: Armory
+
+Room: Armory
+Items in this room:
+- Item Revolver with 3 damage.
+This room has no neighboring rooms.
+
+Room: Billiard Room
+Items in this room:
+- Item Billiard Cue with 2 damage.
+This room has no neighboring rooms.
+
+Room: Carriage House
+Items in this room:
+- Item Chain Saw with 4 damage.
+- Item Big Red Hammer with 4 damage.
+This room has no neighboring rooms.
+
+Room: Dining Hall
+No items in this room.
+This room has no neighboring rooms.
+
+Room: Drawing Room
+Items in this room:
+- Item Letter Opener with 2 damage.
+This room has no neighboring rooms.
+
+Room: Foyer
+No items in this room.
+This room has no neighboring rooms.
+
+Room: Green House
+Items in this room:
+- Item Trowel with 2 damage.
+- Item Pinking Shears with 2 damage.
+This room has no neighboring rooms.
+
+Room: Hedge Maze
+Items in this room:
+- Item Loud Noise with 2 damage.
+This room has no neighboring rooms.
+
+Room: Kitchen
+Items in this room:
+- Item Crepe Pan with 3 damage.
+- Item Sharp Knife with 3 damage.
+This room has no neighboring rooms.
+
+Room: Lancaster Room
+Items in this room:
+- Item Silken Cord with 3 damage.
+This room has no neighboring rooms.
+
+Room: Library
+No items in this room.
+This room has no neighboring rooms.
+
+Room: Lilac Room
+Items in this room:
+- Item Tight Hat with 2 damage.
+This room has no neighboring rooms.
+
+Room: Master Suite
+Items in this room:
+- Item Shoe Horn with 2 damage.
+This room has no neighboring rooms.
+
+Room: Nursery
+Items in this room:
+- Item Bad Cream with 2 damage.
+This room has no neighboring rooms.
+
+Room: Parlor
+No items in this room.
+This room has no neighboring rooms.
+
+Room: Piazza
+Items in this room:
+- Item Civil War Cannon with 3 damage.
+This room has no neighboring rooms.
+
+Room: Servants' Quarters
+Items in this room:
+- Item Broom Stick with 2 damage.
+This room has no neighboring rooms.
+
+Room: Tennessee Room
+No items in this room.
+This room has no neighboring rooms.
+
+Room: Trophy Room
+Items in this room:
+- Item Duck Decoy with 3 damage.
+- Item Monkey Hand with 2 damage.
+This room has no neighboring rooms.
+
+Room: Wine Cellar
+Items in this room:
+- Item Rat Poison with 2 damage.
+- Item Piece of Rope with 2 damage.
+This room has no neighboring rooms.
+
+Room: Winter Garden
+No items in this room.
+This room has no neighboring rooms.
+
+Room: Armory
+Items in this room:
+- Item Revolver with 3 damage.
+This room has no neighboring rooms.
+
+Enter 'm' to move the target or 'q' to quit: q
+Exiting the program.
+
+Generating world map...
+World map saved successfully!
