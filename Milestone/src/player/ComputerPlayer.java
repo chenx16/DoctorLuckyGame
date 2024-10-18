@@ -17,6 +17,14 @@ public class ComputerPlayer extends Player {
   private boolean hasPickedUpItem;
   private boolean hasMoved;
 
+  /**
+   * Constructs a HumanPlayer with the given name, starting room, and maximum
+   * number of items they can carry.
+   *
+   * @param name         the name of the player
+   * @param startingRoom the room where the player starts
+   * @param maxItems     the maximum number of items the player can carry
+   */
   public ComputerPlayer(String name, RoomInterface startingRoom, int maxItems) {
     super(name, startingRoom, maxItems, true);
     this.random = new Random();
@@ -28,7 +36,6 @@ public class ComputerPlayer extends Player {
    * order: 1. Look around the room. 2. Pick up an item if there are items in the
    * room. 3. Move to a random neighboring room.
    *
-   * @param world the game world the player is interacting with.
    * @return A string describing the actions taken by the computer player.
    */
   public String takeTurn() {
