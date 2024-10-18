@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import player.PlayerInterface;
+
 /**
  * Represents a room in the game world. A room has coordinates, a name, and can
  * contain items. Rooms can also have neighbors, which are other rooms directly
- * adjacent.
+ * adjacent. The room also keeps track of players in it.
  */
 public class Room implements RoomInterface {
 
@@ -16,6 +18,7 @@ public class Room implements RoomInterface {
   private String name;
   private List<ItemInterface> items;
   private List<RoomInterface> neighbors;
+  private List<PlayerInterface> players;
   private int roomInd;
 
   /**
@@ -36,6 +39,7 @@ public class Room implements RoomInterface {
     this.roomInd = roomInd;
     this.items = new ArrayList<ItemInterface>();
     this.neighbors = new ArrayList<RoomInterface>();
+    this.players = new ArrayList<>();
   }
 
   @Override
@@ -44,8 +48,33 @@ public class Room implements RoomInterface {
   }
 
   @Override
+  public void removeItem(ItemInterface item) {
+//    for (int i = 0; i < items.size(); i++) {
+//      if (items.get(i).equals(item)) {
+//        items.remove(i);
+//      }
+//    }
+    items.remove(item);
+  }
+
+  @Override
   public List<ItemInterface> getItems() {
     return new ArrayList<>(items);
+  }
+
+  @Override
+  public void addPlayer(PlayerInterface player) {
+    players.add(player);
+  }
+
+  @Override
+  public void removePlayer(PlayerInterface player) {
+    players.remove(player);
+  }
+
+  @Override
+  public List<PlayerInterface> getPlayers() {
+    return new ArrayList<>(players);
   }
 
   @Override
@@ -64,7 +93,7 @@ public class Room implements RoomInterface {
   }
 
   @Override
-  public List<RoomInterface> myListofNeighbors() {
+  public List<RoomInterface> getListofNeighbors() {
     return new ArrayList<>(neighbors);
   }
 
@@ -109,6 +138,47 @@ public class Room implements RoomInterface {
     }
     Room other = (Room) obj;
     return this.hashCode() == other.hashCode();
+  }
+
+  @Override
+  public String getRoomDescription() {
+    // Collect room information
+    StringBuilder description = new StringBuilder("Room: " + name + "\n");
+
+    // Add information about the items in the room
+    if (items.isEmpty()) {
+      description.append("No items in this room.\n");
+    } else {
+      description.append("Items in this room:\n");
+      for (ItemInterface item : items) {
+        description.append("- ").append(item.toString()).append("\n");
+      }
+    }
+
+    // Add player information to the room info
+    description.append("Players in room: ");
+    if (players.isEmpty()) {
+      description.append("No players in this room.");
+    } else {
+      for (PlayerInterface player : players) {
+        description.append(player.getName()).append(" ");
+      }
+    }
+    description.append("\n");
+
+    // Add information about neighboring rooms
+    if (neighbors.isEmpty()) {
+      description.append("This room has no neighboring rooms.\n");
+    } else {
+      description.append("Neighboring rooms:\n");
+      for (RoomInterface neighbor : neighbors) {
+        description.append("- ").append(neighbor.getName()).append("\n");
+      }
+      description.append("\n");
+    }
+
+    return description.toString();
+
   }
 
   @Override

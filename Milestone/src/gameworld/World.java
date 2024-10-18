@@ -15,6 +15,8 @@ import java.util.Objects;
 
 import javax.imageio.ImageIO;
 
+import player.PlayerInterface;
+
 /**
  * Represents the game world, consisting of multiple rooms, items, and a target
  * character. The world can be loaded from a file, and a graphical map of the
@@ -24,6 +26,7 @@ public class World implements WorldInterface {
 
   private List<RoomInterface> rooms;
   private List<ItemInterface> items;
+  private List<PlayerInterface> players;
   private TargetInterface targetCharacter;
   private int rows;
   private int cols;
@@ -34,6 +37,7 @@ public class World implements WorldInterface {
    * Constructs an empty world.
    */
   public World() {
+    this.players = new ArrayList<PlayerInterface>();
     this.rooms = new ArrayList<RoomInterface>();
     this.items = new ArrayList<ItemInterface>();
     this.pixel = 50;
@@ -176,7 +180,7 @@ public class World implements WorldInterface {
       throw new IllegalArgumentException("Room cannot be null.");
     }
     // Return a copy to avoid modification
-    return new ArrayList<RoomInterface>(room.myListofNeighbors());
+    return new ArrayList<RoomInterface>(room.getListofNeighbors());
   }
 
   @Override
@@ -184,33 +188,13 @@ public class World implements WorldInterface {
     if (room == null) {
       throw new IllegalArgumentException("Room cannot be null.");
     }
-    // Collect room information
-    StringBuilder spaceInfo = new StringBuilder();
-    spaceInfo.append("Room: ").append(room.getName()).append("\n");
 
-    // Add information about the items in the room
-    List<ItemInterface> roomItems = room.getItems();
-    if (roomItems.isEmpty()) {
-      spaceInfo.append("No items in this room.\n");
-    } else {
-      spaceInfo.append("Items in this room:\n");
-      for (ItemInterface item : roomItems) {
-        spaceInfo.append("- ").append(item.toString()).append("\n");
-      }
+    StringBuilder spaceInfo = new StringBuilder(room.getRoomDescription());
+
+    // Add target character info if present in the room
+    if (targetCharacter.getCurrentRoom().equals(room)) {
+      spaceInfo.append("Target character is here: ").append(targetCharacter.getName()).append("\n");
     }
-
-    // Add information about neighboring rooms
-    List<RoomInterface> neighbors = room.myListofNeighbors();
-    if (neighbors.isEmpty()) {
-      spaceInfo.append("This room has no neighboring rooms.\n");
-    } else {
-      spaceInfo.append("Neighboring rooms:\n");
-      for (RoomInterface neighbor : neighbors) {
-        spaceInfo.append("- ").append(neighbor.getName()).append("\n");
-      }
-      spaceInfo.append("\n");
-    }
-
     return spaceInfo.toString();
   }
 
@@ -222,6 +206,25 @@ public class World implements WorldInterface {
     int nextIndex = (currentIndex + 1) % rooms.size(); // Ensures the index stays within bounds
     targetCharacter.move(rooms.get(nextIndex));
   }
+
+//  @Override
+//  public void addPlayer(PlayerInterface player) {
+//    players.add(player);
+//  }
+//  
+//  @Override
+//  public void addPlayerInRoom(PlayerInterface player, RoomInterface room) {
+//    room.addPlayer(player);
+//  }
+//
+//  @Override
+//  public String takeTurn(PlayerInterface player) {
+//    if (player.getIsComputerControlled()) {
+//      return ((ComputerPlayer) player).takeTurn();
+//    } else {
+//      return player.getName() + "'s turn is pending user input.";
+//    }
+//  }
 
   @Override
   public BufferedImage generateWorldMap(String fileDir) throws IOException {
@@ -344,4 +347,5 @@ public class World implements WorldInterface {
   public int hashCode() {
     return Objects.hash(rooms, items, targetCharacter, rows, cols, worldName);
   }
+
 }

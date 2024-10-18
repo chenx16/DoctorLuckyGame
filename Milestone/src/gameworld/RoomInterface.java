@@ -2,6 +2,8 @@ package gameworld;
 
 import java.util.List;
 
+import player.PlayerInterface;
+
 /**
  * Represents a room in the game world. A room has coordinates, a name, items,
  * and can have neighboring rooms.
@@ -13,6 +15,13 @@ public interface RoomInterface {
    * @param item the item to be added to the room
    */
   void addItem(ItemInterface item);
+
+  /**
+   * Removes an item to the room.
+   *
+   * @param item the item to be removed to the room
+   */
+  void removeItem(ItemInterface item);
 
   /**
    * Returns the list of items in the room.
@@ -47,7 +56,7 @@ public interface RoomInterface {
    *
    * @return the list of neighbors
    */
-  List<RoomInterface> myListofNeighbors();
+  List<RoomInterface> getListofNeighbors();
 
   /**
    * /** Gets the upper-left coordinate of the room.
@@ -62,4 +71,12 @@ public interface RoomInterface {
    * @return the lower-right coordinate
    */
   CoordinateInterface getCoordinateLowerRight();
+
+  void addPlayer(PlayerInterface player);
+
+  void removePlayer(PlayerInterface player);
+
+  List<PlayerInterface> getPlayers();
+
+  String getRoomDescription();
 }

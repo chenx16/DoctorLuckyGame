@@ -100,7 +100,7 @@ public class RoomInterfaceTest {
     RoomInterface neighborRoom = new Room(new Coordinate(0, 3), new Coordinate(2, 5),
         "Billiard Room", 1, new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
     room.addNeighbor(neighborRoom);
-    List<RoomInterface> neighbors = room.myListofNeighbors();
+    List<RoomInterface> neighbors = room.getListofNeighbors();
     assertTrue(neighbors.contains(neighborRoom)); // The neighbor should be added
   }
 
@@ -112,7 +112,7 @@ public class RoomInterfaceTest {
     RoomInterface neighborRoom = new Room(new Coordinate(0, 3), new Coordinate(2, 5),
         "Billiard Room", 1, new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
     room.addNeighbor(neighborRoom);
-    List<RoomInterface> neighbors = room.myListofNeighbors();
+    List<RoomInterface> neighbors = room.getListofNeighbors();
     assertEquals(1, neighbors.size()); // One neighbor should be present
     assertEquals(neighborRoom, neighbors.get(0)); // The neighbor should be correctly returned
   }

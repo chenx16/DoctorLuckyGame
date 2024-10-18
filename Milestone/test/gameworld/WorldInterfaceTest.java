@@ -153,8 +153,9 @@ public class WorldInterfaceTest {
     RoomInterface armory = world.getRooms().get(0); // Room 0 is Armory
 
     String expectedOutput = "Room: Armory\n" + "Items in this room:\n"
-        + "- Item Revolver with 3 damage.\n" + "Neighboring rooms:\n" + "- Billiard Room\n"
-        + "- Dining Hall\n" + "- Drawing Room\n\n";
+        + "- Item Revolver with 3 damage.\n" + "Players in room: No players in this room.\n"
+        + "Neighboring rooms:\n" + "- Billiard Room\n" + "- Dining Hall\n" + "- Drawing Room\n\n"
+        + "Target character is here: Doctor Lucky\n";
 
     String actualOutput = world.getSpaceInfo(armory);
     assertEquals(expectedOutput, actualOutput);
@@ -167,7 +168,8 @@ public class WorldInterfaceTest {
   public void testGetSpaceInfoNoItems() {
     RoomInterface dining = world.getRooms().get(5); // Room 5 is Foyer without items
 
-    String expectedOutput = "Room: Foyer\n" + "No items in this room.\n" + "Neighboring rooms:\n"
+    String expectedOutput = "Room: Foyer\n" + "No items in this room.\n"
+        + "Players in room: No players in this room.\n" + "Neighboring rooms:\n"
         + "- Drawing Room\n" + "- Piazza\n\n";
 
     String actualOutput = world.getSpaceInfo(dining);
@@ -183,7 +185,7 @@ public class WorldInterfaceTest {
         new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
 
     String expectedOutput = "Room: New Room\n" + "No items in this room.\n"
-        + "This room has no neighboring rooms.\n";
+        + "Players in room: No players in this room.\n" + "This room has no neighboring rooms.\n";
 
     String actualOutput = world.getSpaceInfo(newRoom);
     assertEquals(expectedOutput, actualOutput);
