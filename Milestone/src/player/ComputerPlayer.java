@@ -3,8 +3,8 @@ package player;
 import java.util.List;
 import java.util.Random;
 
-import gameworld.ItemInterface;
-import gameworld.RoomInterface;
+import item.ItemInterface;
+import room.RoomInterface;
 
 /**
  * Represents a computer-controlled player in the game. The computer-controlled

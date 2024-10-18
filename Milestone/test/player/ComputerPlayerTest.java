@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import gameworld.Coordinate;
-import gameworld.Item;
-import gameworld.ItemInterface;
-import gameworld.Room;
-import gameworld.RoomInterface;
+import coordinate.Coordinate;
+import item.Item;
+import item.ItemInterface;
+import room.Room;
+import room.RoomInterface;
 
 /**
  * Unit tests for the ComputerPlayer class.
@@ -50,7 +50,8 @@ public class ComputerPlayerTest {
     String action = computerPlayer.takeTurn();
     assertTrue(action.contains("looks around"));
     assertFalse(computerPlayer.getInventory().contains(sword)); // No item picked up in look around
-    String expectedOutput = "Computer looks around: Starting Room contains: [Item Sword with 5 damage.]\n";
+    String expectedOutput = "Computer looks around: Starting Room "
+        + "contains: [Item Sword with 5 damage.]\n";
     assertEquals(expectedOutput, action);
   }
 

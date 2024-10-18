@@ -1,6 +1,8 @@
-package gameworld;
+package target;
 
 import java.util.Objects;
+
+import room.RoomInterface;
 
 /**
  * Represents a target character in the game world. The target character has

@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import gameworld.Coordinate;
-import gameworld.Item;
-import gameworld.ItemInterface;
-import gameworld.Room;
-import gameworld.RoomInterface;
+import coordinate.Coordinate;
+import item.Item;
+import item.ItemInterface;
+import room.Room;
+import room.RoomInterface;
 
 /**
  * Unit tests for the Player abstract class. Tested indirectly via HumanPlayer

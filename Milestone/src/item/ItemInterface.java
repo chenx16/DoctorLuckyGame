@@ -1,4 +1,4 @@
-package gameworld;
+package item;
 
 /**
  * Represents an item in the game world. An item can have a name and can cause

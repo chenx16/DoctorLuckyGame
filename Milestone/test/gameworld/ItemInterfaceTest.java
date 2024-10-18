@@ -8,6 +8,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import item.Item;
+import item.ItemInterface;
+
 /**
  * Unit tests for the Item class. These tests verify item's name and damage are
  * handled correctly.

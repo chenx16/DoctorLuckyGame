@@ -5,6 +5,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 
+import item.ItemInterface;
+import room.RoomInterface;
+import target.TargetInterface;
+
 /**
  * Represents the game world consisting of rooms, items, and a target character.
  * The world can be loaded from a file, and a graphical map of the world can be

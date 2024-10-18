@@ -1,6 +1,6 @@
 package player;
 
-import gameworld.RoomInterface;
+import room.RoomInterface;
 
 /**
  * Represents a human-controlled player in the game.

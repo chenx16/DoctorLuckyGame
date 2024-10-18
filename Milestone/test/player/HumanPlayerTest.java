@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import gameworld.Coordinate;
-import gameworld.Room;
-import gameworld.RoomInterface;
+import coordinate.Coordinate;
+import room.Room;
+import room.RoomInterface;
 
 /**
  * Unit tests for the HumanPlayer class.

@@ -1,4 +1,6 @@
-package gameworld;
+package target;
+
+import room.RoomInterface;
 
 /**
  * Represents a target character in the game world. The target can move between

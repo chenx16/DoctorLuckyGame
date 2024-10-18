@@ -1,4 +1,4 @@
-package gameworld;
+package item;
 
 import java.util.Objects;
 

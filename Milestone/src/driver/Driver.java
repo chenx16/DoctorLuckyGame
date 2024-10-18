@@ -1,4 +1,4 @@
-package gameworld;
+package driver;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,6 +7,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Scanner;
+
+import gameworld.World;
+import gameworld.WorldInterface;
+import room.RoomInterface;
+import target.TargetInterface;
 
 /**
  * Driver class to demonstrate the functionality of the game world model. It

@@ -12,6 +12,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import coordinate.Coordinate;
+import item.Item;
+import item.ItemInterface;
+import room.Room;
+import room.RoomInterface;
+
 /**
  * Unit tests for the Room class. These tests verify room behavior including
  * item handling and neighbor relationships.

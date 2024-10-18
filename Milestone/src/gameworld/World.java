@@ -15,7 +15,15 @@ import java.util.Objects;
 
 import javax.imageio.ImageIO;
 
+import coordinate.Coordinate;
+import coordinate.CoordinateInterface;
+import item.Item;
+import item.ItemInterface;
 import player.PlayerInterface;
+import room.Room;
+import room.RoomInterface;
+import target.Target;
+import target.TargetInterface;
 
 /**
  * Represents the game world, consisting of multiple rooms, items, and a target

@@ -1,7 +1,9 @@
-package gameworld;
+package room;
 
 import java.util.List;
 
+import coordinate.CoordinateInterface;
+import item.ItemInterface;
 import player.PlayerInterface;
 
 /**

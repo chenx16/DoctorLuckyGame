@@ -18,6 +18,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import coordinate.Coordinate;
+import item.ItemInterface;
+import room.Room;
+import room.RoomInterface;
+import target.TargetInterface;
+
 /**
  * Unit tests for the World class. These tests verify that the world loads
  * correctly, generates neighbors, and handles items.

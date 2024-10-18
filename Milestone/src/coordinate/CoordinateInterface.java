@@ -1,4 +1,4 @@
-package gameworld;
+package coordinate;
 
 /**
  * Represents a coordinate in the game world.

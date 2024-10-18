@@ -10,6 +10,13 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import coordinate.Coordinate;
+import item.ItemInterface;
+import room.Room;
+import room.RoomInterface;
+import target.Target;
+import target.TargetInterface;
+
 /**
  * Unit tests for the Target class. These tests verify that the target's health,
  * movement, and state are handled correctly.

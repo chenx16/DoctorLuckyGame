@@ -1,4 +1,4 @@
-package gameworld;
+package coordinate;
 
 import java.util.Objects;
 

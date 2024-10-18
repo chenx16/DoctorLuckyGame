@@ -2,8 +2,8 @@ package player;
 
 import java.util.List;
 
-import gameworld.ItemInterface;
-import gameworld.RoomInterface;
+import item.ItemInterface;
+import room.RoomInterface;
 
 /**
  * Represents a player in the game. Players can move between rooms, pick up
