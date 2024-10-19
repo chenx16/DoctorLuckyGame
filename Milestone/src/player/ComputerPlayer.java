@@ -48,32 +48,63 @@ public class ComputerPlayer extends Player {
       hasLookedAround = true;
 
     } else if (!hasPickedUpItem) {
-      // 2. Pick up an item if there are items and space in inventory
-      List<ItemInterface> itemsInRoom = getCurrentRoom().getItems();
-      if (!itemsInRoom.isEmpty() && this.getInventory().size() < getMaxItems()) {
-        ItemInterface item = itemsInRoom.get(0); // Pick the first item
-        pickUpItem(item);
-        actionDescription.append(getName()).append(" picked up ").append(item.getName())
-            .append("\n");
-        hasPickedUpItem = true;
+      // 2. Try to pick up an item if available
+      String performPickup = tryPickUpItem();
+      actionDescription.append(performPickup);
+      if ("".equals(performPickup)) {
+        // Move to next room if no items or inventory is full
+        String performMove = moveToNextRoom();
+        actionDescription.append(performMove);
       }
 
     } else if (!hasMoved) {
       // 3. Move to a neighboring room
-      List<RoomInterface> neighbors = this.currentRoom.getListofNeighbors();
-      if (!neighbors.isEmpty()) {
-        RoomInterface nextRoom = neighbors.get(random.nextInt(neighbors.size()));
-        moveTo(nextRoom);
-        actionDescription.append(getName()).append(" moved to ").append(nextRoom.getName())
-            .append("\n");
-        hasMoved = true;
-      }
-
-      // Reset the actions for the next turn
-      resetTurn();
+      String performMove = moveToNextRoom();
+      actionDescription.append(performMove);
     }
 
     return actionDescription.toString();
+  }
+
+  /**
+   * Tries to pick up an item in the current room. If there is no item or
+   * inventory is full, return false.
+   *
+   * @return The string for appending the action.
+   */
+  private String tryPickUpItem() {
+    StringBuilder actionDescription = new StringBuilder();
+    List<ItemInterface> itemsInRoom = getCurrentRoom().getItems();
+    if (!itemsInRoom.isEmpty() && this.getInventory().size() < getMaxItems()) {
+      ItemInterface item = itemsInRoom.get(0); // Pick the first item
+      pickUpItem(item);
+      actionDescription.append(getName()).append(" picked up ").append(item.getName()).append("\n");
+      hasPickedUpItem = true;
+      return actionDescription.toString();
+    }
+    return "";
+  }
+
+  /**
+   * Moves to a random neighboring room and appends the action to the description.
+   *
+   * @return The string for appending the action.
+   */
+  private String moveToNextRoom() {
+    StringBuilder actionDescription = new StringBuilder();
+    List<RoomInterface> neighbors = this.getCurrentRoom().getListofNeighbors();
+    if (!neighbors.isEmpty()) {
+      RoomInterface nextRoom = neighbors.get(random.nextInt(neighbors.size()));
+      moveTo(nextRoom);
+      actionDescription.append(getName()).append(" moved to ").append(nextRoom.getName())
+          .append("\n");
+      hasMoved = true;
+      resetTurn();
+      return actionDescription.toString();
+    } else {
+      resetTurn();
+      return "no neighboring room";
+    }
   }
 
   /**
