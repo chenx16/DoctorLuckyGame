@@ -60,6 +60,15 @@ This output shows a successful interaction where the target character moves thro
 - Milestone 1 - The World, CS 5010 — Programming Design Paradigms, Northeastern University Vancouver. [https://northeastern.instructure.com/courses/192582/assignments/2382089](https://northeastern.instructure.com/courses/192582/assignments/2382089), [Manual Grading Checklist](https://northeastern.instructure.com/courses/192582/pages/manual-grading-checklist)
 
 ## Milestone 2
+### Steps to Run the JAR
+1. Open a terminal or command prompt.
+2. Navigate to the directory /res which containing the `Milestone1.jar` file. You can use the `cd` command to change directories:
+   ```bash
+   cd /Users/zhuzhu/eclipse-workspace/CS5010/DoctorLuckyGame/Milestone/res
+
+Run the JAR file using the following command:
+
+     java -jar Milestone2.jar mansion.txt 
 ### demonstrating ouput files in /res
 ### References
 1. Stack Overflow or Other Forums
