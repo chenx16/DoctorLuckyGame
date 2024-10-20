@@ -74,11 +74,31 @@ public interface RoomInterface {
    */
   CoordinateInterface getCoordinateLowerRight();
 
+  /**
+   * Adds a player to the room.
+   *
+   * @param player the player to be added to the room
+   */
   void addPlayer(PlayerInterface player);
 
+  /**
+   * Removes a player to the room.
+   *
+   * @param player the player to be removed to the room
+   */
   void removePlayer(PlayerInterface player);
 
+  /**
+   * Returns the list of players in room.
+   *
+   * @return the list of players in room
+   */
   List<PlayerInterface> getPlayers();
 
+  /**
+   * Returns the description of the whole room.
+   *
+   * @return the description of the whole room
+   */
   String getRoomDescription();
 }

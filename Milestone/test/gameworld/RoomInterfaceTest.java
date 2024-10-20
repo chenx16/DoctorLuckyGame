@@ -15,6 +15,9 @@ import org.junit.Test;
 import coordinate.Coordinate;
 import item.Item;
 import item.ItemInterface;
+import player.ComputerPlayer;
+import player.HumanPlayer;
+import player.PlayerInterface;
 import room.Room;
 import room.RoomInterface;
 
@@ -29,9 +32,12 @@ public class RoomInterfaceTest {
   private RoomInterface room1;
   private RoomInterface room2;
   private RoomInterface room3;
+  private RoomInterface roomPlayer;
   private RoomInterface roomWithDifferentName;
   private RoomInterface roomWithDifferentCoordinates;
   private ItemInterface item;
+  private PlayerInterface player1;
+  private PlayerInterface player2;
 
   /**
    * Sets up the test environment by creating rooms and items for testing.
@@ -61,6 +67,11 @@ public class RoomInterfaceTest {
     // Create a completely different room
     room3 = new Room(new Coordinate(3, 3), new Coordinate(5, 5), "Library", 2,
         new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
+
+    roomPlayer = new Room(new Coordinate(5, 5), new Coordinate(7, 7), "Test Room", 0,
+        new ArrayList<>(), new ArrayList<>());
+    player1 = new HumanPlayer("Player1", room, 5);
+    player2 = new ComputerPlayer("Player2", room, 5);
   }
 
   /**
@@ -129,6 +140,30 @@ public class RoomInterfaceTest {
   @Test
   public void testGetRoomInd() {
     assertEquals(0, room.getRoomInd()); // The room index should be correctly returned
+  }
+
+  /**
+   * Tests getting players of the room.
+   */
+  @Test
+  public void testGetPlayers() {
+    // Initially, the room has no players
+    assertEquals(0, room.getPlayers().size());
+
+    // Add players to the room
+    room.addPlayer(player1);
+    room.addPlayer(player2);
+
+    List<PlayerInterface> playersInRoom = room.getPlayers();
+    assertEquals(2, playersInRoom.size());
+    assertEquals("Player1", playersInRoom.get(0).getName());
+    assertEquals("Player2", playersInRoom.get(1).getName());
+
+    // Remove a player and check again
+    room.removePlayer(player1);
+    playersInRoom = room.getPlayers();
+    assertEquals(1, playersInRoom.size());
+    assertEquals("Player2", playersInRoom.get(0).getName());
   }
 
   /**

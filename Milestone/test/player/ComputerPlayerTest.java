@@ -81,7 +81,7 @@ public class ComputerPlayerTest {
   }
 
   @Test
-  public void testTakeTurn_MoveToNextRoom() {
+  public void testMoveToNextRoomNoItemPickup() {
     computerPlayer.takeTurn(); // Look around
     computerPlayer.takeTurn(); // Pick up item
     computerPlayer.takeTurn(); // Move to neighbor

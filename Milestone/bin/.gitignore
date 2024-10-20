@@ -1,8 +1,4 @@
-/gameworld/
-/Player/
 /player/
+/controller/
+/gameworld/
 /room/
-/item/
-/target/
-/coordinate/
-/driver/
