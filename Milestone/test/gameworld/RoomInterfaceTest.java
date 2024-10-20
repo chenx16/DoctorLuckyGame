@@ -36,6 +36,8 @@ public class RoomInterfaceTest {
   private RoomInterface roomWithDifferentName;
   private RoomInterface roomWithDifferentCoordinates;
   private ItemInterface item;
+  private ItemInterface item1;
+  private ItemInterface item2;
   private PlayerInterface player1;
   private PlayerInterface player2;
 
@@ -44,11 +46,12 @@ public class RoomInterfaceTest {
    */
   @Before
   public void setUp() {
-    Coordinate upperLeft = new Coordinate(0, 0);
-    Coordinate lowerRight = new Coordinate(2, 2);
-    room = new Room(upperLeft, lowerRight, "Armory", 0, new ArrayList<ItemInterface>(),
-        new ArrayList<RoomInterface>());
     item = new Item(10, "Revolver");
+    item1 = new Item(5, "Sword");
+    item2 = new Item(3, "Shield");
+
+    room = new Room(new Coordinate(0, 0), new Coordinate(2, 2), "Armory", 0,
+        new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
 
     // Create two rooms with the same coordinates and name
     room1 = new Room(new Coordinate(0, 0), new Coordinate(2, 2), "Armory", 1,
@@ -148,20 +151,20 @@ public class RoomInterfaceTest {
   @Test
   public void testGetPlayers() {
     // Initially, the room has no players
-    assertEquals(0, room.getPlayers().size());
+    assertEquals(0, roomPlayer.getPlayers().size());
 
     // Add players to the room
-    room.addPlayer(player1);
-    room.addPlayer(player2);
+    roomPlayer.addPlayer(player1);
+    roomPlayer.addPlayer(player2);
 
-    List<PlayerInterface> playersInRoom = room.getPlayers();
+    List<PlayerInterface> playersInRoom = roomPlayer.getPlayers();
     assertEquals(2, playersInRoom.size());
     assertEquals("Player1", playersInRoom.get(0).getName());
     assertEquals("Player2", playersInRoom.get(1).getName());
 
     // Remove a player and check again
-    room.removePlayer(player1);
-    playersInRoom = room.getPlayers();
+    roomPlayer.removePlayer(player1);
+    playersInRoom = roomPlayer.getPlayers();
     assertEquals(1, playersInRoom.size());
     assertEquals("Player2", playersInRoom.get(0).getName());
   }
@@ -214,4 +217,78 @@ public class RoomInterfaceTest {
     assertNotEquals(room1.hashCode(), room3.hashCode());
   }
 
+  /**
+   * Test the description of an empty room with no items, players, or neighbors.
+   */
+  @Test
+  public void testEmptyRoomDescription() {
+    String expectedDescription = "Room: Armory\n" + "No items in this room.\n"
+        + "Players in room: No players in this room.\n" + "This room has no neighboring rooms.\n";
+
+    assertEquals(expectedDescription, room.getRoomDescription());
+  }
+
+  /**
+   * Test the description of a room with items, players, and neighbors.
+   */
+  @Test
+  public void testRoomWithItemsAndPlayers() {
+    // Add items and players to the room
+    room.addItem(item1);
+    room.addItem(item2);
+    room.addPlayer(player1);
+    room.addPlayer(player2);
+    room.addNeighbor(room1);
+
+    // Test the description of a room with items, players, and neighbors
+    String expectedDescription = "Room: Armory\n" + "Items in this room:\n"
+        + "- Item Sword with 5 damage.\n" + "- Item Shield with 3 damage.\n"
+        + "Players in room: Player1 Player2 \n" + "Neighboring rooms:\n" + "- Armory\n\n";
+
+    assertEquals(expectedDescription, room.getRoomDescription());
+  }
+
+  /**
+   * Test the description of a room with only items.
+   */
+  @Test
+  public void testRoomWithOnlyItems() {
+    // Add only items to the room
+    room.addItem(item1);
+
+    String expectedDescription = "Room: Armory\n" + "Items in this room:\n"
+        + "- Item Sword with 5 damage.\n" + "Players in room: No players in this room.\n"
+        + "This room has no neighboring rooms.\n";
+
+    assertEquals(expectedDescription, room.getRoomDescription());
+  }
+
+  /**
+   * Test the description of a room with only players.
+   */
+  @Test
+  public void testRoomWithOnlyPlayers() {
+    // Add only players to the room
+    room.addPlayer(player1);
+
+    String expectedDescription = "Room: Armory\n" + "No items in this room.\n"
+        + "Players in room: Player1 \n" + "This room has no neighboring rooms.\n";
+
+    assertEquals(expectedDescription, room.getRoomDescription());
+  }
+
+  /**
+   * Test the description of a room with no neighbors.
+   */
+  @Test
+  public void testRoomWithNoNeighbors() {
+    // Create a room with no neighbors
+    RoomInterface isolatedRoom = new Room(new Coordinate(0, 0), new Coordinate(2, 2),
+        "Isolated Room", 2, new ArrayList<>(), new ArrayList<>());
+
+    String expectedDescription = "Room: Isolated Room\n" + "No items in this room.\n"
+        + "Players in room: No players in this room.\n" + "This room has no neighboring rooms.\n";
+
+    assertEquals(expectedDescription, isolatedRoom.getRoomDescription());
+  }
 }
