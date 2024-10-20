@@ -374,7 +374,7 @@ public class WorldInterfaceTest {
   }
 
   /**
-   * Tests if a human player can look around.
+   * Tests if a human player can pickup.
    */
   @Test
   public void testTurnHumanPlayerPickUp() {
@@ -383,6 +383,17 @@ public class WorldInterfaceTest {
     world.turnHumanPlayer("pickup", -1, "Billiard Cue");
     assertEquals(1, playerH.getInventory().size());
     assertEquals("Billiard Cue", playerH.getInventory().get(0).getName());
+  }
+
+  /**
+   * Tests if a human player can't pickup.
+   */
+  @Test
+  public void testTurnHumanPlayerPickUpWrong() {
+    world.addPlayer(playerH, 1);
+
+    world.turnHumanPlayer("pickup", -1, "Sword");
+    assertEquals(0, playerH.getInventory().size());
   }
 
   /**
