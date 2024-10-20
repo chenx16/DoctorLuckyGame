@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import item.ItemInterface;
+import player.PlayerInterface;
 import room.RoomInterface;
 import target.TargetInterface;
 
@@ -100,4 +101,29 @@ public interface WorldInterface {
    * @return the list of items
    */
   List<ItemInterface> getItems();
+
+  /**
+   * Adds a player to the world and places them in the specified room.
+   *
+   * @param player  The player to be added to the world.
+   * @param roomInd The index of the room where the player will start.
+   * @throws IllegalArgumentException if the player is null or if the room index
+   *                                  is invalid.
+   */
+  void addPlayer(PlayerInterface player, int roomInd);
+
+  /**
+   * Removes a player from the world and their current room.
+   *
+   * @param player The player to be removed from the world.
+   * @throws IllegalArgumentException if the player is null.
+   */
+  void removePlayer(PlayerInterface player);
+
+  /**
+   * Returns a list of all players currently in the world.
+   *
+   * @return A list of players.
+   */
+  List<PlayerInterface> getPlayers();
 }

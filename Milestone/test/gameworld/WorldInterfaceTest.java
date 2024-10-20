@@ -20,6 +20,9 @@ import org.junit.Test;
 
 import coordinate.Coordinate;
 import item.ItemInterface;
+import player.ComputerPlayer;
+import player.HumanPlayer;
+import player.PlayerInterface;
 import room.Room;
 import room.RoomInterface;
 import target.TargetInterface;
@@ -34,6 +37,10 @@ public class WorldInterfaceTest {
   private WorldInterface worldSame;
   private WorldInterface worldDiff;
   private final String localDir = "./res/";
+  private PlayerInterface playerH;
+  private PlayerInterface playerC;
+  private RoomInterface room1;
+  private RoomInterface room2;
 
   /**
    * Sets up the test environment by creating a new instance of the world. Load
@@ -54,6 +61,8 @@ public class WorldInterfaceTest {
     FileReader fileReader2 = new FileReader(worldFile);
     worldSame.loadFromFile(fileReader2);
 
+    playerH = new HumanPlayer("PlayerH", room1, 5);
+    playerC = new ComputerPlayer("PlayerC", room2, 5);
   }
 
   /**
@@ -265,6 +274,62 @@ public class WorldInterfaceTest {
 
     // Test hashCode
     assertEquals(world.hashCode(), worldSame.hashCode());
+  }
+
+  /**
+   * Verifies that a player is added to the world and placed in the correct room.
+   * It checks that the player is in the world and in the room's list of players.
+   */
+  @Test
+  public void testAddPlayer() {
+    world.addPlayer(playerH, 0);
+    List<PlayerInterface> players = world.getPlayers();
+    PlayerInterface testPlayer = players.get(0);
+    List<RoomInterface> rooms = world.getRooms();
+    RoomInterface currRoom = rooms.get(0);
+    assertEquals(1, players.size());
+    assertTrue(players.contains(playerH));
+    assertEquals(testPlayer.getCurrentRoom(), currRoom);
+    assertTrue(players.contains(playerH));
+    assertTrue(currRoom.getPlayers().contains(playerH));
+  }
+
+  /**
+   * Ensures that adding a player with an invalid room index throws an
+   * IllegalArgumentException.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddPlayerInvalidRoom() {
+    world.addPlayer(playerH, -1); // Invalid room index
+  }
+
+  /**
+   * Verifies that removing a player from the world removes them from the world
+   * and the room they are in.
+   */
+  @Test
+  public void testRemovePlayer() {
+    world.addPlayer(playerH, 0);
+    world.removePlayer(playerH);
+    List<RoomInterface> rooms = world.getRooms();
+    RoomInterface currRoom = rooms.get(0);
+    List<PlayerInterface> players = world.getPlayers();
+    assertEquals(0, players.size());
+    assertFalse(currRoom.getPlayers().contains(playerH));
+  }
+
+  /**
+   * Verifies that the getPlayers() method returns the correct list of players
+   * currently in the world.
+   */
+  @Test
+  public void testGetPlayers() {
+    world.addPlayer(playerH, 0);
+    world.addPlayer(playerC, 1);
+    List<PlayerInterface> players = world.getPlayers();
+    assertEquals(2, players.size());
+    assertTrue(players.contains(playerH));
+    assertTrue(players.contains(playerC));
   }
 
 }

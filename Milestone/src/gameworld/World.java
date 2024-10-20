@@ -215,24 +215,37 @@ public class World implements WorldInterface {
     targetCharacter.move(rooms.get(nextIndex));
   }
 
-//  @Override
-//  public void addPlayer(PlayerInterface player) {
-//    players.add(player);
-//  }
-//  
-//  @Override
-//  public void addPlayerInRoom(PlayerInterface player, RoomInterface room) {
-//    room.addPlayer(player);
-//  }
-//
-//  @Override
-//  public String takeTurn(PlayerInterface player) {
-//    if (player.getIsComputerControlled()) {
-//      return ((ComputerPlayer) player).takeTurn();
-//    } else {
-//      return player.getName() + "'s turn is pending user input.";
-//    }
-//  }
+  @Override
+  public void addPlayer(PlayerInterface player, int roomInd) {
+    if (player == null) {
+      throw new IllegalArgumentException("Player cannot be null.");
+    }
+    if (roomInd < 0 || roomInd >= rooms.size()) {
+      throw new IllegalArgumentException("Invalid room index.");
+    }
+
+    RoomInterface room = rooms.get(roomInd);
+    player.moveTo(room); // Player is placed in the specified room
+    players.add(player); // Add the player to the world
+    room.addPlayer(player); // Add the player to the room
+  }
+
+  @Override
+  public void removePlayer(PlayerInterface player) {
+    if (player == null) {
+      throw new IllegalArgumentException("Player cannot be null.");
+    }
+
+    players.remove(player); // Remove player from the world
+    RoomInterface currentRoom = player.getCurrentRoom();
+    int ind = currentRoom.getRoomInd();
+    rooms.get(ind).removePlayer(player);
+  }
+
+  @Override
+  public List<PlayerInterface> getPlayers() {
+    return new ArrayList<>(players); // Return a copy of the players list to prevent modification
+  }
 
   @Override
   public BufferedImage generateWorldMap(String fileDir) throws IOException {
