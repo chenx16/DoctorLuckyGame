@@ -243,7 +243,7 @@ public class RoomInterfaceTest {
     // Test the description of a room with items, players, and neighbors
     String expectedDescription = "Room: Armory\n" + "Items in this room:\n"
         + "- Item Sword with 5 damage.\n" + "- Item Shield with 3 damage.\n"
-        + "Players in room: Player1 Player2 \n" + "Neighboring rooms:\n" + "- Armory\n\n";
+        + "Players in room: Player1 Player2 \n" + "Neighboring rooms:\n" + "- 1 Armory\n\n";
 
     assertEquals(expectedDescription, room.getRoomDescription());
   }

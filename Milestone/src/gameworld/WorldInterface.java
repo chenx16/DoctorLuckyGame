@@ -112,13 +112,13 @@ public interface WorldInterface {
    */
   void addPlayer(PlayerInterface player, int roomInd);
 
-  /**
-   * Removes a player from the world and their current room.
-   *
-   * @param player The player to be removed from the world.
-   * @throws IllegalArgumentException if the player is null.
-   */
-  void removePlayer(PlayerInterface player);
+//  /**
+//   * Removes a player from the world and their current room.
+//   *
+//   * @param player The player to be removed from the world.
+//   * @throws IllegalArgumentException if the player is null.
+//   */
+//  void removePlayer(PlayerInterface player);
 
   /**
    * Returns a list of all players currently in the world.
@@ -126,4 +126,29 @@ public interface WorldInterface {
    * @return A list of players.
    */
   List<PlayerInterface> getPlayers();
+
+  /**
+   * Gets the player whose turn it is.
+   * 
+   * @return The player who will take the next turn.
+   */
+  PlayerInterface getTurn();
+
+  /**
+   * Handles the turn for a human player, allowing them to take an action based on
+   * input.
+   *
+   * @param action   The action the player wants to perform (e.g., "look",
+   *                 "pickup", "move").
+   * @param roomInd  The index of the room to move to (if the action is "move").
+   * @param itemName The name of the item to pick up (if the action is "pickup").
+   */
+  void turnHumanPlayer(String action, int roomInd, String itemName);
+
+  /**
+   * Handles the turn for a computer-controlled player, automatically performing
+   * actions.
+   */
+  void turnComputerPlayer();
+
 }

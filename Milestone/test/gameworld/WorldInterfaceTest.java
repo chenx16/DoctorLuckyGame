@@ -169,8 +169,8 @@ public class WorldInterfaceTest {
 
     String expectedOutput = "Room: Armory\n" + "Items in this room:\n"
         + "- Item Revolver with 3 damage.\n" + "Players in room: No players in this room.\n"
-        + "Neighboring rooms:\n" + "- Billiard Room\n" + "- Dining Hall\n" + "- Drawing Room\n\n"
-        + "Target character is here: Doctor Lucky\n";
+        + "Neighboring rooms:\n" + "- 1 Billiard Room\n" + "- 3 Dining Hall\n"
+        + "- 4 Drawing Room\n\n" + "Target character is here: Doctor Lucky\n";
 
     String actualOutput = world.getSpaceInfo(armory);
     assertEquals(expectedOutput, actualOutput);
@@ -185,7 +185,7 @@ public class WorldInterfaceTest {
 
     String expectedOutput = "Room: Foyer\n" + "No items in this room.\n"
         + "Players in room: No players in this room.\n" + "Neighboring rooms:\n"
-        + "- Drawing Room\n" + "- Piazza\n\n";
+        + "- 4 Drawing Room\n" + "- 15 Piazza\n\n";
 
     String actualOutput = world.getSpaceInfo(dining);
     assertEquals(expectedOutput, actualOutput);
@@ -303,20 +303,20 @@ public class WorldInterfaceTest {
     world.addPlayer(playerH, -1); // Invalid room index
   }
 
-  /**
-   * Verifies that removing a player from the world removes them from the world
-   * and the room they are in.
-   */
-  @Test
-  public void testRemovePlayer() {
-    world.addPlayer(playerH, 0);
-    world.removePlayer(playerH);
-    List<RoomInterface> rooms = world.getRooms();
-    RoomInterface currRoom = rooms.get(0);
-    List<PlayerInterface> players = world.getPlayers();
-    assertEquals(0, players.size());
-    assertFalse(currRoom.getPlayers().contains(playerH));
-  }
+//  /**
+//   * Verifies that removing a player from the world removes them from the world
+//   * and the room they are in.
+//   */
+//  @Test
+//  public void testRemovePlayer() {
+//    world.addPlayer(playerH, 0);
+//    world.removePlayer(playerH);
+//    List<RoomInterface> rooms = world.getRooms();
+//    RoomInterface currRoom = rooms.get(0);
+//    List<PlayerInterface> players = world.getPlayers();
+//    assertEquals(0, players.size());
+//    assertFalse(currRoom.getPlayers().contains(playerH));
+//  }
 
   /**
    * Verifies that the getPlayers() method returns the correct list of players
@@ -332,4 +332,65 @@ public class WorldInterfaceTest {
     assertTrue(players.contains(playerC));
   }
 
+  /**
+   * gets the player whose turn it is.
+   */
+  @Test
+  public void testGetTurn() {
+
+    world.addPlayer(playerH, 0);
+    world.addPlayer(playerC, 1);
+
+    // Player 1 should be the first to take a turn
+    assertEquals(playerH, world.getTurn());
+
+    // Move to the next player's turn
+    world.turnHumanPlayer("look", 0, "xxx");
+    assertEquals(playerC, world.getTurn());
+
+    // Move to the next player's turn
+    world.turnComputerPlayer();
+    assertEquals(playerH, world.getTurn());
+  }
+
+  /**
+   * Tests if a human player can move to another room.
+   */
+  @Test
+  public void testTurnHumanPlayerMove() {
+    world.addPlayer(playerH, 0);
+    world.turnHumanPlayer("move", 1, null);
+    assertEquals(world.getRooms().get(1), playerH.getCurrentRoom());
+  }
+
+  /**
+   * Tests if a human player can look around.
+   */
+  @Test
+  public void testTurnHumanPlayerLook() {
+    world.addPlayer(playerH, 0);
+    world.turnHumanPlayer("look", -1, null);
+    assertEquals(world.getRooms().get(0), playerH.getCurrentRoom());
+  }
+
+  /**
+   * Tests if a human player can look around.
+   */
+  @Test
+  public void testTurnHumanPlayerPickUp() {
+    world.addPlayer(playerH, 1);
+
+    world.turnHumanPlayer("pickup", -1, "Billiard Cue");
+    assertEquals(1, playerH.getInventory().size());
+    assertEquals("Billiard Cue", playerH.getInventory().get(0).getName());
+  }
+
+  /**
+   * Tests if the computer player can automatically take its turn.
+   */
+  @Test
+  public void testTurnComputerPlayer() {
+    world.addPlayer(playerC, 1);
+    world.turnComputerPlayer();
+  }
 }

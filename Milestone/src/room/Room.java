@@ -174,7 +174,8 @@ public class Room implements RoomInterface {
     } else {
       description.append("Neighboring rooms:\n");
       for (RoomInterface neighbor : neighbors) {
-        description.append("- ").append(neighbor.getName()).append("\n");
+        description.append("- ").append(neighbor.getRoomInd() + " ").append(neighbor.getName())
+            .append("\n");
       }
       description.append("\n");
     }

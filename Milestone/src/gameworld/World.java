@@ -19,6 +19,7 @@ import coordinate.Coordinate;
 import coordinate.CoordinateInterface;
 import item.Item;
 import item.ItemInterface;
+import player.ComputerPlayer;
 import player.PlayerInterface;
 import room.Room;
 import room.RoomInterface;
@@ -38,6 +39,7 @@ public class World implements WorldInterface {
   private TargetInterface targetCharacter;
   private int rows;
   private int cols;
+  private int currentTurnIndex;
   private String worldName;
   private final int pixel;
 
@@ -49,6 +51,7 @@ public class World implements WorldInterface {
     this.rooms = new ArrayList<RoomInterface>();
     this.items = new ArrayList<ItemInterface>();
     this.pixel = 50;
+    this.currentTurnIndex = 0;
   }
 
   @Override
@@ -230,21 +233,89 @@ public class World implements WorldInterface {
     room.addPlayer(player); // Add the player to the room
   }
 
-  @Override
-  public void removePlayer(PlayerInterface player) {
-    if (player == null) {
-      throw new IllegalArgumentException("Player cannot be null.");
-    }
-
-    players.remove(player); // Remove player from the world
-    RoomInterface currentRoom = player.getCurrentRoom();
-    int ind = currentRoom.getRoomInd();
-    rooms.get(ind).removePlayer(player);
-  }
+//  @Override
+//  public void removePlayer(PlayerInterface player) {
+//    if (player == null) {
+//      throw new IllegalArgumentException("Player cannot be null.");
+//    }
+//
+//    players.remove(player); // Remove player from the world
+//    int ind = player.getCurrentRoom().getRoomInd();
+//    rooms.get(ind).removePlayer(player);
+//  }
 
   @Override
   public List<PlayerInterface> getPlayers() {
     return new ArrayList<>(players); // Return a copy of the players list to prevent modification
+  }
+
+  @Override
+  public PlayerInterface getTurn() {
+    // Return the player whose turn it currently is
+    return players.get(currentTurnIndex);
+  }
+
+  @Override
+  public void turnComputerPlayer() {
+    PlayerInterface currentPlayer = getTurn();
+
+    if (currentPlayer.getIsComputerControlled()) {
+      System.out.println(((ComputerPlayer) currentPlayer).takeTurn());
+      updateTurn();
+    } else {
+      System.out.println("It is not a computer player's turn.");
+    }
+  }
+
+  @Override
+  public void turnHumanPlayer(String action, int roomInd, String itemName) {
+    PlayerInterface currentPlayer = getTurn();
+
+    if (!currentPlayer.getIsComputerControlled()) {
+      switch (action.toLowerCase()) {
+        case "look":
+          System.out.println(currentPlayer.lookAround());
+          break;
+
+        case "pickup":
+          RoomInterface currentRoom = currentPlayer.getCurrentRoom();
+          ItemInterface itemToPickUp = currentRoom.getItems().stream()
+              .filter(item -> item.getName().equals(itemName)).findFirst().orElse(null);
+
+          if (itemToPickUp != null) {
+            currentPlayer.pickUpItem(itemToPickUp);
+            System.out.println(currentPlayer.getName() + " picked up " + itemName);
+          } else {
+            System.out.println("Item not found in the room.");
+          }
+          break;
+
+        case "move":
+          if (roomInd >= 0 && roomInd < rooms.size()) {
+            RoomInterface nextRoom = rooms.get(roomInd);
+            currentPlayer.moveTo(nextRoom);
+            System.out.println(currentPlayer.getName() + " moved to " + nextRoom.getName());
+          } else {
+            System.out.println("Invalid room index.");
+          }
+          break;
+
+        default:
+          System.out.println("Invalid action. Use 'look', 'pickup', or 'move'.");
+          break;
+      }
+      updateTurn();
+    } else {
+      System.out.println("It is not a human player's turn.");
+    }
+  }
+
+  /**
+   * Updates the current turn to the next player.
+   */
+  private void updateTurn() {
+    currentTurnIndex = (currentTurnIndex + 1) % players.size(); // Update turn index for the next
+                                                                // player
   }
 
   @Override
