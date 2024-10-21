@@ -21,7 +21,30 @@ import target.TargetInterface;
  * information, moving the target character, and generating the world map.
  */
 public class Driver {
-
+  /**
+   * The main entry point for the program. This method initializes the game by
+   * reading command-line arguments, setting up the input and output streams, and
+   * starting the game controller.
+   *
+   * @param args command-line arguments where: - args[0]: A file path or string
+   *             representing the world specification. - args[1] (optional): The
+   *             maximum number of turns allowed in the game.
+   * 
+   *             Usage:
+   * 
+   *             <pre>
+   * java -jar Game.jar world.txt
+   *             </pre>
+   * 
+   *             or
+   * 
+   *             <pre>
+   * java -jar Game.jar world.txt 10
+   *             </pre>
+   *
+   * @throws IllegalArgumentException if the required argument for world
+   *                                  specification is missing.
+   */
   public static void main(String[] args) {
     if (args.length != 1) {
       System.out

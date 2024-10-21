@@ -15,6 +15,12 @@ import org.junit.Test;
 import controller.Controller;
 import controller.ControllerInterface;
 
+/**
+ * Unit tests for the {@link ControllerInterface} class. This class tests the
+ * interaction between the {@link Controller} and the {@link WorldInterface}
+ * using mock data and input/output handling via {@link StringReader} and
+ * {@link StringWriter}.
+ */
 public class ControllerInterfaceTest {
 
   private WorldInterface world;
@@ -24,6 +30,12 @@ public class ControllerInterfaceTest {
   private final String localDir = "./res/";
   private ControllerInterface controller;
 
+  /**
+   * Sets up the test environment by initializing the mock world, input, output,
+   * and controller. This method is executed before each test case.
+   *
+   * @throws IOException if an I/O error occurs during setup.
+   */
   @Before
   public void setUp() throws IOException {
     log = new StringBuilder();

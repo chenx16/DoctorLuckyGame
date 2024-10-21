@@ -23,6 +23,20 @@ public class Controller implements ControllerInterface {
   private Scanner scanner;
   private int maxTurns;
 
+  /**
+   * Constructs a Controller for managing interactions with the game world. This
+   * constructor initializes the input source, output target, and the world model.
+   *
+   * @param world the WorldInterface instance representing the game world. This is
+   *              used to interact with and manipulate the game state.
+   * @param in    the Readable instance from which the controller reads user
+   *              input. Typically, this will be System.in or a StringReader in
+   *              testing.
+   * @param out   the Appendable instance to which the controller writes output.
+   *              Typically, this will be System.out or a StringBuilder in
+   *              testing.
+   * @throws IllegalArgumentException if any of the parameters are null.
+   */
   public Controller(WorldInterface world, Readable in, Appendable out) {
     this.world = world;
     this.scanner = new Scanner(in);
