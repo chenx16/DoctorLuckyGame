@@ -23,11 +23,13 @@ import room.Room;
 import room.RoomInterface;
 import target.Target;
 import target.TargetInterface;
+
 /**
  * Represents the game world, consisting of multiple rooms, items, and a target
  * character. The world can be loaded from a file, and a graphical map of the
  * world can be generated.
  */
+
 public class World implements WorldInterface {
 
   private List<RoomInterface> rooms;

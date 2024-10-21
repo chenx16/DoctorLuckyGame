@@ -1,19 +1,17 @@
 package gameworld;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import controller.Controller;
+import controller.ControllerInterface;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import controller.Controller;
-import controller.ControllerInterface;
 
 /**
  * Unit tests for the {@link ControllerInterface} class. This class tests the
@@ -24,7 +22,6 @@ import controller.ControllerInterface;
 public class ControllerInterfaceTest {
 
   private WorldInterface world;
-  private StringBuilder log;
   private StringReader input;
   private StringWriter output;
   private final String localDir = "./res/";
@@ -38,7 +35,6 @@ public class ControllerInterfaceTest {
    */
   @Before
   public void setUp() throws IOException {
-    log = new StringBuilder();
     world = new World();
     // Assuming the test world file is correctly structured for testing
     File worldFile = new File(localDir + "mansion.txt");
@@ -54,13 +50,10 @@ public class ControllerInterfaceTest {
     input = new StringReader("3\nHuman Player\n0\nl\nq\n");
 
     // Create the controller with mock world, input, and output.
-    Controller controller = new Controller(world, input, output);
+    controller = new Controller(world, input, output);
 
     // Start the game
     controller.startGame();
-
-    // Verify the interaction log in the mock world
-    assertEquals("", log.toString());
 
     // Verify the output from the controller
     assertTrue(output.toString().contains(
@@ -74,4 +67,91 @@ public class ControllerInterfaceTest {
             + "16: Servants' Quarters\n" + "17: Tennessee Room\n" + "18: Trophy Room\n"
             + "19: Wine Cellar\n" + "20: Winter Garden\n"));
   }
+
+  // Test to add a human player and ensure output is updated
+  @Test
+  public void testAddHumanPlayer() throws IOException {
+    input = new StringReader("3\nHuman Player\n0\nl\nq\n"); // Mock user input
+    controller = new Controller(world, input, output);
+
+    controller.startGame();
+    assertTrue(output.toString().contains("Human player Human Player added to the game."));
+  }
+
+  // Test to add a computer player
+  @Test
+  public void testAddComputerPlayer() throws IOException {
+    input = new StringReader("3\nHuman Player\n0\nl\nq\n"); // Mock user input
+    controller = new Controller(world, input, output);
+
+    controller.startGame();
+    assertTrue(output.toString()
+        .contains("Computer-controlled player AI Player added to the game, starting in"));
+  }
+
+  // Test turn execution (look action)
+  @Test
+  public void testTurnLookAction() throws IOException {
+    input = new StringReader("3\nHuman Player\n0\nl\nq\n"); // Mock user input
+    controller = new Controller(world, input, output);
+
+    controller.startGame();
+    assertTrue(output.toString().contains("Room:"));
+    assertTrue(output.toString().contains("Items in this room:"));
+    assertTrue(output.toString().contains("Neighboring rooms:"));
+    assertTrue(output.toString().contains("Target character is here: Doctor Lucky"));
+  }
+
+  // Test handling of invalid input for adding a player
+  @Test
+  public void testInvalidRoomInput() throws IOException {
+    input = new StringReader("3\nHuman Player\n0\nm\n5\nm\n4\nq\n"); // Mock invalid input
+    controller = new Controller(world, input, output);
+
+    controller.startGame();
+    assertTrue(output.toString().contains("Invalid move. Please select a neighboring room."));
+  }
+
+  // Test handling of human player actions (move)
+  @Test
+  public void testHandleMoveAction() throws IOException {
+    input = new StringReader("3\nHuman Player\n0\nm\n4\nq\n"); // Mock user input to move and quit
+    controller = new Controller(world, input, output);
+
+    controller.startGame();
+    assertTrue(output.toString().contains("Human Player moved to Drawing Room"));
+  }
+
+  // Test handling of quitting the game
+  @Test
+  public void testQuitGame() throws IOException {
+    input = new StringReader("3\nHuman Player\n0\nm\n4\nq\n");
+    // Mock user input to quit immediately
+    controller = new Controller(world, input, output);
+
+    controller.startGame();
+    assertTrue(output.toString().contains("Exiting the game."));
+  }
+
+  // Test game over when maximum turns are reached
+  @Test
+  public void testGameOverAtMaxTurns() throws IOException {
+    input = new StringReader("1\nHuman Player\n0\nl\n\n"); // Mock user input for several turns
+    controller = new Controller(world, input, output);
+
+    controller.startGame();
+    assertTrue(
+        output.toString().contains("Game over! The maximum number of turns has been reached."));
+  }
+
+  // Test handling of invalid action input
+  @Test
+  public void testInvalidActionInput() throws IOException {
+    input = new StringReader("3\nHuman Player\n0\no\nl\nq\n"); // Mock invalid action input
+    controller = new Controller(world, input, output);
+
+    controller.startGame();
+    assertTrue(output.toString().contains("Invalid action. Please enter 'l', 'p', or 'm'."));
+  }
+
 }
