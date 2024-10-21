@@ -70,9 +70,22 @@ Run the JAR file using the following command:
 
      java -jar Milestone2.jar mansion.txt 
 ### demonstrating ouput files in /res
+1. outputM2Success.txt:
+This file contains the results of a successful execution of the game "Doctor Lucky's Mansion." It showcases the following information:
+
+World Loading: The world, "Doctor Lucky's Mansion," is loaded with its respective rooms and items.
+Room Descriptions: Each room is listed with its neighboring rooms, any items present, and whether the target character (Doctor Lucky) is in that room.
+Player Status: Although no players are in any rooms, the items in each room are described.
+Target Character: Doctor Lucky is shown to be in the Armory with a health level of 50.
+This file reflects a successful loading and setup of the game world without any player actions being taken.
+
+2. outputM2-HandleExceptions.txt:
+This file contains similar information as outputM2Success.txt but is intended to showcase how the game handles various exceptions and errors. It demonstrates:
+
+World Loading: Just like the success file, the world and all rooms, items, and target characters are loaded correctly.
+Potential Exception Scenarios: Although not explicitly shown in the file, this file is likely used to verify that the game can handle cases such as invalid inputs, missing files, or incorrect configurations without crashing.
+Both files serve as documentation of different game runs: one being a normal successful run, and the other possibly used for debugging and testing exception handling​(outputM2Success)​(outputM2-HandleExceptio…).
+
 ### References
-1. Stack Overflow or Other Forums
-
-
-2. Course Material
+1. Course Material
 - Milestone 2 - Synchronous Controller, CS 5010 — Programming Design Paradigms, Northeastern University Vancouver. [https://northeastern.instructure.com/courses/192582/assignments/2382093](https://northeastern.instructure.com/courses/192582/assignments/2382093), [Manual Grading Checklist](https://northeastern.instructure.com/courses/192582/pages/manual-grading-checklist)
