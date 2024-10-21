@@ -1,3 +1,4 @@
+
 package gameworld;
 
 import coordinate.Coordinate;
@@ -22,8 +23,6 @@ import room.Room;
 import room.RoomInterface;
 import target.Target;
 import target.TargetInterface;
-
-
 /**
  * Represents the game world, consisting of multiple rooms, items, and a target
  * character. The world can be loaded from a file, and a graphical map of the
@@ -301,8 +300,8 @@ public class World implements WorldInterface {
    * Updates the current turn to the next player.
    */
   private void updateTurn() {
-    currentTurnIndex = (currentTurnIndex + 1) % players.size(); // Update turn index for the next
-                                                                // player
+    currentTurnIndex = (currentTurnIndex + 1) % players.size();
+    // Update turn index for the next player
   }
 
   @Override
