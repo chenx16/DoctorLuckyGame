@@ -1,6 +1,9 @@
-
 package gameworld;
 
+import coordinate.Coordinate;
+import coordinate.CoordinateInterface;
+import item.Item;
+import item.ItemInterface;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -12,19 +15,14 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import javax.imageio.ImageIO;
-
-import coordinate.Coordinate;
-import coordinate.CoordinateInterface;
-import item.Item;
-import item.ItemInterface;
 import player.ComputerPlayer;
 import player.PlayerInterface;
 import room.Room;
 import room.RoomInterface;
 import target.Target;
 import target.TargetInterface;
+
 
 /**
  * Represents the game world, consisting of multiple rooms, items, and a target

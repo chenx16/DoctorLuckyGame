@@ -5,13 +5,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import coordinate.Coordinate;
 import item.ItemInterface;
+import java.util.ArrayList;
+import org.junit.Before;
+import org.junit.Test;
 import room.Room;
 import room.RoomInterface;
 import target.Target;

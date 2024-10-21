@@ -1,9 +1,8 @@
 package player;
 
+import item.ItemInterface;
 import java.util.List;
 import java.util.Random;
-
-import item.ItemInterface;
 import room.RoomInterface;
 
 /**

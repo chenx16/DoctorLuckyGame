@@ -2,12 +2,10 @@ package player;
 
 import static org.junit.Assert.assertEquals;
 
+import coordinate.Coordinate;
 import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import coordinate.Coordinate;
 import room.Room;
 import room.RoomInterface;
 

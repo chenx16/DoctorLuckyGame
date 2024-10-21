@@ -6,15 +6,13 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import coordinate.Coordinate;
 import item.Item;
 import item.ItemInterface;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.Before;
+import org.junit.Test;
 import player.ComputerPlayer;
 import player.HumanPlayer;
 import player.PlayerInterface;

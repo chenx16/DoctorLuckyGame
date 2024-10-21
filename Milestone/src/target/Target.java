@@ -1,7 +1,6 @@
 package target;
 
 import java.util.Objects;
-
 import room.RoomInterface;
 
 /**

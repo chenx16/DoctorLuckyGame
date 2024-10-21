@@ -6,33 +6,33 @@ import java.util.Objects;
  * Represents a 2D coordinate with x and y values.
  */
 public class Coordinate implements CoordinateInterface {
-  private final int x;
-  private final int y;
+  private final int x0;
+  private final int y0;
 
   /**
    * Constructs a coordinate with the specified x and y values.
    * 
-   * @param x the x-coordinate
-   * @param y the y-coordinate
+   * @param x0 the x-coordinate
+   * @param y0 the y-coordinate
    */
-  public Coordinate(int x, int y) {
-    this.x = x;
-    this.y = y;
+  public Coordinate(int x0, int y0) {
+    this.x0 = x0;
+    this.y0 = y0;
   }
 
   @Override
   public int getX() {
-    return x;
+    return x0;
   }
 
   @Override
   public int getY() {
-    return y;
+    return y0;
   }
 
   @Override
   public CoordinateInterface copy() {
-    return new Coordinate(this.x, this.y);
+    return new Coordinate(this.x0, this.y0);
   }
 
   @Override
@@ -44,16 +44,16 @@ public class Coordinate implements CoordinateInterface {
       return false;
     }
     Coordinate other = (Coordinate) obj;
-    return x == other.x && y == other.y;
+    return x0 == other.x0 && y0 == other.y0;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(x, y);
+    return Objects.hash(x0, y0);
   }
 
   @Override
   public String toString() {
-    return "Coordinate(" + x + ", " + y + ")";
+    return "Coordinate(" + x0 + ", " + y0 + ")";
   }
 }

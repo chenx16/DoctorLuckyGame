@@ -1,14 +1,14 @@
 package gameworld;
 
+import item.ItemInterface;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
-
-import item.ItemInterface;
 import player.PlayerInterface;
 import room.RoomInterface;
 import target.TargetInterface;
+
 
 /**
  * Represents the game world consisting of rooms, items, and a target character.

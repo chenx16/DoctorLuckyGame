@@ -1,5 +1,8 @@
 package driver;
 
+import controller.Controller;
+import gameworld.World;
+import gameworld.WorldInterface;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
@@ -7,10 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-
-import controller.Controller;
-import gameworld.World;
-import gameworld.WorldInterface;
 import room.RoomInterface;
 import target.TargetInterface;
 
@@ -30,17 +29,6 @@ public class Driver {
    *             representing the world specification. - args[1] (optional): The
    *             maximum number of turns allowed in the game.
    * 
-   *             Usage:
-   * 
-   *             <pre>
-   * java -jar Game.jar world.txt
-   *             </pre>
-   * 
-   *             or
-   * 
-   *             <pre>
-   * java -jar Game.jar world.txt 10
-   *             </pre>
    *
    * @throws IllegalArgumentException if the required argument for world
    *                                  specification is missing.

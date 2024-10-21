@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import coordinate.Coordinate;
+import item.ItemInterface;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,18 +16,16 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import coordinate.Coordinate;
-import item.ItemInterface;
 import player.ComputerPlayer;
 import player.HumanPlayer;
 import player.PlayerInterface;
 import room.Room;
 import room.RoomInterface;
 import target.TargetInterface;
+
+
 
 /**
  * Unit tests for the World class. These tests verify that the world loads

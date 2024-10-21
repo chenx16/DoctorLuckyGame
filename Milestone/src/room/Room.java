@@ -1,11 +1,10 @@
 package room;
 
+import coordinate.CoordinateInterface;
+import item.ItemInterface;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import coordinate.CoordinateInterface;
-import item.ItemInterface;
 import player.PlayerInterface;
 
 /**
