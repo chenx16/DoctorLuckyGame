@@ -84,7 +84,7 @@ This file contains similar information as outputM2Success.txt but is intended to
 
 World Loading: Just like the success file, the world and all rooms, items, and target characters are loaded correctly.
 Potential Exception Scenarios: Although not explicitly shown in the file, this file is likely used to verify that the game can handle cases such as invalid inputs, missing files, or incorrect configurations without crashing.
-Both files serve as documentation of different game runs: one being a normal successful run, and the other possibly used for debugging and testing exception handling​(outputM2Success)​(outputM2-HandleExceptio…).
+Both files serve as documentation of different game runs: one being a normal successful run, and the other possibly used for debugging and testing exception handling​.
 
 ### References
 1. Course Material
