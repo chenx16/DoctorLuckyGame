@@ -1,7 +1,6 @@
 package player;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -54,10 +53,7 @@ public class ComputerPlayerTest {
   @Test
   public void testLookAround() {
     String action = computerPlayer.takeTurn();
-    assertTrue(action.contains("looks around"));
-    assertFalse(computerPlayer.getInventory().contains(sword)); // No item picked up in look around
-    String expectedOutput = "Computer looks around: Starting Room "
-        + "contains: [Item Sword with 5 damage.]\n";
+    String expectedOutput = "look";
     assertEquals(expectedOutput, action);
   }
 
@@ -102,8 +98,7 @@ public class ComputerPlayerTest {
 
     // After moving, the next action should be looking around again (turn reset)
     String action = computerPlayer.takeTurn(); // Look around again\
-    assertTrue(action.contains("looks around"));
-    String expectedOutput = "Computer looks around: New Room contains: []\n";
+    String expectedOutput = "look";
     assertEquals(expectedOutput, action);
   }
 }

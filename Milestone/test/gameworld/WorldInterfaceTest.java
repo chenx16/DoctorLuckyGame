@@ -303,21 +303,6 @@ public class WorldInterfaceTest {
     world.addPlayer(playerH, -1); // Invalid room index
   }
 
-//  /**
-//   * Verifies that removing a player from the world removes them from the world
-//   * and the room they are in.
-//   */
-//  @Test
-//  public void testRemovePlayer() {
-//    world.addPlayer(playerH, 0);
-//    world.removePlayer(playerH);
-//    List<RoomInterface> rooms = world.getRooms();
-//    RoomInterface currRoom = rooms.get(0);
-//    List<PlayerInterface> players = world.getPlayers();
-//    assertEquals(0, players.size());
-//    assertFalse(currRoom.getPlayers().contains(playerH));
-//  }
-
   /**
    * Verifies that the getPlayers() method returns the correct list of players
    * currently in the world.

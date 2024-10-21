@@ -100,7 +100,7 @@ public class PlayerTest {
     ItemInterface item = new Item(5, "Sword");
     startingRoom.addItem(item);
     String description = humanPlayer.lookAround();
-    String expectedOutput = "Starting Room contains: [Item Sword with 5 damage.]";
+    String expectedOutput = "\nStarting Room contains: [Item Sword with 5 damage.]";
     assertEquals(expectedOutput, description);
   }
 

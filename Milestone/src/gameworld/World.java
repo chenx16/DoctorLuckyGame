@@ -233,17 +233,6 @@ public class World implements WorldInterface {
     room.addPlayer(player); // Add the player to the room
   }
 
-//  @Override
-//  public void removePlayer(PlayerInterface player) {
-//    if (player == null) {
-//      throw new IllegalArgumentException("Player cannot be null.");
-//    }
-//
-//    players.remove(player); // Remove player from the world
-//    int ind = player.getCurrentRoom().getRoomInd();
-//    rooms.get(ind).removePlayer(player);
-//  }
-
   @Override
   public List<PlayerInterface> getPlayers() {
     return new ArrayList<>(players); // Return a copy of the players list to prevent modification
@@ -256,58 +245,58 @@ public class World implements WorldInterface {
   }
 
   @Override
-  public void turnComputerPlayer() {
+  public String turnComputerPlayer() {
     PlayerInterface currentPlayer = getTurn();
+    StringBuilder lookDescription = new StringBuilder();
+    String output = ((ComputerPlayer) currentPlayer).takeTurn();
 
-    if (currentPlayer.getIsComputerControlled()) {
-      System.out.println(((ComputerPlayer) currentPlayer).takeTurn());
+    if ("look".equals(output)) {
       updateTurn();
+      lookDescription.append(currentPlayer.getName()).append(" looks around: ")
+          .append(this.getSpaceInfo(currentPlayer.getCurrentRoom())).append("\n");
+      return lookDescription.toString();
     } else {
-      System.out.println("It is not a computer player's turn.");
+      updateTurn();
+      return output;
     }
+
   }
 
   @Override
-  public void turnHumanPlayer(String action, int roomInd, String itemName) {
+  public String turnHumanPlayer(String action, int roomInd, String itemName) {
     PlayerInterface currentPlayer = getTurn();
+    updateTurn();
 
-    if (!currentPlayer.getIsComputerControlled()) {
-      switch (action.toLowerCase()) {
-        case "look":
-          System.out.println(currentPlayer.lookAround());
-          break;
+    switch (action.toLowerCase()) {
 
-        case "pickup":
-          RoomInterface currentRoom = currentPlayer.getCurrentRoom();
-          ItemInterface itemToPickUp = currentRoom.getItems().stream()
-              .filter(item -> item.getName().equals(itemName)).findFirst().orElse(null);
+      case "look":
+        return this.getSpaceInfo(currentPlayer.getCurrentRoom());
 
-          if (itemToPickUp != null) {
-            currentPlayer.pickUpItem(itemToPickUp);
-            System.out.println(currentPlayer.getName() + " picked up " + itemName);
-          } else {
-            System.out.println("Item not found in the room.");
-          }
-          break;
+      case "pickup":
+        RoomInterface currentRoom = currentPlayer.getCurrentRoom();
+        ItemInterface itemToPickUp = currentRoom.getItems().stream()
+            .filter(item -> item.getName().equals(itemName)).findFirst().orElse(null);
 
-        case "move":
-          if (roomInd >= 0 && roomInd < rooms.size()) {
-            RoomInterface nextRoom = rooms.get(roomInd);
-            currentPlayer.moveTo(nextRoom);
-            System.out.println(currentPlayer.getName() + " moved to " + nextRoom.getName());
-          } else {
-            System.out.println("Invalid room index.");
-          }
-          break;
+        if (itemToPickUp != null) {
+          currentPlayer.pickUpItem(itemToPickUp);
+          return currentPlayer.getName() + " picked up " + itemName;
+        } else {
+          return "Item not found in the room.";
+        }
 
-        default:
-          System.out.println("Invalid action. Use 'look', 'pickup', or 'move'.");
-          break;
-      }
-      updateTurn();
-    } else {
-      System.out.println("It is not a human player's turn.");
+      case "move":
+        if (roomInd >= 0 && roomInd < rooms.size()) {
+          RoomInterface nextRoom = rooms.get(roomInd);
+          currentPlayer.moveTo(nextRoom);
+          return currentPlayer.getName() + " moved to " + nextRoom.getName();
+        } else {
+          return "Invalid room index.";
+        }
+
+      default:
+        return "Invalid action. Use 'look', 'pickup', or 'move'.";
     }
+
   }
 
   /**
@@ -320,18 +309,26 @@ public class World implements WorldInterface {
 
   @Override
   public BufferedImage generateWorldMap(String fileDir) throws IOException {
-    BufferedImage image = new BufferedImage(cols * (pixel + 1), rows * (pixel + 1),
-        BufferedImage.TYPE_INT_ARGB);
+    // Ensure the rows and cols are initialized properly
+    if (rows <= 0 || cols <= 0) {
+      throw new IllegalArgumentException("Invalid world dimensions: " + rows + "x" + cols);
+    }
+    int width = cols * (pixel + 1);
+    int height = rows * (pixel + 1);
+
+    // Ensure valid width and height for BufferedImage
+    if (width <= 0 || height <= 0) {
+      throw new IllegalArgumentException(
+          "Width (" + width + ") and height (" + height + ") cannot be <= 0");
+    }
+
+    BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
     Graphics g = null;
 
     try {
       g = image.getGraphics();
       g.setColor(Color.BLACK);
-
-      Font font = new Font("Arial", Font.PLAIN, 12);
-
-      g.setColor(Color.BLACK);
-      g.setFont(font);
+      g.setFont(new Font("Arial", Font.PLAIN, 12));
 
       // Draw each room
       for (RoomInterface room : rooms) {
@@ -339,11 +336,11 @@ public class World implements WorldInterface {
         CoordinateInterface lowerRight = room.getCoordinateLowerRight();
         int x = upperLeft.getY() * pixel;
         int y = upperLeft.getX() * pixel;
-        int width = (lowerRight.getY() - upperLeft.getY() + 1) * pixel;
-        int height = (lowerRight.getX() - upperLeft.getX() + 1) * pixel;
+        int roomWidth = (lowerRight.getY() - upperLeft.getY() + 1) * pixel;
+        int roomHeight = (lowerRight.getX() - upperLeft.getX() + 1) * pixel;
 
         // Draw room's outline and name
-        g.drawRect(x, y, width, height);
+        g.drawRect(x, y, roomWidth, roomHeight);
         g.drawString(room.getName(), x + 5, y + 15);
       }
 

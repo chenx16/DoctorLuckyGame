@@ -65,7 +65,7 @@ public abstract class Player implements PlayerInterface {
 
   @Override
   public String lookAround() {
-    return currentRoom.getName() + " contains: " + currentRoom.getItems();
+    return "\n" + currentRoom.getName() + " contains: " + currentRoom.getItems();
   }
 
   @Override

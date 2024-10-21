@@ -43,8 +43,7 @@ public class ComputerPlayer extends Player {
 
     if (!hasLookedAround) {
       // 1. Look around
-      actionDescription.append(getName()).append(" looks around: ").append(lookAround())
-          .append("\n");
+      actionDescription.append("look");
       hasLookedAround = true;
 
     } else if (!hasPickedUpItem) {
