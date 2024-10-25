@@ -89,3 +89,17 @@ Both files serve as documentation of different game runs: one being a normal suc
 ### References
 1. Course Material
 - Milestone 2 - Synchronous Controller, CS 5010 — Programming Design Paradigms, Northeastern University Vancouver. [https://northeastern.instructure.com/courses/192582/assignments/2382093](https://northeastern.instructure.com/courses/192582/assignments/2382093), [Manual Grading Checklist](https://northeastern.instructure.com/courses/192582/pages/manual-grading-checklist)
+
+2. Java Documentation
+Readable Interface Documentation
+Oracle. (n.d.). Class Use for Interface Readable. Retrieved from https://javadoc.scijava.org/Java11/java.base/java/lang/class-use/Readable.html
+
+Appendable Interface Documentation
+Oracle. (n.d.). Appendable (Java SE 11 & JDK 11). Retrieved from https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Appendable.html
+
+Scanner Class Documentation
+Oracle. (n.d.). Class Use for Scanner. Retrieved from https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/class-use/Scanner.html
+
+Discussion on Technical Issue
+Apple Community. (2023). Discussion on Issue with Java Execution on Mac. Retrieved from https://discussions.apple.com/thread/255761734?sortBy=rank
+
