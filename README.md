@@ -59,6 +59,9 @@ This output shows a successful interaction where the target character moves thro
 3. Course Material
 - Milestone 1 - The World, CS 5010 — Programming Design Paradigms, Northeastern University Vancouver. [https://northeastern.instructure.com/courses/192582/assignments/2382089](https://northeastern.instructure.com/courses/192582/assignments/2382089), [Manual Grading Checklist](https://northeastern.instructure.com/courses/192582/pages/manual-grading-checklist)
 
+### Design Changes
+After the preliminary design submission, I made minimal changes to the design based on the feedback received. The main change I implemented was addressing the suggestion that items do not need to track the room they are in. Since the room was already handling this information, I removed the redundant tracking of the item's location in the Item class to avoid potential inconsistencies and the need to update this information in two places. I also added a driver class to demonstrate how the model works. This driver class handles the loading of the world from a file, moves the target character, and interacts with the model to showcase its functionality.
+
 ## Milestone 2
 ### Steps to Run the JAR
 1. Open a terminal or command prompt.
@@ -101,4 +104,17 @@ Oracle. (n.d.). Class Use for Scanner. Retrieved from https://docs.oracle.com/en
 3. Stack Overflow or Other Forums
 - Discussion on Technical Issue
 Apple Community. (2023). Discussion on Issue with Java Execution on Mac. Retrieved from https://discussions.apple.com/thread/255761734?sortBy=rank
+
+### Design Changes
+Player Management:
+- Added the ability to include multiple players in the game, each identified by name.
+Players can be human-controlled or computer-controlled, with logic to differentiate their behaviors during turns.
+- Turn-Based System:
+Introduced a turn-based mechanism where each player takes actions in sequence. The game now tracks turn order based on when players were added.
+- Player Actions:
+Enhanced functionality for player actions, including moving between connected rooms, picking up items, and “looking around” to view their current surroundings.
+- Target Character Movement:
+Added functionality for the target character to automatically move after each player's turn, adding dynamic interactions within the game world.
+- Enhanced World Representation:
+Modified the information displayed about each room to include players present in that space, providing players with more situational awareness.
 
