@@ -12,7 +12,6 @@ import java.io.StringWriter;
 import org.junit.Before;
 import org.junit.Test;
 
-
 /**
  * Unit tests for the {@link ControllerInterface} class. This class tests the
  * interaction between the {@link Controller} and the {@link WorldInterface}

@@ -1,0 +1,217 @@
+Loading world...
+World: Doctor Lucky's Mansion
+Target character name: Doctor Lucky, health: 50, currentRoom: Armory
+
+Room: Armory
+Items in this room:
+- Item Revolver with 3 damage.
+Players in room: No players in this room.
+Neighboring rooms:
+- 1 Billiard Room
+- 3 Dining Hall
+- 4 Drawing Room
+
+Target character is here: Doctor Lucky
+
+Room: Billiard Room
+Items in this room:
+- Item Billiard Cue with 2 damage.
+Players in room: No players in this room.
+Neighboring rooms:
+- 0 Armory
+- 3 Dining Hall
+- 18 Trophy Room
+
+
+Room: Carriage House
+Items in this room:
+- Item Chain Saw with 4 damage.
+- Item Big Red Hammer with 4 damage.
+Players in room: No players in this room.
+Neighboring rooms:
+- 20 Winter Garden
+
+
+Room: Dining Hall
+No items in this room.
+Players in room: No players in this room.
+Neighboring rooms:
+- 0 Armory
+- 1 Billiard Room
+- 4 Drawing Room
+- 8 Kitchen
+- 14 Parlor
+- 17 Tennessee Room
+- 18 Trophy Room
+- 19 Wine Cellar
+
+
+Room: Drawing Room
+Items in this room:
+- Item Letter Opener with 2 damage.
+Players in room: No players in this room.
+Neighboring rooms:
+- 0 Armory
+- 3 Dining Hall
+- 5 Foyer
+- 19 Wine Cellar
+
+
+Room: Foyer
+No items in this room.
+Players in room: No players in this room.
+Neighboring rooms:
+- 4 Drawing Room
+- 15 Piazza
+
+
+Room: Green House
+Items in this room:
+- Item Trowel with 2 damage.
+- Item Pinking Shears with 2 damage.
+Players in room: No players in this room.
+Neighboring rooms:
+- 7 Hedge Maze
+
+
+Room: Hedge Maze
+Items in this room:
+- Item Loud Noise with 2 damage.
+Players in room: No players in this room.
+Neighboring rooms:
+- 6 Green House
+- 15 Piazza
+
+
+Room: Kitchen
+Items in this room:
+- Item Crepe Pan with 3 damage.
+- Item Sharp Knife with 3 damage.
+Players in room: No players in this room.
+Neighboring rooms:
+- 3 Dining Hall
+- 14 Parlor
+- 19 Wine Cellar
+
+
+Room: Lancaster Room
+Items in this room:
+- Item Silken Cord with 3 damage.
+Players in room: No players in this room.
+Neighboring rooms:
+- 11 Lilac Room
+- 16 Servants' Quarters
+
+
+Room: Library
+No items in this room.
+Players in room: No players in this room.
+Neighboring rooms:
+- 12 Master Suite
+- 13 Nursery
+- 18 Trophy Room
+
+
+Room: Lilac Room
+Items in this room:
+- Item Tight Hat with 2 damage.
+Players in room: No players in this room.
+Neighboring rooms:
+- 9 Lancaster Room
+- 12 Master Suite
+- 16 Servants' Quarters
+- 17 Tennessee Room
+
+
+Room: Master Suite
+Items in this room:
+- Item Shoe Horn with 2 damage.
+Players in room: No players in this room.
+Neighboring rooms:
+- 10 Library
+- 11 Lilac Room
+- 13 Nursery
+- 17 Tennessee Room
+
+
+Room: Nursery
+Items in this room:
+- Item Bad Cream with 2 damage.
+Players in room: No players in this room.
+Neighboring rooms:
+- 10 Library
+- 12 Master Suite
+
+
+Room: Parlor
+No items in this room.
+Players in room: No players in this room.
+Neighboring rooms:
+- 3 Dining Hall
+- 8 Kitchen
+- 16 Servants' Quarters
+- 17 Tennessee Room
+
+
+Room: Piazza
+Items in this room:
+- Item Civil War Cannon with 3 damage.
+Players in room: No players in this room.
+Neighboring rooms:
+- 5 Foyer
+- 7 Hedge Maze
+- 20 Winter Garden
+
+
+Room: Servants' Quarters
+Items in this room:
+- Item Broom Stick with 2 damage.
+Players in room: No players in this room.
+Neighboring rooms:
+- 9 Lancaster Room
+- 11 Lilac Room
+- 14 Parlor
+
+
+Room: Tennessee Room
+No items in this room.
+Players in room: No players in this room.
+Neighboring rooms:
+- 3 Dining Hall
+- 11 Lilac Room
+- 12 Master Suite
+- 14 Parlor
+- 18 Trophy Room
+
+
+Room: Trophy Room
+Items in this room:
+- Item Duck Decoy with 3 damage.
+- Item Monkey Hand with 2 damage.
+Players in room: No players in this room.
+Neighboring rooms:
+- 1 Billiard Room
+- 3 Dining Hall
+- 10 Library
+- 17 Tennessee Room
+
+
+Room: Wine Cellar
+Items in this room:
+- Item Rat Poison with 2 damage.
+- Item Piece of Rope with 2 damage.
+Players in room: No players in this room.
+Neighboring rooms:
+- 3 Dining Hall
+- 4 Drawing Room
+- 8 Kitchen
+
+
+Room: Winter Garden
+No items in this room.
+Players in room: No players in this room.
+Neighboring rooms:
+- 2 Carriage House
+- 15 Piazza
+
+
