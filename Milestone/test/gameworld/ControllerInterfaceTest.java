@@ -44,8 +44,8 @@ public class ControllerInterfaceTest {
     StringReader in = new StringReader("Human Player\n0\nq\n");
     controller = new Controller(in, out);
     controller.start(mockWorld, 10, new Random(1));
-//    System.out.println(log);
-//    System.out.println(out);
+    // System.out.println(log);
+    // System.out.println(out);
 
     assertEquals(log.toString(), "addPlayer called\n" + "addPlayer called\n" + "getTurn called\n");
     assertTrue(out.toString().contains("Human player Human Player added to the game."));
@@ -57,8 +57,8 @@ public class ControllerInterfaceTest {
     StringReader in = new StringReader("Human Player\n0\nl\nq\n");
     controller = new Controller(in, out);
     controller.start(mockWorld, 2, new Random(1));
-//    System.out.println(log);
-//    System.out.println(out);
+    // System.out.println(log);
+    // System.out.println(out);
 
     assertEquals(log.toString(),
         "addPlayer called\n" + "addPlayer called\n" + "getTurn called\n"
@@ -74,8 +74,8 @@ public class ControllerInterfaceTest {
     StringReader in = new StringReader("Human Player\n0\nq\n");
     controller = new Controller(in, out);
     controller.start(mockWorld, 2, new Random(1));
-//    System.out.println(log);
-//    System.out.println(out);
+    // System.out.println(log);
+    // System.out.println(out);
 
     assertEquals(log.toString(), "addPlayer called\n" + "addPlayer called\n" + "getTurn called\n");
     assertTrue(out.toString().contains("Human player Human Player added to the game."));
@@ -87,8 +87,8 @@ public class ControllerInterfaceTest {
     StringReader in = new StringReader("Human Player\n0\nl\n");
     controller = new Controller(in, out);
     controller.start(mockWorld, 1, new Random(1));
-//    System.out.println(log);
-//    System.out.println(out);
+    // System.out.println(log);
+    // System.out.println(out);
 
     assertTrue(out.toString().contains("Mocked model response\n"));
     assertTrue(out.toString()
@@ -102,8 +102,9 @@ public class ControllerInterfaceTest {
     controller = new Controller(in, out);
     // Start game with mock world
     controller.start(mockWorld, 3, new Random(1));
-//    System.out.println(log);
-//    System.out.println(out);
+    // System.out.println(log);
+    // System.out.println(out);
+
     // Check if players were added in the expected order
     String output = out.toString();
     assertTrue(output.contains("Human player Human added to the game."));
@@ -120,8 +121,8 @@ public class ControllerInterfaceTest {
     StringReader in = new StringReader("Human Player\n0\nl\nq\n");
     controller = new Controller(in, out);
     controller.start(mockWorld, 2, new Random(1));
-//    System.out.println(log);
-//    System.out.println(out);
+    // System.out.println(log);
+    // System.out.println(out);
 
     assertEquals(log.toString(),
         "addPlayer called\n" + "addPlayer called\n" + "getTurn called\n"
@@ -136,8 +137,8 @@ public class ControllerInterfaceTest {
     StringReader in = new StringReader("Human Player\n0\nm\n1\nq\n");
     controller = new Controller(in, out);
     controller.start(mockWorld, 2, new Random(1));
-//    System.out.println(log);
-//    System.out.println(out);
+    // System.out.println(log);
+    // System.out.println(out);
 
     assertEquals(log.toString(),
         "addPlayer called\n" + "addPlayer called\n" + "getTurn called\n"
@@ -152,8 +153,8 @@ public class ControllerInterfaceTest {
     StringReader in = new StringReader("Human Player\n0\nq\n");
     controller = new Controller(in, out);
     controller.start(mockWorld, 10, new Random(1));
-//    System.out.println(log);
-//    System.out.println(out);
+    // System.out.println(log);
+    // System.out.println(out);
 
     assertTrue(out.toString().contains("Exiting the game."));
   }
@@ -164,8 +165,9 @@ public class ControllerInterfaceTest {
     StringReader in = new StringReader("Human Player\n0\nl\n");
     controller = new Controller(in, out);
     controller.start(mockWorld, 1, new Random());
-//    System.out.println(log);
-//    System.out.println(out);
+    // System.out.println(log);
+    // System.out.println(out);
+
     assertTrue(out.toString().contains("Game over! The maximum number of turns has been reached."));
   }
 
@@ -174,9 +176,9 @@ public class ControllerInterfaceTest {
   public void testInvalidActionInput() throws IOException {
     StringReader in = new StringReader("Human Player\n0\ni\nq\n");
     controller = new Controller(in, out);
-    controller.start(mockWorld, 10, new Random(1));
-//    System.out.println(log);
-//    System.out.println(out);
+    controller.start(mockWorld, 2, new Random(1));
+    // System.out.println(log);
+    // System.out.println(out);
 
     assertTrue(out.toString().contains("Exiting the game."));
     assertTrue(out.toString().contains("Invalid action. Please enter 'l', 'p', or 'm'."));
@@ -187,8 +189,8 @@ public class ControllerInterfaceTest {
     StringReader in = new StringReader("Human Player\n0\ni\nq\n");
     controller = new Controller(in, out);
     controller.start(mockWorld, 10, new Random(1));
-//    System.out.println(log);
-//    System.out.println(out);
+    // System.out.println(log);
+    // System.out.println(out);
 
     assertTrue(out.toString().contains("Exiting the game."));
     assertTrue(out.toString().contains("It's Human Player's turn.\n" + "Player Name: Human Player\n"

@@ -34,10 +34,12 @@ public class MockWorld implements WorldInterface {
         new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
     RoomInterface neighborRoom = new Room(new Coordinate(0, 0), new Coordinate(2, 2), "Neighbor", 1,
         new ArrayList<ItemInterface>(), new ArrayList<RoomInterface>());
+    ItemInterface item = new Item(10, "Revolver");
+    newRoom.addItem(item);
     newRoom.addNeighbor(neighborRoom);
     rooms.add(newRoom);
     rooms.add(neighborRoom);
-    items.add(new Item(10, "Revolver"));
+    items.add(item);
   }
 
   @Override
