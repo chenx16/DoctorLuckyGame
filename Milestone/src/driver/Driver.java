@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.util.Random;
 import room.RoomInterface;
 import target.TargetInterface;
 
@@ -112,9 +113,8 @@ public class Driver {
       }
 
       // Start the game using the controller, passing the max turns
-      Controller controller = new Controller(world, new InputStreamReader(System.in), output,
-          maxTurns);
-      controller.startGame();
+      Controller controller = new Controller(new InputStreamReader(System.in), output);
+      controller.start(world, maxTurns, new Random());
 
       // Save the output to a file
       saveOutputToFile(output.toString());

@@ -21,38 +21,31 @@ import room.RoomInterface;
  */
 public class Controller implements ControllerInterface {
 
-  private WorldInterface world;
+//  private WorldInterface world;
   private Appendable out;
   private Scanner scanner;
-  private int maxTurns;
   private Map<String, Command> commandMap = new HashMap<>();
 
   /**
    * Constructs a Controller for managing interactions with the game world. This
    * constructor initializes the input source, output target, and the world model.
    *
-   * @param world    the WorldInterface instance representing the game world. This
-   *                 is used to interact with and manipulate the game state.
-   * @param in       the Readable instance from which the controller reads user
-   *                 input. Typically, this will be System.in or a StringReader in
-   *                 testing.
-   * @param out      the Appendable instance to which the controller writes
-   *                 output. Typically, this will be System.out or a StringBuilder
-   *                 in testing.
-   * @param maxTurns the maximum number of turns allowed in the game.
+   * @param in  the Readable instance from which the controller reads user input.
+   *            Typically, this will be System.in or a StringReader in testing.
+   * @param out the Appendable instance to which the controller writes output.
+   *            Typically, this will be System.out or a StringBuilder in testing.
    * @throws IllegalArgumentException if any of the parameters are null.
    */
-  public Controller(WorldInterface world, Readable in, Appendable out, int maxTurns) {
-    this.world = world;
+  public Controller(Readable in, Appendable out) {
+//    this.world = world;
     this.scanner = new Scanner(in);
     this.out = out;
-    this.maxTurns = maxTurns; // Set maxTurns here
   }
 
   /**
    * Starts the game and handles user input for game interaction.
    */
-  public void startGame() throws IOException {
+  public void start(WorldInterface world, int maxTurns, Random random) throws IOException {
     // Display maximum turns allowed in the game
     out.append("Maximum number of turns allowed: " + maxTurns + "\n");
 
@@ -63,9 +56,9 @@ public class Controller implements ControllerInterface {
 
     // Add one human player and one computer-controlled player in a random order
     out.append("Adding players to the game...\n");
-    // addPlayersRandomly();
-    addHumanPlayerHandler();
-    addComputerPlayerHandler();
+    addPlayersRandomly(world, random);
+//    addHumanPlayerHandler(world);
+//    addComputerPlayerHandler(world);
     // Game loop
     int turnCount = 0;
     while (turnCount < maxTurns) {
@@ -112,23 +105,22 @@ public class Controller implements ControllerInterface {
   /**
    * Randomly adds one human-controlled player and one computer-controlled player.
    */
-  private void addPlayersRandomly() throws IOException {
-    Random random = new Random();
+  private void addPlayersRandomly(WorldInterface world, Random random) throws IOException {
     boolean humanFirst = random.nextBoolean(); // Randomize who is added first
 
     if (humanFirst) {
-      addHumanPlayerHandler();
-      addComputerPlayerHandler();
+      addHumanPlayerHandler(world);
+      addComputerPlayerHandler(world);
     } else {
-      addComputerPlayerHandler();
-      addHumanPlayerHandler();
+      addComputerPlayerHandler(world);
+      addHumanPlayerHandler(world);
     }
   }
 
   /**
    * Adds a human-controlled player to the game.
    */
-  private void addHumanPlayerHandler() throws IOException {
+  private void addHumanPlayerHandler(WorldInterface world) throws IOException {
     out.append("Enter the name for the human player: ");
     String playerName = scanner.nextLine();
 
@@ -158,14 +150,14 @@ public class Controller implements ControllerInterface {
     int maxItems = world.getItems().size(); // Set max items to number of items in the world
     PlayerInterface humanPlayer = new HumanPlayer(playerName, startingRoom, maxItems);
     world.addPlayer(humanPlayer, world.getRooms().indexOf(startingRoom));
-    initializeCommands(humanPlayer);
+    initializeCommands(world, humanPlayer);
     out.append("Human player " + playerName + " added to the game.\n");
   }
 
   /**
    * Adds a computer-controlled player to the game.
    */
-  private void addComputerPlayerHandler() throws IOException {
+  private void addComputerPlayerHandler(WorldInterface world) throws IOException {
     String computerPlayerName = "AI Player";
     if (world.getRooms().isEmpty()) {
       out.append("No available rooms to place the computer player.\n");
@@ -183,7 +175,7 @@ public class Controller implements ControllerInterface {
         + " added to the game, starting in " + startingRoom.getName() + ".\n");
   }
 
-  private void initializeCommands(PlayerInterface currentPlayer) {
+  private void initializeCommands(WorldInterface world, PlayerInterface currentPlayer) {
     // Define commands for each action
     commandMap.put("l", new LookCommand(world, currentPlayer, out));
     commandMap.put("p", new PickUpCommand(world, currentPlayer, out, scanner));

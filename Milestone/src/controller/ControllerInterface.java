@@ -1,6 +1,8 @@
 package controller;
 
+import gameworld.WorldInterface;
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * Represents a Controller for Doctor Lucky: handle user moves by executing them
@@ -13,6 +15,6 @@ public interface ControllerInterface {
    * game is over, the playGame method ends.
    *
    */
-  void startGame() throws IOException;
+  void start(WorldInterface world, int maxTurns, Random random) throws IOException;
 
 }
