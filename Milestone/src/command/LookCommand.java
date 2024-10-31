@@ -10,9 +10,9 @@ import player.PlayerInterface;
  * visible items, neighboring rooms, and any characters present.
  */
 public class LookCommand implements Command {
-  private final WorldInterface world;
-  private final PlayerInterface player;
-  private final Appendable out;
+  private WorldInterface world;
+  private PlayerInterface player;
+  private Appendable out;
 
   /**
    * Constructs a LookCommand with the specified world, player, and output stream.

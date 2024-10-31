@@ -13,10 +13,10 @@ import room.RoomInterface;
  * selected room if the index is valid.
  */
 public class MoveCommand implements Command {
-  private final WorldInterface world;
-  private final PlayerInterface player;
-  private final Appendable out;
-  private final Scanner scanner;
+  private WorldInterface world;
+  private PlayerInterface player;
+  private Appendable out;
+  private Scanner scanner;
 
   /**
    * Constructs a MoveCommand with the specified world, player, output stream, and

@@ -21,7 +21,6 @@ import room.RoomInterface;
  */
 public class Controller implements ControllerInterface {
 
-//  private WorldInterface world;
   private Appendable out;
   private Scanner scanner;
   private Map<String, Command> commandMap = new HashMap<>();
@@ -37,7 +36,6 @@ public class Controller implements ControllerInterface {
    * @throws IllegalArgumentException if any of the parameters are null.
    */
   public Controller(Readable in, Appendable out) {
-//    this.world = world;
     this.scanner = new Scanner(in);
     this.out = out;
   }
@@ -57,8 +55,8 @@ public class Controller implements ControllerInterface {
     // Add one human player and one computer-controlled player in a random order
     out.append("Adding players to the game...\n");
     addPlayersRandomly(world, random);
-//    addHumanPlayerHandler(world);
-//    addComputerPlayerHandler(world);
+    // addHumanPlayerHandler(world);
+    // addComputerPlayerHandler(world);
     // Game loop
     int turnCount = 0;
     while (turnCount < maxTurns) {

@@ -14,14 +14,28 @@ import room.Room;
 import room.RoomInterface;
 import target.TargetInterface;
 
+/**
+ * MockWorld is a mock implementation of the WorldInterface designed for testing
+ * purposes. It logs interactions and simulates game world behaviors such as
+ * player actions, room information, item management, and other world
+ * interactions.
+ */
 public class MockWorld implements WorldInterface {
 
   private List<RoomInterface> rooms;
   private List<ItemInterface> items;
   private List<PlayerInterface> players;
   private StringBuilder log;
-  private final String response;
+  private String response;
 
+  /**
+   * Constructs a MockWorld with a specified log and response. Populates the mock
+   * world with sample rooms, items, and neighbors for testing purposes.
+   *
+   * @param log      a StringBuilder to capture logs of method calls for
+   *                 verification in tests
+   * @param response a fixed response string to return for certain method calls
+   */
   public MockWorld(StringBuilder log, String response) {
     this.log = log;
     this.response = response;

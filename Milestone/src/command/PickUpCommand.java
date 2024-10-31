@@ -13,10 +13,10 @@ import player.PlayerInterface;
  * one, and then attempts to pick up the selected item.
  */
 public class PickUpCommand implements Command {
-  private final WorldInterface world;
-  private final PlayerInterface player;
-  private final Appendable out;
-  private final Scanner scanner;
+  private WorldInterface world;
+  private PlayerInterface player;
+  private Appendable out;
+  private Scanner scanner;
 
   /**
    * Constructs a PickUpCommand with the specified world, player, output stream,
