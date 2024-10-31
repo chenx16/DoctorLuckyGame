@@ -20,6 +20,10 @@ import target.TargetInterface;
  * information, moving the target character, and generating the world map.
  */
 public class Driver {
+  private static Readable inputSource = new InputStreamReader(System.in);
+  private static Appendable output = System.out;
+  private static Appendable errorOutput = System.err;
+
   /**
    * The main entry point for the program. This method initializes the game by
    * reading command-line arguments, setting up the input and output streams, and
@@ -28,32 +32,59 @@ public class Driver {
    * @param args command-line arguments where: - args[0]: A file path or string
    *             representing the world specification. - args[1] (optional): The
    *             maximum number of turns allowed in the game.
-   * 
-   *
-   * @throws IllegalArgumentException if the required argument for world
-   *                                  specification is missing.
    */
   public static void main(String[] args) {
-    if (args.length != 1) {
-      System.out
-          .println("Usage: java -jar Milestone2.jar <path-to-world-specification-file or string>");
+    // Check if the necessary arguments are provided
+    if (args.length < 1) {
+      try {
+        errorOutput
+            .append("Usage: java -jar Milestone2.jar <path-to-world-specification-file or string> "
+                + "<max-turns (optional)>\n");
+      } catch (IOException e) {
+        handleError("Failed to output usage information.");
+      }
       System.exit(1);
     }
 
+    // Initialize the world and other variables
     WorldInterface world = new World();
-    StringBuilder output = new StringBuilder();
-    Readable inputSource;
 
-    String worldData = args[0]; // The argument could be a file path or a string
+    int maxTurns = 20; // Default maximum number of turns
 
-    // Check if the argument is a valid file path
+    String worldData = args[0]; // The first argument could be a file path or a string
+
+    // Check if a second argument (max turns) is provided
+    if (args.length > 1) {
+      try {
+        maxTurns = Integer.parseInt(args[1]);
+        if (maxTurns <= 0) {
+          handleError("Invalid number for max turns.");
+          return;
+        }
+      } catch (NumberFormatException e) {
+        handleError("Invalid number format for max turns.");
+        return;
+      }
+    } else {
+      try {
+        output.append("Max turns not entered. Using default of 20 turns.\n");
+      } catch (IOException e) {
+        handleError("Failed to output default max turns notice.");
+      }
+    }
+
+    // Check if the world data is a valid file path
     File worldFile = new File(worldData);
     if (worldFile.exists() && worldFile.isFile()) {
       // If it's a file, use a FileReader
       try {
         inputSource = new FileReader(worldFile);
       } catch (IOException e) {
-        System.err.println("Error: Unable to read file - " + e.getMessage());
+        try {
+          errorOutput.append("Error: Unable to read file - ").append(e.getMessage()).append("\n");
+        } catch (IOException ioException) {
+          handleError("Failed to output file read error.");
+        }
         return;
       }
     } else {
@@ -64,35 +95,36 @@ public class Driver {
 
     try {
       // Load the world from the specified input (file or string)
-      System.out.println("Loading world...");
       output.append("Loading world...\n");
       world.loadFromFile(inputSource);
 
-      // Show the name of the world
-      System.out.println("World: " + world.getName());
+      // Display world details
       output.append("World: ").append(world.getName()).append("\n");
 
       // Display target character information
       TargetInterface target = world.getTargetCharacter();
-      System.out.println(target.toString());
       output.append(target.toString()).append("\n");
 
       // Show space information, including items
-      System.out.println("\nSpace information for each room:");
+      output.append("\nSpace information for each room:\n");
       for (RoomInterface room : world.getRooms()) {
-        System.out.println(world.getSpaceInfo(room));
         output.append(world.getSpaceInfo(room)).append("\n");
       }
 
-      // Start the game using the controller
-      Controller controller = new Controller(world, new InputStreamReader(System.in), System.out);
+      // Start the game using the controller, passing the max turns
+      Controller controller = new Controller(world, new InputStreamReader(System.in), output,
+          maxTurns);
       controller.startGame();
 
       // Save the output to a file
       saveOutputToFile(output.toString());
 
     } catch (IOException e) {
-      System.err.println("Failed to load scanner or process the world input: " + e.getMessage());
+      try {
+        errorOutput.append("World file is invalid: ").append(e.getMessage()).append("\n");
+      } catch (IOException ioException) {
+        handleError("Failed to output error message.");
+      }
     }
   }
 
@@ -105,9 +137,23 @@ public class Driver {
     File outputFile = new File("output.txt");
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
       writer.write(content);
-      System.out.println("Output saved to output.txt");
+      output.append("Output saved to output.txt\n");
     } catch (IOException e) {
-      System.err.println("Failed to save output: " + e.getMessage());
+      handleError("Failed to save output: " + e.getMessage());
+    }
+  }
+
+  /**
+   * Handles errors by appending to error output and printing to System.err as a
+   * fallback if needed.
+   * 
+   * @param message The error message to append.
+   */
+  private static void handleError(String message) {
+    try {
+      errorOutput.append(message).append("\n");
+    } catch (IOException ioException) {
+      System.err.println("Critical error handling failure: " + ioException.getMessage());
     }
   }
 }

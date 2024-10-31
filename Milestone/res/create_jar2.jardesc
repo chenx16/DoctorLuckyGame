@@ -11,11 +11,9 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <folder path="/Milestone/res"/>
         <file path="/Milestone/.DS_Store"/>
         <file path="/Milestone/.classpath"/>
         <file path="/Milestone/.project"/>
         <javaElement handleIdentifier="=Milestone/src"/>
-        <javaElement handleIdentifier="=Milestone/test"/>
     </selectedElements>
 </jardesc>

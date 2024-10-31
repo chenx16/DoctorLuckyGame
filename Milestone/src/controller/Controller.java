@@ -1,9 +1,13 @@
 package controller;
 
+import command.Command;
+import command.LookCommand;
+import command.MoveCommand;
+import command.PickUpCommand;
 import gameworld.WorldInterface;
-import item.ItemInterface;
 import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 import player.ComputerPlayer;
@@ -21,34 +25,36 @@ public class Controller implements ControllerInterface {
   private Appendable out;
   private Scanner scanner;
   private int maxTurns;
+  private Map<String, Command> commandMap = new HashMap<>();
 
   /**
    * Constructs a Controller for managing interactions with the game world. This
    * constructor initializes the input source, output target, and the world model.
    *
-   * @param world the WorldInterface instance representing the game world. This is
-   *              used to interact with and manipulate the game state.
-   * @param in    the Readable instance from which the controller reads user
-   *              input. Typically, this will be System.in or a StringReader in
-   *              testing.
-   * @param out   the Appendable instance to which the controller writes output.
-   *              Typically, this will be System.out or a StringBuilder in
-   *              testing.
+   * @param world    the WorldInterface instance representing the game world. This
+   *                 is used to interact with and manipulate the game state.
+   * @param in       the Readable instance from which the controller reads user
+   *                 input. Typically, this will be System.in or a StringReader in
+   *                 testing.
+   * @param out      the Appendable instance to which the controller writes
+   *                 output. Typically, this will be System.out or a StringBuilder
+   *                 in testing.
+   * @param maxTurns the maximum number of turns allowed in the game.
    * @throws IllegalArgumentException if any of the parameters are null.
    */
-  public Controller(WorldInterface world, Readable in, Appendable out) {
+  public Controller(WorldInterface world, Readable in, Appendable out, int maxTurns) {
     this.world = world;
     this.scanner = new Scanner(in);
     this.out = out;
+    this.maxTurns = maxTurns; // Set maxTurns here
   }
 
   /**
    * Starts the game and handles user input for game interaction.
    */
   public void startGame() throws IOException {
-    // Ask for maximum turns allowed in the game
-    out.append("Enter the maximum number of turns allowed: ");
-    maxTurns = Integer.parseInt(scanner.nextLine());
+    // Display maximum turns allowed in the game
+    out.append("Maximum number of turns allowed: " + maxTurns + "\n");
 
     // Save the world map as a PNG file
     out.append("Saving the world map to a PNG file...\n");
@@ -58,18 +64,38 @@ public class Controller implements ControllerInterface {
     // Add one human player and one computer-controlled player in a random order
     out.append("Adding players to the game...\n");
     // addPlayersRandomly();
-    addHumanPlayer();
-    addComputerPlayer();
+    addHumanPlayerHandler();
+    addComputerPlayerHandler();
     // Game loop
     int turnCount = 0;
     while (turnCount < maxTurns) {
       PlayerInterface currentPlayer = world.getTurn();
-      out.append("\n" + "Turn number: " + (turnCount + 1) + "\n");
+      out.append("\n" + "Turn number: " + (turnCount + 1) + "/" + maxTurns + "\n");
       out.append("It's " + currentPlayer.getName() + "'s turn.\n");
       out.append(currentPlayer.getDescription() + "\n");
 
       if (!currentPlayer.getIsComputerControlled()) {
-        handleHumanPlayerTurn(currentPlayer);
+
+        boolean validTurn = false; // Track if the player took a valid turn
+
+        while (!validTurn) {
+          out.append("Choose an action: [l: look, p: pickup, m: move, q: quit]\n");
+          String action = scanner.nextLine().trim().toLowerCase();
+
+          if ("q".equalsIgnoreCase(action)) {
+            out.append("Exiting the game.\n");
+            return;
+          }
+
+          Command command = commandMap.get(action);
+          if (command != null) {
+            command.execute();
+            validTurn = true; // Mark the turn as valid once a correct command executes
+          } else {
+            out.append("Invalid action. Please enter 'l', 'p', or 'm'.\n");
+          }
+        }
+
       } else {
         String actionResult = world.turnComputerPlayer();
         out.append(actionResult + "\n");
@@ -78,13 +104,6 @@ public class Controller implements ControllerInterface {
       world.moveTargetCharacter(); // Automatically move the target character
       turnCount++;
 
-      // Quit option
-      out.append("Enter 'q' to quit or press Enter to continue: ");
-      String quitInput = scanner.nextLine().trim();
-      if ("q".equalsIgnoreCase(quitInput)) {
-        out.append("Exiting the game.\n");
-        break;
-      }
     }
 
     out.append("Game over! The maximum number of turns has been reached.\n");
@@ -98,18 +117,18 @@ public class Controller implements ControllerInterface {
     boolean humanFirst = random.nextBoolean(); // Randomize who is added first
 
     if (humanFirst) {
-      addHumanPlayer();
-      addComputerPlayer();
+      addHumanPlayerHandler();
+      addComputerPlayerHandler();
     } else {
-      addComputerPlayer();
-      addHumanPlayer();
+      addComputerPlayerHandler();
+      addHumanPlayerHandler();
     }
   }
 
   /**
    * Adds a human-controlled player to the game.
    */
-  private void addHumanPlayer() throws IOException {
+  private void addHumanPlayerHandler() throws IOException {
     out.append("Enter the name for the human player: ");
     String playerName = scanner.nextLine();
 
@@ -139,13 +158,14 @@ public class Controller implements ControllerInterface {
     int maxItems = world.getItems().size(); // Set max items to number of items in the world
     PlayerInterface humanPlayer = new HumanPlayer(playerName, startingRoom, maxItems);
     world.addPlayer(humanPlayer, world.getRooms().indexOf(startingRoom));
+    initializeCommands(humanPlayer);
     out.append("Human player " + playerName + " added to the game.\n");
   }
 
   /**
    * Adds a computer-controlled player to the game.
    */
-  private void addComputerPlayer() throws IOException {
+  private void addComputerPlayerHandler() throws IOException {
     String computerPlayerName = "AI Player";
     if (world.getRooms().isEmpty()) {
       out.append("No available rooms to place the computer player.\n");
@@ -163,100 +183,11 @@ public class Controller implements ControllerInterface {
         + " added to the game, starting in " + startingRoom.getName() + ".\n");
   }
 
-  /**
-   * Handles the human player's turn by asking for input on what action to
-   * perform.
-   */
-  private void handleHumanPlayerTurn(PlayerInterface player) throws IOException {
-    boolean validAction = false;
-    while (!validAction) {
-      out.append("Choose an action: [l: look, p: pickup, m: move]\n");
-      String action = scanner.nextLine().trim().toLowerCase();
-
-      switch (action) {
-        case "l":
-          String lookResult = world.turnHumanPlayer("look", -1, null);
-          out.append(lookResult + "\n");
-          validAction = true;
-          break;
-
-        case "p":
-          List<ItemInterface> itemsInRoom = player.getCurrentRoom().getItems();
-          if (itemsInRoom.isEmpty()) {
-            out.append("No items to pick up in this room.\n");
-            validAction = true;
-            break;
-          }
-          // Display available items
-          displayItemsInRoom(player);
-          out.append("Enter the item name to pick up: ");
-          String itemName = scanner.nextLine().trim();
-
-          // Validate the item name
-          ItemInterface itemToPick = null;
-          for (ItemInterface item : itemsInRoom) {
-            if (item.getName().equalsIgnoreCase(itemName)) {
-              itemToPick = item;
-              break;
-            }
-          }
-
-          if (itemToPick != null) {
-            String pickupResult = world.turnHumanPlayer("pickup", -1, itemToPick.getName());
-            out.append(pickupResult + "\n");
-            validAction = true;
-          } else {
-            out.append("Invalid item name. Please enter a valid item from the list.\n");
-          }
-          break;
-
-        case "m":
-          displayNeighborRooms(player);
-          out.append("Enter the room index to move to: ");
-          int roomIndex = Integer.parseInt(scanner.nextLine().trim());
-          if (isNeighborRoom(player, roomIndex)) {
-            String moveResult = world.turnHumanPlayer("move", roomIndex, null);
-            out.append(moveResult + "\n");
-            validAction = true;
-          } else {
-            out.append("Invalid move. Please select a neighboring room.\n");
-          }
-          break;
-
-        default:
-          out.append("Invalid action. Please enter 'l', 'p', or 'm'.\n");
-      }
-    }
-  }
-
-  /**
-   * Displays the neighboring rooms for the human player.
-   */
-  private void displayNeighborRooms(PlayerInterface player) throws IOException {
-    List<RoomInterface> neighbors = player.getCurrentRoom().getListofNeighbors();
-    out.append("Neighboring rooms:\n");
-    for (RoomInterface neighbor : neighbors) {
-      out.append(neighbor.getRoomInd() + ": " + neighbor.getName() + "\n");
-    }
-  }
-
-  /**
-   * Displays the items in the room for the human player.
-   */
-  private void displayItemsInRoom(PlayerInterface player) throws IOException {
-    List<ItemInterface> items = player.getCurrentRoom().getItems();
-    out.append("Items in the room:\n");
-    for (ItemInterface item : items) {
-      out.append(item.getName() + " (Damage: " + item.getDamage() + ")\n");
-    }
-  }
-
-  /**
-   * Checks if the selected room index is a neighboring room for the player.
-   */
-  private boolean isNeighborRoom(PlayerInterface player, int roomIndex) {
-    RoomInterface targetRoom = world.getRooms().get(roomIndex);
-    return player.getCurrentRoom().getListofNeighbors().contains(targetRoom);
+  private void initializeCommands(PlayerInterface currentPlayer) {
+    // Define commands for each action
+    commandMap.put("l", new LookCommand(world, currentPlayer, out));
+    commandMap.put("p", new PickUpCommand(world, currentPlayer, out, scanner));
+    commandMap.put("m", new MoveCommand(world, currentPlayer, out, scanner));
   }
 
 }
