@@ -70,8 +70,18 @@ After the preliminary design submission, I made minimal changes to the design ba
    cd /Users/zhuzhu/eclipse-workspace/CS5010/DoctorLuckyGame/Milestone/res
 
 Run the JAR file using the following command:
+4 represents maximum number of turns allowed, and you can enter any maximum number of turns you like, it needs to be a positive integer (>0).
+
+     java -jar Milestone2.jar mansion.txt 4
+     
+     java -jar Milestone2.jar mansion.txt <custom max turn#>
+
+     
+Run the JAR file using the following command: 
+The maximum number of turns allowed is set to 20 is you don't enter anything
 
      java -jar Milestone2.jar mansion.txt 
+
 ### demonstrating ouput files in /res
 1. outputM2Success.txt:
 This file contains the results of a successful execution of the game "Doctor Lucky's Mansion." It showcases the following information:
