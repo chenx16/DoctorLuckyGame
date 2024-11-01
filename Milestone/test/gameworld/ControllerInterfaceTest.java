@@ -141,7 +141,7 @@ public class ControllerInterfaceTest {
     // System.out.println(out);
 
     assertEquals(log.toString(),
-        "addPlayer called\n" + "addPlayer called\n" + "getTurn called\n"
+        "addPlayer called\n" + "addPlayer called\n" + "getTurn called\n" + "getTurn called\n"
             + "Action: move, Room: 1, Item: null\n" + "moveTargetCharacter called\n"
             + "getTurn called\n");
     assertTrue(out.toString().contains("Enter the room index to move to: Mocked model response"));

@@ -14,7 +14,6 @@ import player.PlayerInterface;
  */
 public class PickUpCommand implements Command {
   private WorldInterface world;
-  private PlayerInterface player;
   private Appendable out;
   private Scanner scanner;
 
@@ -23,29 +22,26 @@ public class PickUpCommand implements Command {
    * and scanner.
    *
    * @param world   the game world in which the player is interacting.
-   * @param player  the player who is executing the pick-up command.
    * @param out     the output stream to which pick-up command results will be
    *                appended.
    * @param scanner the input source from which the player's item choice is read.
    */
-  public PickUpCommand(WorldInterface world, PlayerInterface player, Appendable out,
-      Scanner scanner) {
+  public PickUpCommand(WorldInterface world, Appendable out, Scanner scanner) {
     this.world = world;
-    this.player = player;
     this.out = out;
     this.scanner = scanner;
   }
 
   @Override
   public void execute() throws IOException {
-    List<ItemInterface> itemsInRoom = player.getCurrentRoom().getItems();
+    List<ItemInterface> itemsInRoom = this.world.getTurn().getCurrentRoom().getItems();
     if (itemsInRoom.isEmpty()) {
       out.append("No items to pick up in this room.\n");
       return;
     }
 
     // Display items in the room
-    displayItemsInRoom(player);
+    displayItemsInRoom(this.world.getTurn());
 
     boolean validItemPicked = false;
 

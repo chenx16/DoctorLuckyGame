@@ -4,7 +4,6 @@ import gameworld.WorldInterface;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
-import player.PlayerInterface;
 import room.RoomInterface;
 
 /**
@@ -14,7 +13,6 @@ import room.RoomInterface;
  */
 public class MoveCommand implements Command {
   private WorldInterface world;
-  private PlayerInterface player;
   private Appendable out;
   private Scanner scanner;
 
@@ -23,23 +21,20 @@ public class MoveCommand implements Command {
    * scanner.
    *
    * @param world   the game world in which the player is interacting.
-   * @param player  the player who is executing the move command.
    * @param out     the output stream to which move command results will be
    *                appended.
    * @param scanner the input source from which the player's room selection is
    *                read.
    */
-  public MoveCommand(WorldInterface world, PlayerInterface player, Appendable out,
-      Scanner scanner) {
+  public MoveCommand(WorldInterface world, Appendable out, Scanner scanner) {
     this.world = world;
-    this.player = player;
     this.out = out;
     this.scanner = scanner;
   }
 
   @Override
   public void execute() throws IOException {
-    List<RoomInterface> neighbors = player.getCurrentRoom().getListofNeighbors();
+    List<RoomInterface> neighbors = this.world.getTurn().getCurrentRoom().getListofNeighbors();
 
     // Display neighboring rooms
     out.append("Neighboring rooms:\n");

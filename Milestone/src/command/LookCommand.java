@@ -2,7 +2,6 @@ package command;
 
 import gameworld.WorldInterface;
 import java.io.IOException;
-import player.PlayerInterface;
 
 /**
  * A command that allows the player to look around their current room. This
@@ -11,20 +10,17 @@ import player.PlayerInterface;
  */
 public class LookCommand implements Command {
   private WorldInterface world;
-  private PlayerInterface player;
   private Appendable out;
 
   /**
    * Constructs a LookCommand with the specified world, player, and output stream.
    *
-   * @param world  the game world in which the player is interacting.
-   * @param player the player who is executing the look command.
-   * @param out    the output stream to which the look command's result will be
-   *               appended.
+   * @param world the game world in which the player is interacting.
+   * @param out   the output stream to which the look command's result will be
+   *              appended.
    */
-  public LookCommand(WorldInterface world, PlayerInterface player, Appendable out) {
+  public LookCommand(WorldInterface world, Appendable out) {
     this.world = world;
-    this.player = player;
     this.out = out;
   }
 

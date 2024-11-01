@@ -148,7 +148,7 @@ public class Controller implements ControllerInterface {
     int maxItems = world.getItems().size(); // Set max items to number of items in the world
     PlayerInterface humanPlayer = new HumanPlayer(playerName, startingRoom, maxItems);
     world.addPlayer(humanPlayer, world.getRooms().indexOf(startingRoom));
-    initializeCommands(world, humanPlayer);
+    initializeCommands(world);
     out.append("Human player " + playerName + " added to the game.\n");
   }
 
@@ -173,11 +173,11 @@ public class Controller implements ControllerInterface {
         + " added to the game, starting in " + startingRoom.getName() + ".\n");
   }
 
-  private void initializeCommands(WorldInterface world, PlayerInterface currentPlayer) {
+  private void initializeCommands(WorldInterface world) {
     // Define commands for each action
-    commandMap.put("l", new LookCommand(world, currentPlayer, out));
-    commandMap.put("p", new PickUpCommand(world, currentPlayer, out, scanner));
-    commandMap.put("m", new MoveCommand(world, currentPlayer, out, scanner));
+    commandMap.put("l", new LookCommand(world, out));
+    commandMap.put("p", new PickUpCommand(world, out, scanner));
+    commandMap.put("m", new MoveCommand(world, out, scanner));
   }
 
 }

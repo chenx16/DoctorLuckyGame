@@ -48,7 +48,7 @@ public class CommandTest {
     mockWorld = new MockWorld(log, "You are in a peaceful room with no items.");
     PlayerInterface mockPlayer = new HumanPlayer("Human", mockWorld.getRooms().get(0), 2);
     mockWorld.addPlayer(mockPlayer, 0);
-    LookCommand lookCommand = new LookCommand(mockWorld, mockPlayer, out);
+    LookCommand lookCommand = new LookCommand(mockWorld, out);
     lookCommand.execute();
     // System.out.println(log);
     // System.out.println(out);
@@ -69,7 +69,7 @@ public class CommandTest {
     mockWorld = new MockWorld(log, "Moved to room 0.");
     PlayerInterface mockPlayer = new HumanPlayer("Human", mockWorld.getRooms().get(0), 2);
     mockWorld.addPlayer(mockPlayer, 0);
-    MoveCommand moveCommand = new MoveCommand(mockWorld, mockPlayer, out, new Scanner(in));
+    MoveCommand moveCommand = new MoveCommand(mockWorld, out, new Scanner(in));
     moveCommand.execute();
     // System.out.println(log);
     // System.out.println(out);
@@ -92,7 +92,7 @@ public class CommandTest {
     mockWorld = new MockWorld(log, "Revolver picked up successfully.");
     PlayerInterface mockPlayer = new HumanPlayer("Human", mockWorld.getRooms().get(0), 2);
     mockWorld.addPlayer(mockPlayer, 0);
-    PickUpCommand pickUpCommand = new PickUpCommand(mockWorld, mockPlayer, out, new Scanner(in));
+    PickUpCommand pickUpCommand = new PickUpCommand(mockWorld, out, new Scanner(in));
     pickUpCommand.execute();
     // System.out.println(log);
     // System.out.println(out);
@@ -112,13 +112,13 @@ public class CommandTest {
     mockWorld = new MockWorld(log, "Item not found in the room.");
     PlayerInterface mockPlayer = new HumanPlayer("Human", mockWorld.getRooms().get(0), 2);
     mockWorld.addPlayer(mockPlayer, 0);
-    PickUpCommand pickUpCommand = new PickUpCommand(mockWorld, mockPlayer, out, new Scanner(in));
+    PickUpCommand pickUpCommand = new PickUpCommand(mockWorld, out, new Scanner(in));
     pickUpCommand.execute();
     // System.out.println(log);
     // System.out.println(out);
     // Verify the output and log for unavailable item
-    assertEquals("addPlayer called\n" + "Action: pickup, Room: -1, Item: Revolver\n",
-        log.toString());
+    assertEquals("addPlayer called\n" + "getTurn called\n" + "getTurn called\n"
+        + "Action: pickup, Room: -1, Item: Revolver\n", log.toString());
     assertTrue(out.toString()
         .contains("Invalid item name. Please enter full name of a valid item from the list."));
     assertTrue(out.toString().contains("Item not found in the room.\n"));
