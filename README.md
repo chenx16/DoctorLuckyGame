@@ -84,6 +84,15 @@ The maximum number of turns allowed is set to 20 is you don't enter anything
 
      java -jar Milestone2.jar mansion.txt 
 
+If you want to describe your world in a string instead of a file, you can also do so with the command without having to create files
+Here is an example:
+
+     java -jar Milestone2.jar "36 30 Doctor Lucky's Mansion\n 50 Doctor Lucky\n 2\n 0 0 2 2 Armory\n 3 0 5 2 Billiard Room\n 2\n 0 5 Revolver\n 1 3 Billiard Cue\n" 2
+
+This is the format of string:  
+     
+     java -jar Milestone2.jar <world description> <max turn#>
+     
 ### demonstrating ouput files in /res
 1. outputM2Success.txt:
 This file contains the results of a successful execution of the game "Doctor Lucky's Mansion." It showcases the following information:
