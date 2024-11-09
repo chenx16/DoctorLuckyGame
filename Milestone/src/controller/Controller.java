@@ -3,6 +3,7 @@ package controller;
 import command.Command;
 import command.LookCommand;
 import command.MoveCommand;
+import command.MovePetCommand;
 import command.PickUpCommand;
 import gameworld.WorldInterface;
 import java.io.IOException;
@@ -59,18 +60,20 @@ public class Controller implements ControllerInterface {
     // addComputerPlayerHandler(world);
     // Game loop
     int turnCount = 0;
+    world.wanderPet();
     while (turnCount < maxTurns) {
       PlayerInterface currentPlayer = world.getTurn();
       out.append("\n" + "Turn number: " + (turnCount + 1) + "/" + maxTurns + "\n");
       out.append("It's " + currentPlayer.getName() + "'s turn.\n");
       out.append(currentPlayer.getDescription() + "\n");
 
+      out.append("Pet is in: " + world.getPet().getCurrentRoom().getName() + "\n");
       if (!currentPlayer.getIsComputerControlled()) {
 
         boolean validTurn = false; // Track if the player took a valid turn
 
         while (!validTurn) {
-          out.append("Choose an action: [l: look, p: pickup, m: move, q: quit]\n");
+          out.append("Choose an action: [l: look, p: pickup, m: move, mp: move pet, q: quit]\n");
           String action = scanner.nextLine().trim().toLowerCase();
 
           if ("q".equalsIgnoreCase(action)) {
@@ -83,7 +86,7 @@ public class Controller implements ControllerInterface {
             command.execute();
             validTurn = true; // Mark the turn as valid once a correct command executes
           } else {
-            out.append("Invalid action. Please enter 'l', 'p', or 'm'.\n");
+            out.append("Invalid action. Please enter 'l', 'p', 'm', or 'mp'.\n");
           }
         }
 
@@ -93,6 +96,7 @@ public class Controller implements ControllerInterface {
       }
 
       world.moveTargetCharacter(); // Automatically move the target character
+      world.wanderPet();
       turnCount++;
 
     }
@@ -178,6 +182,7 @@ public class Controller implements ControllerInterface {
     commandMap.put("l", new LookCommand(world, out));
     commandMap.put("p", new PickUpCommand(world, out, scanner));
     commandMap.put("m", new MoveCommand(world, out, scanner));
+    commandMap.put("mp", new MovePetCommand(world, out, scanner));
   }
 
 }

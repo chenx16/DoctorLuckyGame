@@ -320,6 +320,15 @@ public class World implements WorldInterface {
           return "Invalid room index.";
         }
 
+      case "movepet":
+        if (roomInd >= 0 && roomInd < rooms.size()) {
+          RoomInterface nextRoom = rooms.get(roomInd);
+          this.movePetTo(nextRoom);
+          return pet.getName() + " has moved to " + nextRoom.getName();
+        } else {
+          return "Invalid room index.";
+        }
+
       default:
         return "Invalid action. Use 'look', 'pickup', or 'move'.";
     }
@@ -339,7 +348,6 @@ public class World implements WorldInterface {
     if (pet.getCurrentRoom() == null) {
       return;
     }
-    RoomInterface currentRoom = pet.getCurrentRoom();
 
     // If all rooms have been visited, reset the traversal
     if (visitedRooms.size() == rooms.size()) {

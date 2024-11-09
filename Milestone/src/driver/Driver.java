@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.Random;
+import pet.PetInterface;
 import room.RoomInterface;
 import target.TargetInterface;
 
@@ -104,7 +105,11 @@ public class Driver {
 
       // Display target character information
       TargetInterface target = world.getTargetCharacter();
-      output.append(target.toString()).append("\n");
+      output.append(target.toString());
+
+      // Display pet information
+      PetInterface pet = world.getPet();
+      output.append(pet.toString()).append("\n");
 
       // Show space information, including items
       output.append("\nSpace information for each room:\n");
