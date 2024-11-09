@@ -14,9 +14,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.Stack;
 import javax.imageio.ImageIO;
+import pet.Pet;
+import pet.PetInterface;
 import player.ComputerPlayer;
 import player.PlayerInterface;
 import room.Room;
@@ -36,11 +41,14 @@ public class World implements WorldInterface {
   private List<ItemInterface> items;
   private List<PlayerInterface> players;
   private TargetInterface targetCharacter;
+  private PetInterface pet;
   private int rows;
   private int cols;
   private int currentTurnIndex;
   private String worldName;
   private final int pixel;
+  private Stack<RoomInterface> dfsStack;
+  private Set<RoomInterface> visitedRooms;
 
   /**
    * Constructs an empty world.
@@ -49,8 +57,14 @@ public class World implements WorldInterface {
     this.players = new ArrayList<PlayerInterface>();
     this.rooms = new ArrayList<RoomInterface>();
     this.items = new ArrayList<ItemInterface>();
+    this.dfsStack = new Stack<>();
+    this.visitedRooms = new HashSet<>();
     this.pixel = 50;
     this.currentTurnIndex = 0;
+    // Initialize DFS with the pet's starting room
+    if (pet != null && pet.getCurrentRoom() != null) {
+      this.dfsStack.push(pet.getCurrentRoom());
+    }
   }
 
   @Override
@@ -89,15 +103,20 @@ public class World implements WorldInterface {
       targetName = targetInfo[1].trim(); // Trim the target name
 
       // System.out.println("Target: " + targetName + ", Health: " + health);
-
+      String petName;
+      String thridLine = reader.readLine();
+      if (thridLine == null) {
+        throw new IOException("Invalid file format: missing pet details");
+      }
+      petName = thridLine;
       // Parse the number of rooms
-      String thirdLine = reader.readLine().trim(); // Trim the third line
+      String fourthLine = reader.readLine().trim(); // Trim the third line
       // System.out.println("Third line (Room count): " + thirdLine);
-      if (thirdLine == null) {
+      if (fourthLine == null) {
         throw new IOException("Expected room count but found null.");
       }
 
-      int roomCount = Integer.parseInt(thirdLine.trim());
+      int roomCount = Integer.parseInt(fourthLine.trim());
       // System.out.println("Room Count: " + roomCount);
 
       for (int roomInd = 0; roomInd < roomCount; roomInd++) {
@@ -133,9 +152,18 @@ public class World implements WorldInterface {
         items.add(item);
       }
 
+      RoomInterface startingRoom = this.getRooms().get(0);
       // Set the target character in the first room
-      this.targetCharacter = new Target(this.getRooms().get(0), health, targetName);
+      this.targetCharacter = new Target(startingRoom, health, targetName);
 
+      // Set the pet in the random room
+      // Random random = new Random();
+      // RoomInterface startingRoom =
+      // this.getRooms().get(random.nextInt(rooms.size()));
+      this.pet = new Pet(petName, startingRoom);
+
+      // Initialize DFS with the pet's starting room
+      this.dfsStack.push(startingRoom);
     } catch (NumberFormatException e) {
       throw new IOException("Failed to load the world: Invalid number format", e);
     } finally {
@@ -307,13 +335,56 @@ public class World implements WorldInterface {
   }
 
   @Override
+  public void wanderPet() {
+    if (pet.getCurrentRoom() == null) {
+      return;
+    }
+    RoomInterface currentRoom = pet.getCurrentRoom();
+
+    // If all rooms have been visited, reset the traversal
+    if (visitedRooms.size() == rooms.size()) {
+      visitedRooms.clear();
+      dfsStack.clear();
+      dfsStack.push(pet.getCurrentRoom());
+    }
+    // Perform DFS to determine the next room
+    while (!dfsStack.isEmpty()) {
+      RoomInterface nextRoom = dfsStack.pop();
+      if (!visitedRooms.contains(nextRoom)) {
+        visitedRooms.add(nextRoom);
+        List<RoomInterface> neighbors = nextRoom.getListofNeighbors();
+        for (RoomInterface neighbor : neighbors) {
+          if (!visitedRooms.contains(neighbor)) {
+            dfsStack.push(neighbor);
+          }
+        }
+        // Move the pet to the next room in the DFS traversal path
+        pet.moveTo(rooms.get(nextRoom.getRoomInd()));
+        return;
+      }
+    }
+  }
+
+  @Override
+  public void movePetTo(RoomInterface newRoom) {
+    if (newRoom == null || !rooms.contains(newRoom)) {
+      throw new IllegalArgumentException("Invalid room specified for moving the pet.");
+    }
+    pet.moveTo(newRoom);
+    // Reset DFS traversal starting from the new room
+    visitedRooms.clear();
+    dfsStack.clear();
+    dfsStack.push(rooms.get(newRoom.getRoomInd()));
+  }
+
+  @Override
   public BufferedImage generateWorldMap(String fileDir) throws IOException {
     // Ensure the rows and cols are initialized properly
     if (rows <= 0 || cols <= 0) {
       throw new IllegalArgumentException("Invalid world dimensions: " + rows + "x" + cols);
     }
-    int width = cols * (pixel + 1);
-    int height = rows * (pixel + 1);
+    int width = cols * (pixel + 2);
+    int height = rows * (pixel + 2);
 
     // Ensure valid width and height for BufferedImage
     if (width <= 0 || height <= 0) {
@@ -396,6 +467,11 @@ public class World implements WorldInterface {
   }
 
   @Override
+  public PetInterface getPet() {
+    return new Pet(this.pet.getName(), this.pet.getCurrentRoom());
+  }
+
+  @Override
   public List<RoomInterface> getRooms() {
     return new ArrayList<>(rooms);
   }
@@ -403,6 +479,11 @@ public class World implements WorldInterface {
   @Override
   public List<ItemInterface> getItems() {
     return new ArrayList<>(items);
+  }
+
+  @Override
+  public Set<RoomInterface> getPetVisitedRooms() {
+    return new HashSet<>(visitedRooms);
   }
 
   /**

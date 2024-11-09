@@ -50,11 +50,6 @@ public class Room implements RoomInterface {
 
   @Override
   public void removeItem(ItemInterface item) {
-    // for (int i = 0; i < items.size(); i++) {
-    // if (items.get(i).equals(item)) {
-    // items.remove(i);
-    // }
-    // }
     items.remove(item);
   }
 

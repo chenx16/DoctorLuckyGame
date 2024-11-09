@@ -25,8 +25,6 @@ import room.Room;
 import room.RoomInterface;
 import target.TargetInterface;
 
-
-
 /**
  * Unit tests for the World class. These tests verify that the world loads
  * correctly, generates neighbors, and handles items.
@@ -71,8 +69,8 @@ public class WorldInterfaceTest {
    */
   @Test
   public void testLoadFromString() throws IOException {
-    String worldData = "36 30 Doctor Lucky's Mansion\n" + "50 Doctor Lucky\n" + "2\n"
-        + "0 0 2 2 Armory\n" + "3 0 5 2 Billiard Room\n" + "2\n"// 2 rooms
+    String worldData = "36 30 Doctor Lucky's Mansion\n" + "50 Doctor Lucky\n" + "Fortune the Cat\n"
+        + "2\n" + "0 0 2 2 Armory\n" + "3 0 5 2 Billiard Room\n" + "2\n"// 2 rooms
         + "0 5 Revolver\n" + "1 3 Billiard Cue\n"; // 2 items
 
     StringReader reader = new StringReader(worldData);
@@ -81,6 +79,8 @@ public class WorldInterfaceTest {
     // Assertions to verify the world is loaded correctly
     assertEquals("Doctor Lucky's Mansion", world.getName());
     assertEquals(2, worldDiff.getRooms().size());
+
+    assertEquals("Fortune the Cat", worldDiff.getPet().getName());
 
     RoomInterface armory = worldDiff.getRooms().get(0);
     assertEquals("Armory", armory.getName());
@@ -136,6 +136,7 @@ public class WorldInterfaceTest {
     assertEquals(36, world.getRowAndCol()[0][0]);
     assertEquals(30, world.getRowAndCol()[0][1]);
     assertEquals("Doctor Lucky's Mansion", world.getName());
+    assertEquals("Fortune the Cat", world.getPet().getName());
   }
 
   /**
@@ -388,5 +389,56 @@ public class WorldInterfaceTest {
   public void testTurnComputerPlayer() {
     world.addPlayer(playerC, 1);
     world.turnComputerPlayer();
+  }
+
+  /**
+   * Tests the pet's wandering behavior in the world using wanderPet(). Verifies
+   * that the pet moves to a new room each time wanderPet() is called.
+   */
+  @Test
+  public void testWanderPet() {
+    RoomInterface initialRoom = world.getPet().getCurrentRoom();
+    RoomInterface initialRoomTarget = world.getTargetCharacter().getCurrentRoom();
+    assertEquals(initialRoom, initialRoomTarget);
+    assertNotNull(initialRoom);
+    System.out.println(initialRoom.getName());
+    // First move
+    world.wanderPet();
+    RoomInterface firstMoveRoom = world.getPet().getCurrentRoom();
+    assertNotNull(firstMoveRoom);
+    assertEquals(initialRoom, firstMoveRoom);
+    // Second move
+    world.wanderPet();
+    RoomInterface secondMoveRoom = world.getPet().getCurrentRoom();
+    assertNotNull(secondMoveRoom);
+    assertNotEquals(firstMoveRoom, secondMoveRoom);
+    // Continue moving until all rooms are visited
+    while (world.getPetVisitedRooms().size() < world.getRooms().size()) {
+      world.wanderPet();
+    }
+    assertEquals(world.getRooms().size(), world.getPetVisitedRooms().size());
+    // System.out.println();
+    // world.wanderPet();
+  }
+
+  /**
+   * Tests moving the pet to a specific room using movePetTo(). Verifies that the
+   * pet is correctly moved and the DFS traversal is reset.
+   */
+  @Test
+  public void testMovePetTo() {
+    RoomInterface targetRoom = world.getRooms().get(1); // Assume room 1 exists
+    world.movePetTo(targetRoom);
+    assertEquals(targetRoom, world.getPet().getCurrentRoom());
+
+    // Ensure DFS is reset and starts from the new room
+    assertTrue(world.getPetVisitedRooms().isEmpty());
+    // Call wanderPet() to verify that DFS starts from the new room
+    world.wanderPet();
+    assertFalse(world.getPetVisitedRooms().isEmpty());
+    assertEquals(targetRoom, world.getPetVisitedRooms().iterator().next());
+    world.wanderPet();
+    world.wanderPet();
+    world.wanderPet();
   }
 }

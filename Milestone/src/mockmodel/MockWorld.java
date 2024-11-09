@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import pet.PetInterface;
 import player.PlayerInterface;
 import room.Room;
 import room.RoomInterface;
@@ -140,5 +142,27 @@ public class MockWorld implements WorldInterface {
   public TargetInterface getTargetCharacter() {
     log.append("getTargetCharacter called\n");
     return null;
+  }
+
+  @Override
+  public PetInterface getPet() {
+    log.append("getPet called\n");
+    return null;
+  }
+
+  @Override
+  public void wanderPet() {
+    log.append("wanderPet called\n");
+  }
+
+  @Override
+  public Set<RoomInterface> getPetVisitedRooms() {
+    log.append("getPetVisitedRooms called\n");
+    return null;
+  }
+
+  @Override
+  public void movePetTo(RoomInterface newRoom) {
+    log.append("movePetTo called\n");
   }
 }

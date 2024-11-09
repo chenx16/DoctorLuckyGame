@@ -5,10 +5,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+import pet.PetInterface;
 import player.PlayerInterface;
 import room.RoomInterface;
 import target.TargetInterface;
-
 
 /**
  * Represents the game world consisting of rooms, items, and a target character.
@@ -89,6 +90,13 @@ public interface WorldInterface {
   TargetInterface getTargetCharacter();
 
   /**
+   * Returns the pet in the world.
+   * 
+   * @return the pet
+   */
+  PetInterface getPet();
+
+  /**
    * Returns the list of rooms in the world.
    * 
    * @return the list of rooms
@@ -146,4 +154,25 @@ public interface WorldInterface {
    */
   String turnComputerPlayer();
 
+  /**
+   * Makes the pet wander through the rooms of the world using a depth-first
+   * traversal. The pet moves with each turn, following a DFS path through the
+   * rooms.
+   */
+  void wanderPet();
+
+  /**
+   * Returns the set of rooms that have been visited by the pet.
+   *
+   * @return a set of visited rooms
+   */
+  Set<RoomInterface> getPetVisitedRooms();
+
+  /**
+   * Moves the pet to a specified room, resetting the DFS traversal to start from
+   * the new room.
+   *
+   * @param newRoom the room to move the pet to
+   */
+  void movePetTo(RoomInterface newRoom);
 }
