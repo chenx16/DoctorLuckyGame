@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import pet.Pet;
 import pet.PetInterface;
 import player.PlayerInterface;
 import room.Room;
@@ -27,6 +28,7 @@ public class MockWorld implements WorldInterface {
   private List<RoomInterface> rooms;
   private List<ItemInterface> items;
   private List<PlayerInterface> players;
+  private PetInterface pet;
   private StringBuilder log;
   private String response;
 
@@ -56,6 +58,7 @@ public class MockWorld implements WorldInterface {
     rooms.add(newRoom);
     rooms.add(neighborRoom);
     items.add(item);
+    pet = new Pet("Fortune the Cat", newRoom);
   }
 
   @Override
@@ -147,7 +150,7 @@ public class MockWorld implements WorldInterface {
   @Override
   public PetInterface getPet() {
     log.append("getPet called\n");
-    return null;
+    return this.pet;
   }
 
   @Override
@@ -162,7 +165,7 @@ public class MockWorld implements WorldInterface {
   }
 
   @Override
-  public void movePetTo(RoomInterface newRoom) {
+  public void movePetTo(int roomInd) {
     log.append("movePetTo called\n");
   }
 }

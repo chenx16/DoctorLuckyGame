@@ -323,7 +323,7 @@ public class World implements WorldInterface {
       case "movepet":
         if (roomInd >= 0 && roomInd < rooms.size()) {
           RoomInterface nextRoom = rooms.get(roomInd);
-          this.movePetTo(nextRoom);
+          this.movePetTo(roomInd);
           return pet.getName() + " has moved to " + nextRoom.getName();
         } else {
           return "Invalid room index.";
@@ -374,15 +374,16 @@ public class World implements WorldInterface {
   }
 
   @Override
-  public void movePetTo(RoomInterface newRoom) {
-    if (newRoom == null || !rooms.contains(newRoom)) {
+  public void movePetTo(int roomInd) {
+    if (roomInd < 0 || roomInd >= rooms.size()) {
       throw new IllegalArgumentException("Invalid room specified for moving the pet.");
     }
+    RoomInterface newRoom = rooms.get(roomInd);
     pet.moveTo(newRoom);
     // Reset DFS traversal starting from the new room
     visitedRooms.clear();
     dfsStack.clear();
-    dfsStack.push(rooms.get(newRoom.getRoomInd()));
+    dfsStack.push(newRoom);
   }
 
   @Override

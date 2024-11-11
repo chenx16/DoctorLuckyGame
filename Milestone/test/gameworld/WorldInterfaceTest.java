@@ -428,7 +428,7 @@ public class WorldInterfaceTest {
   @Test
   public void testMovePetTo() {
     RoomInterface targetRoom = world.getRooms().get(1); // Assume room 1 exists
-    world.movePetTo(targetRoom);
+    world.movePetTo(1);
     assertEquals(targetRoom, world.getPet().getCurrentRoom());
 
     // Ensure DFS is reset and starts from the new room

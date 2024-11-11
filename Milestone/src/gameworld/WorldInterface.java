@@ -169,10 +169,10 @@ public interface WorldInterface {
   Set<RoomInterface> getPetVisitedRooms();
 
   /**
-   * Moves the pet to a specified room, resetting the DFS traversal to start from
-   * the new room.
+   * Moves the pet to a specified room by room index, resetting the DFS traversal
+   * to start from the new room.
    *
-   * @param newRoom the room to move the pet to
+   * @param roomInd the room index to move the pet to
    */
-  void movePetTo(RoomInterface newRoom);
+  void movePetTo(int roomInd);
 }

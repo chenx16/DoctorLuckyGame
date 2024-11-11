@@ -47,7 +47,8 @@ public class ControllerInterfaceTest {
     // System.out.println(log);
     // System.out.println(out);
 
-    assertEquals(log.toString(), "addPlayer called\n" + "addPlayer called\n" + "getTurn called\n");
+    assertEquals(log.toString(), "addPlayer called\n" + "addPlayer called\n" + "wanderPet called\n"
+        + "getTurn called\n" + "getPet called\n");
     assertTrue(out.toString().contains("Human player Human Player added to the game."));
     assertTrue(out.toString().contains("Turn number: 1/10"));
   }
@@ -61,9 +62,10 @@ public class ControllerInterfaceTest {
     // System.out.println(out);
 
     assertEquals(log.toString(),
-        "addPlayer called\n" + "addPlayer called\n" + "getTurn called\n"
-            + "Action: look, Room: -1, Item: null\n" + "moveTargetCharacter called\n"
-            + "getTurn called\n");
+        "addPlayer called\n" + "addPlayer called\n" + "wanderPet called\n" + "getTurn called\n"
+            + "getPet called\n" + "Action: look, Room: -1, Item: null\n"
+            + "moveTargetCharacter called\n" + "wanderPet called\n" + "getTurn called\n"
+            + "getPet called\n");
     assertTrue(out.toString().contains("Mocked model response\n"));
 
   }
@@ -77,7 +79,8 @@ public class ControllerInterfaceTest {
     // System.out.println(log);
     // System.out.println(out);
 
-    assertEquals(log.toString(), "addPlayer called\n" + "addPlayer called\n" + "getTurn called\n");
+    assertEquals(log.toString(), "addPlayer called\n" + "addPlayer called\n" + "wanderPet called\n"
+        + "getTurn called\n" + "getPet called\n");
     assertTrue(out.toString().contains("Human player Human Player added to the game."));
   }
 
@@ -111,7 +114,7 @@ public class ControllerInterfaceTest {
     assertTrue(output.contains("Computer-controlled player AI Player added to the game"));
 
     // Verify log or output based on the expected order
-    String expectedLog = "addPlayer called\n" + "addPlayer called\n" + "getTurn called\n";
+    String expectedLog = "addPlayer called\n" + "addPlayer called\n" + "wanderPet called\n";
     assertEquals(expectedLog, log.toString().substring(0, expectedLog.length()));
   }
 
@@ -125,9 +128,10 @@ public class ControllerInterfaceTest {
     // System.out.println(out);
 
     assertEquals(log.toString(),
-        "addPlayer called\n" + "addPlayer called\n" + "getTurn called\n"
-            + "Action: look, Room: -1, Item: null\n" + "moveTargetCharacter called\n"
-            + "getTurn called\n");
+        "addPlayer called\n" + "addPlayer called\n" + "wanderPet called\n" + "getTurn called\n"
+            + "getPet called\n" + "Action: look, Room: -1, Item: null\n"
+            + "moveTargetCharacter called\n" + "wanderPet called\n" + "getTurn called\n"
+            + "getPet called\n");
     assertTrue(out.toString().contains("Mocked model response"));
   }
 
@@ -141,9 +145,10 @@ public class ControllerInterfaceTest {
     // System.out.println(out);
 
     assertEquals(log.toString(),
-        "addPlayer called\n" + "addPlayer called\n" + "getTurn called\n" + "getTurn called\n"
-            + "Action: move, Room: 1, Item: null\n" + "moveTargetCharacter called\n"
-            + "getTurn called\n");
+        "addPlayer called\n" + "addPlayer called\n" + "wanderPet called\n" + "getTurn called\n"
+            + "getPet called\n" + "getTurn called\n" + "Action: move, Room: 1, Item: null\n"
+            + "moveTargetCharacter called\n" + "wanderPet called\n" + "getTurn called\n"
+            + "getPet called\n");
     assertTrue(out.toString().contains("Enter the room index to move to: Mocked model response"));
   }
 
@@ -181,7 +186,7 @@ public class ControllerInterfaceTest {
     // System.out.println(out);
 
     assertTrue(out.toString().contains("Exiting the game."));
-    assertTrue(out.toString().contains("Invalid action. Please enter 'l', 'p', or 'm'."));
+    assertTrue(out.toString().contains("Invalid action. Please enter 'l', 'p', 'm', or 'mp'."));
   }
 
   @Test
@@ -195,6 +200,19 @@ public class ControllerInterfaceTest {
     assertTrue(out.toString().contains("Exiting the game."));
     assertTrue(out.toString().contains("It's Human Player's turn.\n" + "Player Name: Human Player\n"
         + "Current Room: New Room\n" + "Inventory: No items"));
+  }
+
+  // Test moving the pet to a new room using the MovePetCommand
+  @Test
+  public void testMovePetCommand() throws IOException {
+    StringReader in = new StringReader("Human Player\n0\nmp\n1\nq\n");
+    controller = new Controller(in, out);
+    controller.start(mockWorld, 5, new Random(1));
+    // System.out.println(log);
+    // System.out.println(out);
+    assertTrue(log.toString().contains("wanderPet called\n"));
+    assertTrue(out.toString().contains("Select a room to move the pet to:\n" + "0: New Room\n"
+        + "1: Neighbor\n" + "Enter the room number: Mocked model response"));
   }
 
 }

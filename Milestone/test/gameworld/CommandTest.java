@@ -3,8 +3,10 @@ package gameworld;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import command.Command;
 import command.LookCommand;
 import command.MoveCommand;
+import command.MovePetCommand;
 import command.PickUpCommand;
 import java.io.IOException;
 import java.io.StringReader;
@@ -48,7 +50,7 @@ public class CommandTest {
     mockWorld = new MockWorld(log, "You are in a peaceful room with no items.");
     PlayerInterface mockPlayer = new HumanPlayer("Human", mockWorld.getRooms().get(0), 2);
     mockWorld.addPlayer(mockPlayer, 0);
-    LookCommand lookCommand = new LookCommand(mockWorld, out);
+    Command lookCommand = new LookCommand(mockWorld, out);
     lookCommand.execute();
     // System.out.println(log);
     // System.out.println(out);
@@ -69,7 +71,7 @@ public class CommandTest {
     mockWorld = new MockWorld(log, "Moved to room 0.");
     PlayerInterface mockPlayer = new HumanPlayer("Human", mockWorld.getRooms().get(0), 2);
     mockWorld.addPlayer(mockPlayer, 0);
-    MoveCommand moveCommand = new MoveCommand(mockWorld, out, new Scanner(in));
+    Command moveCommand = new MoveCommand(mockWorld, out, new Scanner(in));
     moveCommand.execute();
     // System.out.println(log);
     // System.out.println(out);
@@ -92,7 +94,7 @@ public class CommandTest {
     mockWorld = new MockWorld(log, "Revolver picked up successfully.");
     PlayerInterface mockPlayer = new HumanPlayer("Human", mockWorld.getRooms().get(0), 2);
     mockWorld.addPlayer(mockPlayer, 0);
-    PickUpCommand pickUpCommand = new PickUpCommand(mockWorld, out, new Scanner(in));
+    Command pickUpCommand = new PickUpCommand(mockWorld, out, new Scanner(in));
     pickUpCommand.execute();
     // System.out.println(log);
     // System.out.println(out);
@@ -112,7 +114,7 @@ public class CommandTest {
     mockWorld = new MockWorld(log, "Item not found in the room.");
     PlayerInterface mockPlayer = new HumanPlayer("Human", mockWorld.getRooms().get(0), 2);
     mockWorld.addPlayer(mockPlayer, 0);
-    PickUpCommand pickUpCommand = new PickUpCommand(mockWorld, out, new Scanner(in));
+    Command pickUpCommand = new PickUpCommand(mockWorld, out, new Scanner(in));
     pickUpCommand.execute();
     // System.out.println(log);
     // System.out.println(out);
@@ -122,5 +124,26 @@ public class CommandTest {
     assertTrue(out.toString()
         .contains("Invalid item name. Please enter full name of a valid item from the list."));
     assertTrue(out.toString().contains("Item not found in the room.\n"));
+  }
+
+  /**
+   * Test MovePetCommand to ensure it prompts for a room and moves the pet
+   * correctly.
+   */
+  @Test
+  public void testExecuteMovePetCommand() throws IOException {
+    StringReader in = new StringReader("1\n");
+    mockWorld = new MockWorld(log, "Pet moved to room 1.");
+    Command movePetCommand = new MovePetCommand(mockWorld, out, new Scanner(in));
+    movePetCommand.execute();
+    // System.out.println(log);
+    // System.out.println(out);
+    // Check that the correct move action was called in the world
+    assertTrue(log.toString().contains("Action: movepet, Room: 1, Item: null"));
+
+    // Verify the expected output
+    String expectedOutput = "Select a room to move the pet to:\n" + "0: New Room\n"
+        + "1: Neighbor\n" + "Enter the room number: Pet moved to room 1.\n";
+    assertEquals(expectedOutput, out.toString());
   }
 }
