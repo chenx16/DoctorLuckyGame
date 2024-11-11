@@ -168,4 +168,10 @@ public class MockWorld implements WorldInterface {
   public void movePetTo(int roomInd) {
     log.append("movePetTo called\n");
   }
+
+  @Override
+  public String getTargetLocationHint() {
+    log.append("getTargetLocationHint called\n");
+    return null;
+  }
 }

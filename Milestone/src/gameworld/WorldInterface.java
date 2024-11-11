@@ -175,4 +175,12 @@ public interface WorldInterface {
    * @param roomInd the room index to move the pet to
    */
   void movePetTo(int roomInd);
+
+  /**
+   * Provide players with a hint about the target’s last known room when they use
+   * a command like “hint” or periodically during game play.
+   *
+   * @return The room that target character last visited.
+   */
+  String getTargetLocationHint();
 }

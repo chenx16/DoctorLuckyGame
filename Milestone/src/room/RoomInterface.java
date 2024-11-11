@@ -5,7 +5,6 @@ import item.ItemInterface;
 import java.util.List;
 import player.PlayerInterface;
 
-
 /**
  * Represents a room in the game world. A room has coordinates, a name, items,
  * and can have neighboring rooms.
@@ -101,4 +100,38 @@ public interface RoomInterface {
    * @return the description of the whole room
    */
   String getRoomDescription();
+
+  /**
+   * Returns the description of the whole room.
+   *
+   * @return the description of the whole room and information about it's visible
+   *         neighbors
+   */
+  String getRoomDescriptionVisible();
+
+  /**
+   * Returns a list of visible neighboring rooms. If this room is sealed, it will
+   * not include itself as visible. Neighbors that are sealed are also excluded.
+   *
+   * @return a list of visible neighboring rooms
+   */
+  List<RoomInterface> getVisibleNeighbors();
+
+  /**
+   * Seal the room.
+   * 
+   */
+  void setSealed();
+
+  /**
+   * Unseals the room, allowing it to be seen by other rooms' neighboring checks.
+   */
+  void unseal();
+
+  /**
+   * Checks if the room is sealed.
+   * 
+   * @return true if the room is sealed, false otherwise.
+   */
+  boolean isSealed();
 }

@@ -8,7 +8,8 @@ import room.RoomInterface;
  */
 public interface TargetInterface {
   /**
-   * Moves the target character to the specified room.
+   * Moves the target character to the specified room, also update lastRoomVisited
+   * to the target’s previous room before setting the new current room.
    * 
    * @param room the room to move the target to
    */
@@ -20,6 +21,13 @@ public interface TargetInterface {
    * @return the current room
    */
   RoomInterface getCurrentRoom();
+
+  /**
+   * Returns the room the target character last visited.
+   * 
+   * @return the room the target character last visited
+   */
+  RoomInterface getLastRoomVisited();
 
   /**
    * Returns the name of the target character.

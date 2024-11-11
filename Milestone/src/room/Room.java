@@ -21,6 +21,7 @@ public class Room implements RoomInterface {
   private List<RoomInterface> neighbors;
   private List<PlayerInterface> players;
   private int roomInd;
+  private boolean sealed;
 
   /**
    * Creates a new room with specified coordinates and name.
@@ -41,6 +42,7 @@ public class Room implements RoomInterface {
     this.items = new ArrayList<ItemInterface>();
     this.neighbors = new ArrayList<RoomInterface>();
     this.players = new ArrayList<>();
+    this.sealed = false;
   }
 
   @Override
@@ -103,39 +105,6 @@ public class Room implements RoomInterface {
     return lowerRight.copy();
   }
 
-  /**
-   * Generates a hash code for this room. The hash code is based on the room's
-   * coordinates and name.
-   *
-   * @return the hash code for the room
-   */
-  @Override
-  public int hashCode() {
-    return Objects.hash(upperLeft, lowerRight, name, roomInd);
-  }
-
-  /**
-   * Checks if this room is equal to another room. Two rooms are considered equal
-   * if they have the same coordinates and the same name.
-   *
-   * @param obj the object to compare with
-   * @return true if the rooms are having same hashCode, false otherwise
-   */
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == null) {
-      return false;
-    }
-    if (this == obj) {
-      return true;
-    }
-    if (!(obj instanceof Room)) {
-      return false;
-    }
-    Room other = (Room) obj;
-    return this.hashCode() == other.hashCode();
-  }
-
   @Override
   public String getRoomDescription() {
     // Collect room information
@@ -173,14 +142,130 @@ public class Room implements RoomInterface {
       }
       description.append("\n");
     }
+    return description.toString();
+  }
+
+  @Override
+  public String getRoomDescriptionVisible() {
+    // Collect room information
+    StringBuilder description = new StringBuilder("You are in: " + name + ".\n");
+
+    // Add information about the items in the room
+    if (items.isEmpty()) {
+      description.append("No items in this room.\n");
+    } else {
+      description.append("Items here:\n");
+      for (ItemInterface item : items) {
+        description.append("- ").append(item.toString()).append("\n");
+      }
+    }
+
+    // Add player information to the room info
+    description.append("Players here: ");
+    if (players.isEmpty()) {
+      description.append("No players in this room.");
+    } else {
+      for (PlayerInterface player : players) {
+        description.append(player.getName()).append(" ");
+      }
+    }
+    description.append("\n");
+
+    // Seal the room when a player looks around
+    this.setSealed();
+
+    // Display visible neighboring spaces
+    description.append("\nVisible neighboring spaces:\n");
+    for (RoomInterface neighbor : this.getVisibleNeighbors()) {
+      description.append("- ").append(neighbor.getRoomInd() + " ").append(neighbor.getName())
+          .append("\n");
+
+      description.append("Players: ");
+      if (neighbor.getPlayers().isEmpty()) {
+        description.append("No players.\n");
+      } else {
+        for (PlayerInterface p : neighbor.getPlayers()) {
+          description.append(p.getName()).append(" ");
+        }
+        description.append("\n");
+      }
+
+      description.append("Items: ");
+      if (neighbor.getItems().isEmpty()) {
+        description.append("No items.\n");
+      } else {
+        for (ItemInterface item : neighbor.getItems()) {
+          description.append("- ").append(item.toString()).append("\n");
+        }
+      }
+      description.append("\n");
+    }
 
     return description.toString();
+  }
 
+  @Override
+  public List<RoomInterface> getVisibleNeighbors() {
+    List<RoomInterface> visibleNeighbors = new ArrayList<>();
+    for (RoomInterface neighbor : neighbors) {
+      if (!neighbor.isSealed()) {
+        visibleNeighbors.add(neighbor);
+      }
+    }
+    return visibleNeighbors;
+  }
+
+  @Override
+  public void setSealed() {
+    this.sealed = true;
+  }
+
+  @Override
+  public void unseal() {
+    this.sealed = false;
+  }
+
+  @Override
+  public boolean isSealed() {
+    return sealed;
   }
 
   @Override
   public String toString() {
     return "Room{name=" + name + ", upperLeft=" + upperLeft + ", lowerRight=" + lowerRight + '}';
+  }
+
+  /**
+   * Generates a hash code for this room. The hash code is based on the room's
+   * coordinates and name.
+   *
+   * @return the hash code for the room
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(upperLeft, lowerRight, name, roomInd);
+  }
+
+  /**
+   * Checks if this room is equal to another room. Two rooms are considered equal
+   * if they have the same coordinates and the same name.
+   *
+   * @param obj the object to compare with
+   * @return true if the rooms are having same hashCode, false otherwise
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof Room)) {
+      return false;
+    }
+    Room other = (Room) obj;
+    return this.hashCode() == other.hashCode();
   }
 
 }

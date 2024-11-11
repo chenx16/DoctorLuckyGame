@@ -3,9 +3,9 @@ package player;
 import item.ItemInterface;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import room.Room;
 import room.RoomInterface;
-
-
 
 /**
  * Represents a player in the game. Players can move between rooms, pick up
@@ -19,8 +19,8 @@ public abstract class Player implements PlayerInterface {
   protected boolean isComputerControlled;
 
   /**
-   * Constructs a player with the given name, starting room, and maximum number of
-   * items they can carry.
+   * Constructs a player with the given name, starting room, maximum number of
+   * items they can carry, and if the player is controlled by the computer.
    *
    * @param name                 the name of the player
    * @param startingRoom         the room where the player starts
@@ -104,5 +104,38 @@ public abstract class Player implements PlayerInterface {
   @Override
   public String toString() {
     return "Player " + name + " in " + currentRoom.getName() + " with items: " + getInventory();
+  }
+
+  /**
+   * Generates a hash code for this player.
+   *
+   * @return the hash code for the player
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, maxItems, isComputerControlled);
+  }
+
+  /**
+   * Checks if this player is equal to another player. Two players are considered
+   * equal if they have the same name, maximum number of items, and if the player
+   * is controlled by the computer
+   *
+   * @param obj the object to compare with
+   * @return true if the rooms are having same hashCode, false otherwise
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof Room)) {
+      return false;
+    }
+    Room other = (Room) obj;
+    return this.hashCode() == other.hashCode();
   }
 }

@@ -10,6 +10,7 @@ import room.RoomInterface;
 public class Target implements TargetInterface {
 
   private RoomInterface currentRoom;
+  private RoomInterface lastRoomVisited;
   private int health;
   private String name;
 
@@ -27,6 +28,7 @@ public class Target implements TargetInterface {
       throw new IllegalArgumentException();
     }
     this.currentRoom = currentRoom;
+    this.lastRoomVisited = null; // Initially, no last room visited
     this.health = health;
     this.name = name;
   }
@@ -36,7 +38,7 @@ public class Target implements TargetInterface {
     if (room == null) {
       throw new IllegalArgumentException("Room cannot be null.");
     }
-
+    this.lastRoomVisited = this.currentRoom; // Update last room before moving
     this.currentRoom = room;
   }
 
@@ -55,12 +57,19 @@ public class Target implements TargetInterface {
     return health;
   }
 
+  @Override
   public void takeDamage(int amount) {
     this.health = Math.max(0, this.health - amount); // Health should not go below 0
   }
 
+  @Override
   public boolean isAlive() {
     return this.health > 0;
+  }
+
+  @Override
+  public RoomInterface getLastRoomVisited() {
+    return lastRoomVisited;
   }
 
   /**

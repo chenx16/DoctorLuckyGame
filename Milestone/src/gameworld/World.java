@@ -495,6 +495,17 @@ public class World implements WorldInterface {
     return new HashSet<>(visitedRooms);
   }
 
+  @Override
+  public String getTargetLocationHint() {
+    RoomInterface lastRoom = this.targetCharacter.getLastRoomVisited();
+    if (lastRoom != null) {
+      return "The target was last seen in " + lastRoom.getName() + "with index"
+          + lastRoom.getRoomInd() + ".";
+    } else {
+      return "No information on the target’s last known location.";
+    }
+  }
+
   /**
    * Checks if this world is equal to another world.
    * 
