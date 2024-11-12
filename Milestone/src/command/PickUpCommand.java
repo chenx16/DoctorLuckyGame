@@ -36,7 +36,8 @@ public class PickUpCommand implements Command {
   public void execute() throws IOException {
     List<ItemInterface> itemsInRoom = this.world.getTurn().getCurrentRoom().getItems();
     if (itemsInRoom.isEmpty()) {
-      out.append("No items to pick up in this room.\n");
+      String result = world.turnHumanPlayer("pickup", -1, null);
+      out.append("Sorry, " + result + "\n");
       return;
     }
 

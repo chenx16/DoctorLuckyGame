@@ -35,7 +35,7 @@ public class Item implements ItemInterface {
 
   @Override
   public String toString() {
-    return String.format("Item %s with %s damage.", this.getName(), this.getDamage());
+    return String.format("%s with %s damage.", this.getName(), this.getDamage());
   }
 
   /**

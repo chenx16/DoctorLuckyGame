@@ -91,6 +91,11 @@ public class Room implements RoomInterface {
   }
 
   @Override
+  public void resetNeighbors() {
+    neighbors = new ArrayList<>();
+  }
+
+  @Override
   public List<RoomInterface> getListofNeighbors() {
     return new ArrayList<>(neighbors);
   }
@@ -170,9 +175,6 @@ public class Room implements RoomInterface {
       }
     }
     description.append("\n");
-
-    // Seal the room when a player looks around
-    this.setSealed();
 
     // Display visible neighboring spaces
     description.append("\nVisible neighboring spaces:\n");

@@ -90,7 +90,7 @@ public class ComputerPlayer extends Player {
    */
   private String moveToNextRoom() {
     StringBuilder actionDescription = new StringBuilder();
-    List<RoomInterface> neighbors = this.getCurrentRoom().getListofNeighbors();
+    List<RoomInterface> neighbors = this.getCurrentRoom().getVisibleNeighbors();
     if (!neighbors.isEmpty()) {
       RoomInterface nextRoom = neighbors.get(random.nextInt(neighbors.size()));
       moveTo(nextRoom);
@@ -101,7 +101,7 @@ public class ComputerPlayer extends Player {
       return actionDescription.toString();
     } else {
       resetTurn();
-      return "no neighboring room";
+      return "No neighboring room visible, wait one turn.";
     }
   }
 

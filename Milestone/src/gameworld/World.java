@@ -173,6 +173,7 @@ public class World implements WorldInterface {
 
   private void calculateNeighbors() {
     for (RoomInterface room : rooms) {
+      room.resetNeighbors();
       for (RoomInterface otherRoom : rooms) {
         if (!room.equals(otherRoom) && isNeighbor(room, otherRoom)) {
           room.addNeighbor(otherRoom); // Add the neighboring room
@@ -237,6 +238,23 @@ public class World implements WorldInterface {
   }
 
   @Override
+  public String getPlayerSpaceInfo(PlayerInterface player) {
+    if (player == null) {
+      throw new IllegalArgumentException("Player cannot be null.");
+    }
+
+    StringBuilder spaceInfo = new StringBuilder("");
+    int room = player.getCurrentRoom().getRoomInd();
+    spaceInfo.append(this.rooms.get(room).getRoomDescriptionVisible());
+
+    // Add target character info if present in the room
+    if (targetCharacter.getCurrentRoom().getRoomInd() == room) {
+      spaceInfo.append("Target character is here: ").append(targetCharacter.getName()).append("\n");
+    }
+    return spaceInfo.toString();
+  }
+
+  @Override
   public void moveTargetCharacter() {
 
     RoomInterface currentRoom = targetCharacter.getCurrentRoom();
@@ -274,16 +292,30 @@ public class World implements WorldInterface {
   @Override
   public String turnComputerPlayer() {
     PlayerInterface currentPlayer = getTurn();
+    int lastRmId = currentPlayer.getCurrentRoom().getRoomInd();
     StringBuilder lookDescription = new StringBuilder();
     String output = ((ComputerPlayer) currentPlayer).takeTurn();
-
+    updateTurn();
     if ("look".equals(output)) {
-      updateTurn();
+      // this.rooms.get(lastRmId).setSealed();
       lookDescription.append(currentPlayer.getName()).append(" looks around: ")
-          .append(this.getSpaceInfo(currentPlayer.getCurrentRoom())).append("\n");
+          .append(this.getPlayerSpaceInfo(currentPlayer)).append("\n");
+      calculateNeighbors();
       return lookDescription.toString();
+    } else if (output.contains("moved to")) {
+      // update current room
+      RoomInterface lastRoom = rooms.get(lastRmId);
+      // lastRoom.unseal();
+      lastRoom.removePlayer(currentPlayer);
+
+      // update next room
+      int nextRmId = currentPlayer.getCurrentRoom().getRoomInd();
+      RoomInterface nextRoom = rooms.get(nextRmId);
+      nextRoom.addPlayer(currentPlayer);
+      calculateNeighbors();
+      return output;
     } else {
-      updateTurn();
+      calculateNeighbors();
       return output;
     }
 
@@ -293,28 +325,44 @@ public class World implements WorldInterface {
   public String turnHumanPlayer(String action, int roomInd, String itemName) {
     PlayerInterface currentPlayer = getTurn();
     updateTurn();
-
     switch (action.toLowerCase()) {
 
       case "look":
-        return this.getSpaceInfo(currentPlayer.getCurrentRoom());
+        // this.rooms.get(roomInd).setSealed();
+        calculateNeighbors();
+        return this.getPlayerSpaceInfo(currentPlayer);
 
       case "pickup":
         RoomInterface currentRoom = currentPlayer.getCurrentRoom();
+        if (currentRoom.getItems().isEmpty()) {
+          return "there's no item in the room.";
+        }
         ItemInterface itemToPickUp = currentRoom.getItems().stream()
             .filter(item -> item.getName().equals(itemName)).findFirst().orElse(null);
 
         if (itemToPickUp != null) {
           currentPlayer.pickUpItem(itemToPickUp);
+          calculateNeighbors();
           return currentPlayer.getName() + " picked up " + itemName;
         } else {
           return "Item not found in the room.";
         }
 
       case "move":
-        if (roomInd >= 0 && roomInd < rooms.size()) {
+        if (roomInd == -1) {
+          return "No visible neighboring rooms due to the presence of the pet.";
+        } else if (roomInd >= 0 && roomInd < rooms.size()) {
+          // update current room
+          int currRoomId = currentPlayer.getCurrentRoom().getRoomInd();
+          RoomInterface currRoom = rooms.get(currRoomId);
+          // currRoom.unseal();
+          currRoom.removePlayer(currentPlayer);
+
+          // update next room
           RoomInterface nextRoom = rooms.get(roomInd);
+          nextRoom.addPlayer(currentPlayer);
           currentPlayer.moveTo(nextRoom);
+          calculateNeighbors();
           return currentPlayer.getName() + " moved to " + nextRoom.getName();
         } else {
           return "Invalid room index.";
@@ -322,17 +370,37 @@ public class World implements WorldInterface {
 
       case "movepet":
         if (roomInd >= 0 && roomInd < rooms.size()) {
-          RoomInterface nextRoom = rooms.get(roomInd);
           this.movePetTo(roomInd);
+          calculateNeighbors();
+          RoomInterface nextRoom = rooms.get(roomInd);
           return pet.getName() + " has moved to " + nextRoom.getName();
         } else {
           return "Invalid room index.";
         }
 
       default:
-        return "Invalid action. Use 'look', 'pickup', or 'move'.";
+        return "Invalid action. Use 'l', 'p', 'm', or 'mp'.";
     }
 
+  }
+
+  @Override
+  public boolean isSeenBy(PlayerInterface playerA, PlayerInterface playerB) {
+    RoomInterface roomA = playerA.getCurrentRoom();
+    RoomInterface roomB = playerB.getCurrentRoom();
+
+    // Check if players are in the same room
+    if (roomA.getRoomInd() == (roomB.getRoomInd())) {
+      return true;
+    }
+
+    // Check if Player B is in a neighboring space of Player A's room and the room
+    // is not sealed
+    if (roomA.getListofNeighbors().contains(roomB) && !roomB.isSealed()) {
+      return true;
+    }
+
+    return false;
   }
 
   /**
@@ -367,7 +435,12 @@ public class World implements WorldInterface {
           }
         }
         // Move the pet to the next room in the DFS traversal path
-        pet.moveTo(rooms.get(nextRoom.getRoomInd()));
+        int oldRmInd = pet.getCurrentRoom().getRoomInd();
+        rooms.get(oldRmInd).unseal();
+        RoomInterface newRoom = rooms.get(nextRoom.getRoomInd());
+        pet.moveTo(newRoom);
+        newRoom.setSealed();
+        calculateNeighbors();
         return;
       }
     }
@@ -378,8 +451,12 @@ public class World implements WorldInterface {
     if (roomInd < 0 || roomInd >= rooms.size()) {
       throw new IllegalArgumentException("Invalid room specified for moving the pet.");
     }
+    int oldRmInd = pet.getCurrentRoom().getRoomInd();
+    rooms.get(oldRmInd).unseal();
     RoomInterface newRoom = rooms.get(roomInd);
     pet.moveTo(newRoom);
+    newRoom.setSealed();
+    calculateNeighbors();
     // Reset DFS traversal starting from the new room
     visitedRooms.clear();
     dfsStack.clear();
@@ -499,7 +576,7 @@ public class World implements WorldInterface {
   public String getTargetLocationHint() {
     RoomInterface lastRoom = this.targetCharacter.getLastRoomVisited();
     if (lastRoom != null) {
-      return "The target was last seen in " + lastRoom.getName() + "with index"
+      return "The target was last seen in " + lastRoom.getName() + " with index "
           + lastRoom.getRoomInd() + ".";
     } else {
       return "No information on the target’s last known location.";

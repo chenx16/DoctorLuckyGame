@@ -45,6 +45,16 @@ public interface WorldInterface {
   String getSpaceInfo(RoomInterface room);
 
   /**
+   * Provides information about a specified space in the world, including its
+   * items and neighboring spaces.
+   * 
+   * @param player the room whose information is to be displayed based on player
+   * @return a string containing the room's name, its items, and visible
+   *         neighboring spaces
+   */
+  String getPlayerSpaceInfo(PlayerInterface player);
+
+  /**
    * Moves the target character to the next room in the world.
    */
   void moveTargetCharacter();
@@ -183,4 +193,15 @@ public interface WorldInterface {
    * @return The room that target character last visited.
    */
   String getTargetLocationHint();
+
+  /**
+   * Determines if Player A can see Player B. Player A can see Player B if they
+   * are in the same room, or if Player B is in one of the neighboring spaces of
+   * the room Player A is in, provided Player B's room is not sealed.
+   *
+   * @param playerA the player being observed.
+   * @param playerB the player who is checking for visibility.
+   * @return true if Player A can see Player B, false otherwise.
+   */
+  boolean isSeenBy(PlayerInterface playerA, PlayerInterface playerB);
 }

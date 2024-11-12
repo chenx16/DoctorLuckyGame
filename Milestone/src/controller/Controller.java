@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
+import pet.PetInterface;
 import player.ComputerPlayer;
 import player.HumanPlayer;
 import player.PlayerInterface;
@@ -64,10 +65,11 @@ public class Controller implements ControllerInterface {
     while (turnCount < maxTurns) {
       PlayerInterface currentPlayer = world.getTurn();
       out.append("\n" + "Turn number: " + (turnCount + 1) + "/" + maxTurns + "\n");
-      out.append("It's " + currentPlayer.getName() + "'s turn.\n");
       out.append(currentPlayer.getDescription() + "\n");
-
-      out.append("Pet is in: " + world.getPet().getCurrentRoom().getName() + "\n");
+      out.append(world.getTargetLocationHint() + "\n");
+      PetInterface pet = world.getPet();
+      out.append("Pet " + pet.getName() + " is in: " + pet.getCurrentRoom().getName() + "\n");
+      out.append("Use 'look' to gather more details about your surroundings.\n");
       if (!currentPlayer.getIsComputerControlled()) {
 
         boolean validTurn = false; // Track if the player took a valid turn

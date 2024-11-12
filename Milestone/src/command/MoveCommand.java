@@ -34,11 +34,20 @@ public class MoveCommand implements Command {
 
   @Override
   public void execute() throws IOException {
-    List<RoomInterface> neighbors = this.world.getTurn().getCurrentRoom().getListofNeighbors();
+    // List<RoomInterface> neighbors =
+    // this.world.getTurn().getCurrentRoom().getListofNeighbors();
+    List<RoomInterface> visibleRooms = this.world.getTurn().getCurrentRoom().getVisibleNeighbors();
+
+    if (visibleRooms.isEmpty()) {
+      String result = world.turnHumanPlayer("move", -1, null);
+      out.append(result).append("\n");
+      out.append("Wait till the pet moves.\n");
+      return;
+    }
 
     // Display neighboring rooms
     out.append("Neighboring rooms:\n");
-    for (RoomInterface neighbor : neighbors) {
+    for (RoomInterface neighbor : visibleRooms) {
       out.append(neighbor.getRoomInd() + ": " + neighbor.getName() + "\n");
     }
 
@@ -53,8 +62,8 @@ public class MoveCommand implements Command {
         continue; // Skip to next iteration
       }
 
-      RoomInterface targetRoom = neighbors.stream().filter(room -> room.getRoomInd() == roomIndex)
-          .findFirst().orElse(null);
+      RoomInterface targetRoom = visibleRooms.stream()
+          .filter(room -> room.getRoomInd() == roomIndex).findFirst().orElse(null);
 
       if (targetRoom != null) {
         String result = world.turnHumanPlayer("move", targetRoom.getRoomInd(), null);

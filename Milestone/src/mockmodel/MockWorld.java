@@ -174,4 +174,16 @@ public class MockWorld implements WorldInterface {
     log.append("getTargetLocationHint called\n");
     return null;
   }
+
+  @Override
+  public String getPlayerSpaceInfo(PlayerInterface player) {
+    log.append("getPlayerSpaceInfo called\n");
+    return null;
+  }
+
+  @Override
+  public boolean isSeenBy(PlayerInterface playerA, PlayerInterface playerB) {
+    log.append("isSeenBy called\n");
+    return false;
+  }
 }

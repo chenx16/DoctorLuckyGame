@@ -119,7 +119,6 @@ public interface RoomInterface {
 
   /**
    * Seal the room.
-   * 
    */
   void setSealed();
 
@@ -134,4 +133,9 @@ public interface RoomInterface {
    * @return true if the room is sealed, false otherwise.
    */
   boolean isSealed();
+
+  /**
+   * Reset neighbor list to an empty new list.
+   */
+  void resetNeighbors();
 }

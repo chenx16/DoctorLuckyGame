@@ -26,7 +26,8 @@ public class LookCommand implements Command {
 
   @Override
   public void execute() throws IOException {
-    String result = world.turnHumanPlayer("look", -1, null);
+    int currRoomInd = world.getTurn().getCurrentRoom().getRoomInd();
+    String result = world.turnHumanPlayer("look", currRoomInd, null);
     out.append(result).append("\n");
   }
 }

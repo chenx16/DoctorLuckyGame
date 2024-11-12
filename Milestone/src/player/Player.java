@@ -87,18 +87,39 @@ public abstract class Player implements PlayerInterface {
   @Override
   public String getDescription() {
     StringBuilder description = new StringBuilder();
-    description.append("Player Name: ").append(name).append("\nCurrent Room: ")
-        .append(currentRoom.getName()).append("\nInventory: ");
+    int neighborCount = currentRoom.getListofNeighbors().size();
+    description.append("It's " + name + "'s turn.").append("\nYou are in: ")
+        .append(currentRoom.getName()).append("\nThere are ").append(neighborCount)
+        .append(" neighboring rooms.").append("\nInventory: ");
 
     if (inventory.isEmpty()) {
       description.append("No items");
     } else {
       for (ItemInterface item : inventory) {
-        description.append("\n- ").append(item.getName());
+        description.append("\n- ").append(item.toString());
       }
     }
 
     return description.toString();
+  }
+
+  @Override
+  public boolean canSeePlayer(PlayerInterface anotherPlayer) {
+    RoomInterface roomA = this.getCurrentRoom();
+    RoomInterface roomB = anotherPlayer.getCurrentRoom();
+
+    // Check if players are in the same room
+    if (roomA.getRoomInd() == (roomB.getRoomInd())) {
+      return true;
+    }
+
+    // Check if Player B is in a neighboring space of Player A's room and the room
+    // is not sealed
+    if (roomA.getListofNeighbors().contains(roomB) && !roomB.isSealed()) {
+      return true;
+    }
+
+    return false;
   }
 
   @Override

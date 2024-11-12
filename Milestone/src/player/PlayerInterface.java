@@ -75,4 +75,14 @@ public interface PlayerInterface {
    */
   int getMaxItems();
 
+  /**
+   * Determines if this player can see anotherPlayer. This player can see
+   * anotherPlayer if they are in the same room, or if anotherPlayer is in one of
+   * the neighboring spaces of the room this player is in, provided
+   * anotherPlayer's room is not sealed.
+   *
+   * @param anotherPlayer the player who is checking for visibility.
+   * @return true if this player can see anotherPlayer, false otherwise.
+   */
+  boolean canSeePlayer(PlayerInterface anotherPlayer);
 }
