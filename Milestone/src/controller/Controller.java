@@ -1,5 +1,6 @@
 package controller;
 
+import command.AttemptOnTargetCommand;
 import command.Command;
 import command.LookCommand;
 import command.MoveCommand;
@@ -59,23 +60,25 @@ public class Controller implements ControllerInterface {
     addPlayersRandomly(world, random);
     // addHumanPlayerHandler(world);
     // addComputerPlayerHandler(world);
+
     // Game loop
     int turnCount = 0;
     world.wanderPet();
     while (turnCount < maxTurns) {
       PlayerInterface currentPlayer = world.getTurn();
       out.append("\n" + "Turn number: " + (turnCount + 1) + "/" + maxTurns + "\n");
-      out.append(currentPlayer.getDescription() + "\n");
+      out.append(currentPlayer.getDescription());
       out.append(world.getTargetLocationHint() + "\n");
       PetInterface pet = world.getPet();
       out.append("Pet " + pet.getName() + " is in: " + pet.getCurrentRoom().getName() + "\n");
       out.append("Use 'look' to gather more details about your surroundings.\n");
-      if (!currentPlayer.getIsComputerControlled()) {
 
+      if (!currentPlayer.getIsComputerControlled()) {
         boolean validTurn = false; // Track if the player took a valid turn
 
         while (!validTurn) {
-          out.append("Choose an action: [l: look, p: pickup, m: move, mp: move pet, q: quit]\n");
+          out.append(
+              "Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]\n");
           String action = scanner.nextLine().trim().toLowerCase();
 
           if ("q".equalsIgnoreCase(action)) {
@@ -83,27 +86,54 @@ public class Controller implements ControllerInterface {
             return;
           }
 
-          Command command = commandMap.get(action);
-          if (command != null) {
-            command.execute();
-            validTurn = true; // Mark the turn as valid once a correct command executes
+          // Check if 'a' for attack is selected and validate if the target is in the same
+          // room
+          if ("a".equals(action)) {
+            if (currentPlayer.getCurrentRoom()
+                .getRoomInd() == (world.getTargetCharacter().getCurrentRoom().getRoomInd())) {
+              out.append("Attempting to attack the target...\n");
+              Command attackCommand = commandMap.get("a");
+              if (attackCommand != null) {
+                attackCommand.execute();
+                // Check if the target is still alive
+                if (!world.getTargetCharacter().isAlive()) {
+//                  out.append("The target has been killed! Game over.\n");
+                  return; // End the game if the target is dead
+                }
+              }
+              validTurn = true; // Mark the turn as taken
+            } else {
+              out.append("The target is not in your current room. You cannot attack.\n");
+            }
           } else {
-            out.append("Invalid action. Please enter 'l', 'p', 'm', or 'mp'.\n");
+            Command command = commandMap.get(action);
+            if (command != null) {
+              command.execute();
+              validTurn = true; // Mark the turn as valid once a correct command executes
+            } else {
+              out.append("Invalid action. Please enter 'l', 'p', 'm', 'mp', or 'a'.\n");
+            }
           }
         }
 
       } else {
         String actionResult = world.turnComputerPlayer();
         out.append(actionResult + "\n");
+        // Check if the target is still alive after the computer player's turn
+        if (!world.getTargetCharacter().isAlive()) {
+//          out.append("The target has been killed by a computer-controlled player! Game over.\n");
+          return; // End the game if the target is dead
+        }
       }
 
       world.moveTargetCharacter(); // Automatically move the target character
       world.wanderPet();
       turnCount++;
-
     }
 
-    out.append("Game over! The maximum number of turns has been reached.\n");
+    out.append("Game over! Unfortunately, the maximum number of turns is reached.\n")
+        .append("The target character escapes and runs away to live another day\n")
+        .append("Nobody wins...\n");
   }
 
   /**
@@ -185,6 +215,7 @@ public class Controller implements ControllerInterface {
     commandMap.put("p", new PickUpCommand(world, out, scanner));
     commandMap.put("m", new MoveCommand(world, out, scanner));
     commandMap.put("mp", new MovePetCommand(world, out, scanner));
+    commandMap.put("a", new AttemptOnTargetCommand(world, out, scanner));
   }
 
 }

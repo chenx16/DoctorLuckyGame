@@ -58,7 +58,7 @@ public class Target implements TargetInterface {
   }
 
   @Override
-  public void takeDamage(int amount) {
+  public void reduceHealth(int amount) {
     this.health = Math.max(0, this.health - amount); // Health should not go below 0
   }
 

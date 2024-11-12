@@ -195,13 +195,34 @@ public interface WorldInterface {
   String getTargetLocationHint();
 
   /**
-   * Determines if Player A can see Player B. Player A can see Player B if they
-   * are in the same room, or if Player B is in one of the neighboring spaces of
-   * the room Player A is in, provided Player B's room is not sealed.
+   * Sets the game state to indicate whether the game has ended.
    *
-   * @param playerA the player being observed.
-   * @param playerB the player who is checking for visibility.
-   * @return true if Player A can see Player B, false otherwise.
+   * @param isGameEnd true if the game has ended, false otherwise.
    */
-  boolean isSeenBy(PlayerInterface playerA, PlayerInterface playerB);
+  void setGameEnd(boolean isGameEnd);
+
+  /**
+   * Checks if the game has ended.
+   *
+   * @return true if the game has ended, false otherwise.
+   */
+  boolean isGameEnd();
+
+  /**
+   * Handles a player's attempt to attack the target character in the game. This
+   * method determines if the attack is successful, calculates the damage dealt,
+   * and updates the game state accordingly. It also checks if the attack is seen
+   * by other players and handles item removal after an attack. The game ends if
+   * the target character is killed.
+   *
+   * @param player   the player attempting to attack the target. Cannot be null.
+   * @param itemName the name of the item used for the attack. If null or empty,
+   *                 the method will choose the best item from the player's
+   *                 inventory or default to a basic attack.
+   * @return a string describing the outcome of the attack, including whether it
+   *         was seen and stopped, the result of the attack, or if the target was
+   *         killed.
+   * @throws IllegalArgumentException if the provided player is null.
+   */
+  String attemptOnTarget(PlayerInterface player, String itemName);
 }

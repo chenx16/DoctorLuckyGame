@@ -245,7 +245,7 @@ public class Room implements RoomInterface {
    */
   @Override
   public int hashCode() {
-    return Objects.hash(upperLeft, lowerRight, name, roomInd);
+    return Objects.hash(upperLeft, lowerRight, name, roomInd, sealed);
   }
 
   /**

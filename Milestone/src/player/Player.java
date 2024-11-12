@@ -104,22 +104,15 @@ public abstract class Player implements PlayerInterface {
   }
 
   @Override
-  public boolean canSeePlayer(PlayerInterface anotherPlayer) {
-    RoomInterface roomA = this.getCurrentRoom();
-    RoomInterface roomB = anotherPlayer.getCurrentRoom();
+  public void removeItem(ItemInterface item) {
+    this.inventory.remove(item);
+  }
 
-    // Check if players are in the same room
-    if (roomA.getRoomInd() == (roomB.getRoomInd())) {
-      return true;
-    }
-
-    // Check if Player B is in a neighboring space of Player A's room and the room
-    // is not sealed
-    if (roomA.getListofNeighbors().contains(roomB) && !roomB.isSealed()) {
-      return true;
-    }
-
-    return false;
+  @Override
+  public boolean canSeePlayer(PlayerInterface otherPlayer) {
+    RoomInterface otherPlayerRoom = otherPlayer.getCurrentRoom();
+    return currentRoom.equals(otherPlayerRoom)
+        || currentRoom.getVisibleNeighbors().contains(otherPlayerRoom);
   }
 
   @Override
@@ -156,7 +149,7 @@ public abstract class Player implements PlayerInterface {
     if (!(obj instanceof Room)) {
       return false;
     }
-    Room other = (Room) obj;
+    Player other = (Player) obj;
     return this.hashCode() == other.hashCode();
   }
 }

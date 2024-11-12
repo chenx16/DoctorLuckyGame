@@ -49,6 +49,7 @@ public class World implements WorldInterface {
   private final int pixel;
   private Stack<RoomInterface> dfsStack;
   private Set<RoomInterface> visitedRooms;
+  private boolean gameEnd;
 
   /**
    * Constructs an empty world.
@@ -61,6 +62,7 @@ public class World implements WorldInterface {
     this.visitedRooms = new HashSet<>();
     this.pixel = 50;
     this.currentTurnIndex = 0;
+    this.setGameEnd(false);
     // Initialize DFS with the pet's starting room
     if (pet != null && pet.getCurrentRoom() != null) {
       this.dfsStack.push(pet.getCurrentRoom());
@@ -293,32 +295,43 @@ public class World implements WorldInterface {
   public String turnComputerPlayer() {
     PlayerInterface currentPlayer = getTurn();
     int lastRmId = currentPlayer.getCurrentRoom().getRoomInd();
-    StringBuilder lookDescription = new StringBuilder();
-    String output = ((ComputerPlayer) currentPlayer).takeTurn();
-    updateTurn();
-    if ("look".equals(output)) {
-      // this.rooms.get(lastRmId).setSealed();
-      lookDescription.append(currentPlayer.getName()).append(" looks around: ")
-          .append(this.getPlayerSpaceInfo(currentPlayer)).append("\n");
-      calculateNeighbors();
-      return lookDescription.toString();
-    } else if (output.contains("moved to")) {
-      // update current room
-      RoomInterface lastRoom = rooms.get(lastRmId);
-      // lastRoom.unseal();
-      lastRoom.removePlayer(currentPlayer);
-
-      // update next room
-      int nextRmId = currentPlayer.getCurrentRoom().getRoomInd();
-      RoomInterface nextRoom = rooms.get(nextRmId);
-      nextRoom.addPlayer(currentPlayer);
-      calculateNeighbors();
-      return output;
+    RoomInterface targetRoom = this.targetCharacter.getCurrentRoom();
+    if (lastRmId == targetRoom.getRoomInd()) {
+      // attack target automatically
+      StringBuilder attackDescription = new StringBuilder();
+      attackDescription.append("Detected Target character ").append(targetCharacter.getName())
+          .append("\n");
+      String result = attemptOnTarget(currentPlayer, null);
+      updateTurn();
+      return attackDescription.append(result).toString();
     } else {
-      calculateNeighbors();
-      return output;
-    }
+      // not attack
+      StringBuilder lookDescription = new StringBuilder();
+      String output = ((ComputerPlayer) currentPlayer).takeTurn();
+      updateTurn();
+      if ("look".equals(output)) {
+        // this.rooms.get(lastRmId).setSealed();
+        lookDescription.append(currentPlayer.getName()).append(" looks around: ")
+            .append(this.getPlayerSpaceInfo(currentPlayer)).append("\n");
+        calculateNeighbors();
+        return lookDescription.toString();
+      } else if (output.contains("moved to")) {
+        // update current room
+        RoomInterface lastRoom = rooms.get(lastRmId);
+        // lastRoom.unseal();
+        lastRoom.removePlayer(currentPlayer);
 
+        // update next room
+        int nextRmId = currentPlayer.getCurrentRoom().getRoomInd();
+        RoomInterface nextRoom = rooms.get(nextRmId);
+        nextRoom.addPlayer(currentPlayer);
+        calculateNeighbors();
+        return output;
+      } else {
+        calculateNeighbors();
+        return output;
+      }
+    }
   }
 
   @Override
@@ -378,29 +391,128 @@ public class World implements WorldInterface {
           return "Invalid room index.";
         }
 
+      case "attempt":
+        return attemptOnTarget(currentPlayer, itemName);
+
       default:
-        return "Invalid action. Use 'l', 'p', 'm', or 'mp'.";
+        return "Invalid action. Use 'l', 'p', 'm', 'mp', or 'a'.";
     }
 
   }
 
   @Override
-  public boolean isSeenBy(PlayerInterface playerA, PlayerInterface playerB) {
-    RoomInterface roomA = playerA.getCurrentRoom();
-    RoomInterface roomB = playerB.getCurrentRoom();
-
-    // Check if players are in the same room
-    if (roomA.getRoomInd() == (roomB.getRoomInd())) {
-      return true;
+  public String attemptOnTarget(PlayerInterface player, String itemName) {
+    if (player == null) {
+      throw new IllegalArgumentException("Player cannot be null.");
     }
 
-    // Check if Player B is in a neighboring space of Player A's room and the room
-    // is not sealed
-    if (roomA.getListofNeighbors().contains(roomB) && !roomB.isSealed()) {
-      return true;
+    StringBuilder result = new StringBuilder();
+
+    // Check if the attack is seen by any other player
+    boolean isAttackSeen = players.stream()
+        .anyMatch(otherPlayer -> !otherPlayer.equals(player) && otherPlayer.canSeePlayer(player));
+
+    if (isAttackSeen) {
+      result.append(player.getName())
+          .append("'s attack was seen by another player and stopped. No damage was done.");
+      return result.toString();
     }
 
-    return false;
+    // Logic for computer-controlled player
+    if (player.getIsComputerControlled()) {
+      // Choose the best item automatically
+      ItemInterface bestItem = null;
+      for (ItemInterface item : player.getInventory()) {
+        if (bestItem == null || item.getDamage() > bestItem.getDamage()) {
+          bestItem = item;
+        }
+      }
+
+      int damage = (bestItem != null) ? bestItem.getDamage() : 1;
+      targetCharacter.reduceHealth(damage);
+
+      if (bestItem != null) {
+        player.removeItem(bestItem);
+        result.append(player.getName()).append(" (AI) attacked the target with ")
+            .append(bestItem.getName()).append("." + "The item is now removed from play.");
+      } else {
+        result.append(player.getName()).append(" (AI) poked the target in the eye for 1 damage.");
+      }
+
+      if (!targetCharacter.isAlive()) {
+        setGameEnd(true);
+        result.append("\nThe target has been killed! ").append(player.getName())
+            .append(" wins the game!");
+      } else {
+        result.append("\nThe target survived the attack. Remaining health: ")
+            .append(targetCharacter.getHealth());
+      }
+      return result.toString();
+    }
+
+    // Logic for human-controlled player
+    if (itemName == null || itemName.isEmpty()) {
+      // Automatically choose the best item if no item name is given
+      ItemInterface bestItem = null;
+      for (ItemInterface item : player.getInventory()) {
+        if (bestItem == null || item.getDamage() > bestItem.getDamage()) {
+          bestItem = item;
+        }
+      }
+
+      int damage = (bestItem != null) ? bestItem.getDamage() : 1;
+      targetCharacter.reduceHealth(damage);
+
+      if (bestItem != null) {
+        player.removeItem(bestItem);
+        result.append(player.getName())
+            .append("You didn't choose an item, so an automatic attack activated.\n");
+        result.append(player.getName()).append(" attacked the target with ")
+            .append(bestItem.getName()).append(".\n" + " The item is now removed from play.");
+      } else {
+        result.append(player.getName()).append(" poked the target in the eye for 1 damage.");
+      }
+
+      if (!targetCharacter.isAlive()) {
+        setGameEnd(true);
+        result.append("\nThe target has been killed! ").append(player.getName())
+            .append(" wins the game!");
+      } else {
+        result.append("\nThe target survived the attack. Remaining health: ")
+            .append(targetCharacter.getHealth());
+      }
+      return result.toString();
+    }
+
+    // Validate the provided item for the human player
+    ItemInterface selectedItem = null;
+    for (ItemInterface item : player.getInventory()) {
+      if (item.getName().equalsIgnoreCase(itemName)) {
+        selectedItem = item;
+        break;
+      }
+    }
+
+    if (selectedItem == null) {
+      result.append("Invalid item selection. The attack did not proceed.");
+      return result.toString();
+    }
+
+    // Perform the attack with the selected item
+    targetCharacter.reduceHealth(selectedItem.getDamage());
+    player.removeItem(selectedItem);
+
+    if (!targetCharacter.isAlive()) {
+      setGameEnd(true);
+      result.append("CONGRATULATIONS! Game is over!" + player.getName())
+          .append(" successfully killed the target with ").append(selectedItem.getName())
+          .append("! ").append(player.getName()).append(" wins the game!");
+    } else {
+      result.append(player.getName()).append(" attacked the target with ")
+          .append(selectedItem.getName()).append(". Remaining target health: ")
+          .append(targetCharacter.getHealth());
+    }
+    return result.toString();
   }
 
   /**
@@ -438,8 +550,8 @@ public class World implements WorldInterface {
         int oldRmInd = pet.getCurrentRoom().getRoomInd();
         rooms.get(oldRmInd).unseal();
         RoomInterface newRoom = rooms.get(nextRoom.getRoomInd());
-        pet.moveTo(newRoom);
         newRoom.setSealed();
+        pet.moveTo(newRoom);
         calculateNeighbors();
         return;
       }
@@ -454,13 +566,21 @@ public class World implements WorldInterface {
     int oldRmInd = pet.getCurrentRoom().getRoomInd();
     rooms.get(oldRmInd).unseal();
     RoomInterface newRoom = rooms.get(roomInd);
-    pet.moveTo(newRoom);
     newRoom.setSealed();
+    pet.moveTo(newRoom);
     calculateNeighbors();
     // Reset DFS traversal starting from the new room
     visitedRooms.clear();
     dfsStack.clear();
     dfsStack.push(newRoom);
+  }
+
+  public void setGameEnd(boolean isGameEnd) {
+    this.gameEnd = isGameEnd;
+  }
+
+  public boolean isGameEnd() {
+    return gameEnd;
   }
 
   @Override
@@ -575,12 +695,20 @@ public class World implements WorldInterface {
   @Override
   public String getTargetLocationHint() {
     RoomInterface lastRoom = this.targetCharacter.getLastRoomVisited();
+    StringBuilder toreturn = new StringBuilder("");
     if (lastRoom != null) {
-      return "The target was last seen in " + lastRoom.getName() + " with index "
-          + lastRoom.getRoomInd() + ".";
+      toreturn.append("\nThe target was last seen in " + lastRoom.getName() + " with index "
+          + lastRoom.getRoomInd() + ".");
+
+      int room = this.getTurn().getCurrentRoom().getRoomInd();
+      if (targetCharacter.getCurrentRoom().getRoomInd() == room) {
+        toreturn
+            .append("\nATTENTION: Target character " + targetCharacter.getName() + " is here!!!");
+      }
     } else {
-      return "No information on the target’s last known location.";
+      toreturn.append("No information on the target’s last known location.");
     }
+    return toreturn.toString();
   }
 
   /**

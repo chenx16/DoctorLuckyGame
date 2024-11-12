@@ -87,11 +87,11 @@ public class TargetInterfaceTest {
   @Test
   public void testTakeDamage() {
     // Test reducing health by a valid amount
-    target.takeDamage(10); // Reducing health by 10
+    target.reduceHealth(10); // Reducing health by 10
     assertEquals(40, target.getHealth()); // Health should now be 40
 
     // Test reducing health below 0
-    target.takeDamage(100); // Reducing by more than the remaining health
+    target.reduceHealth(100); // Reducing by more than the remaining health
     assertEquals(0, target.getHealth()); // Health should not go below 0
   }
 
@@ -103,11 +103,11 @@ public class TargetInterfaceTest {
   public void testIsAlive() {
     assertTrue(target.isAlive());
     // Test health reduction and alive status
-    target.takeDamage(49); // Reducing health, but not enough to kill
+    target.reduceHealth(49); // Reducing health, but not enough to kill
     assertTrue(target.isAlive()); // Should still be alive
 
     // Further damage to make health exactly 0
-    target.takeDamage(1); // Reducing health to exactly 0
+    target.reduceHealth(1); // Reducing health to exactly 0
     assertFalse(target.isAlive()); // Should die now
   }
 
@@ -146,7 +146,7 @@ public class TargetInterfaceTest {
     String expectedOutput = "Target character name: Doctor Lucky, health: 50, currentRoom: Armory"
         + "\n";
     assertEquals(expectedOutput, target.toString());
-    target.takeDamage(20);
+    target.reduceHealth(20);
     String expectedOutput1 = "Target character name: Doctor Lucky, health: 30, currentRoom: Armory"
         + "\n";
     assertEquals(expectedOutput1, target.toString());

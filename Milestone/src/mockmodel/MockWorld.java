@@ -182,8 +182,21 @@ public class MockWorld implements WorldInterface {
   }
 
   @Override
-  public boolean isSeenBy(PlayerInterface playerA, PlayerInterface playerB) {
-    log.append("isSeenBy called\n");
+  public void setGameEnd(boolean isGameEnd) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public boolean isGameEnd() {
+    // TODO Auto-generated method stub
     return false;
   }
+
+  @Override
+  public String attemptOnTarget(PlayerInterface player, String itemName) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

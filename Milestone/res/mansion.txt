@@ -25,22 +25,22 @@ Fortune the Cat
 30  6 35 11 Winter Garden
 20
 8 3 Crepe Pan
-4 2 Letter Opener
+4 8 Letter Opener
 12 2 Shoe Horn
-8 3 Sharp Knife
+8 12 Sharp Knife
 0 3 Revolver
 15 3 Civil War Cannon
 2 4 Chain Saw
 16 2 Broom Stick
 1 2 Billiard Cue
 19 2 Rat Poison
-6 2 Trowel
+6 5 Trowel
 2 4 Big Red Hammer
 6 2 Pinking Shears
 18 3 Duck Decoy
-13 2 Bad Cream
+13 7 Bad Cream
 18 2 Monkey Hand
 11 2 Tight Hat
-19 2 Piece of Rope
+19 9 Piece of Rope
 9 3 Silken Cord
 7 2 Loud Noise

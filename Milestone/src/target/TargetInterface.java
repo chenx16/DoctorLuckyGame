@@ -49,7 +49,7 @@ public interface TargetInterface {
    * 
    * @param amount the amount of health to reduce
    */
-  void takeDamage(int amount);
+  void reduceHealth(int amount);
 
   /**
    * Checks if the target character is still alive (health > 0).
