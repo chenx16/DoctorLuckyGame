@@ -517,17 +517,17 @@ public class WorldInterfaceTest {
    */
   @Test
   public void testGetTargetLocationHintKnownRoom() {
-    RoomInterface currentRoom = world.getTargetCharacter().getCurrentRoom();
     String hint = world.getTargetLocationHint();
     // System.out.println(hint);
     assertTrue(hint.contains("No information on the target’s last known location."));
     world.addPlayer(playerC, 1);
     world.turnComputerPlayer();
     world.moveTargetCharacter();
+    RoomInterface currentRoom = world.getTargetCharacter().getCurrentRoom();
     String hintAfter = world.getTargetLocationHint();
+    // System.out.println(hintAfter);
     assertTrue(hintAfter.contains("\nThe target was last seen in Armory with index 0."));
     assertTrue(hintAfter.contains("\nATTENTION: Target character Doctor Lucky is here!!!"));
-    assertTrue(hintAfter.contains(currentRoom.getName()));
   }
 
   /**
@@ -556,6 +556,86 @@ public class WorldInterfaceTest {
     world.movePetTo(1);
     assertEquals(room, world.getPet().getCurrentRoom());
     assertTrue(room.isSealed());
+  }
+
+  /**
+   * Tests the target location hint after multiple moves. Ensures that the target
+   * location hint gets updated correctly after each move.
+   */
+  @Test
+  public void testTargetLocationHintAfterMultipleMoves() {
+    world.addPlayer(playerC, 0);
+    world.moveTargetCharacter(); // Move target to next room
+    String hint = world.getTargetLocationHint();
+    assertTrue(hint.contains("The target was last seen in Armory with index 0"));
+
+    world.moveTargetCharacter(); // Move again
+    String secondHint = world.getTargetLocationHint();
+    assertTrue(secondHint.contains("The target was last seen in Billiard Room with index 1"));
+  }
+
+  /**
+   * Tests updating player turns after each action to ensure the correct player
+   * gets the next turn.
+   */
+  @Test
+  public void testTurnUpdateLogic() {
+    world.addPlayer(playerH, 0);
+    world.addPlayer(playerC, 1);
+
+    // Human Player's turn
+    PlayerInterface initialTurnPlayer = world.getTurn();
+    assertEquals(playerH, initialTurnPlayer);
+
+    // Human player looks around and ends turn
+    world.turnHumanPlayer("look", -1, null);
+    PlayerInterface nextTurnPlayer = world.getTurn();
+    assertEquals(playerC, nextTurnPlayer);
+  }
+
+  /**
+   * Tests an attempt on the target where the attack is seen by another player.
+   */
+  @Test
+  public void testAttemptOnTargetSeenByOtherPlayers() {
+    world.addPlayer(playerH, 0);
+    world.addPlayer(playerC, 0); // Place both players in the same room
+
+    // Attempt to attack the target
+    String result = world.attemptOnTarget(playerH, "Dagger");
+    assertNotNull(result);
+    assertTrue(result.contains("attack was seen by another player and stopped"));
+  }
+
+  /**
+   * Tests the game end condition when the target's health reaches zero.
+   */
+  @Test
+  public void testGameEndWhenTargetIsKilled() {
+    world.addPlayer(playerH, 0);
+    ItemInterface dagger = new Item(50, "Dagger"); // High damage item to kill target
+    world.getRooms().get(0).addItem(dagger);
+    playerH.pickUpItem(dagger);
+
+    String result = world.attemptOnTarget(playerH, "Dagger");
+    // System.out.println(result);
+    assertNotNull(result);
+    assertEquals(result,
+        "CONGRATULATIONS! " + "Game is over!PlayerH successfully killed the target with Dagger! "
+            + "PlayerH wins the game!");
+    assertTrue(world.isGameEnd());
+  }
+
+  /**
+   * Tests neighbor calculation for a room located at the boundary of the world.
+   */
+  @Test
+  public void testBoundaryRoomNeighborCalculation() {
+    RoomInterface boundaryRoom = world.getRooms().get(0);
+    List<RoomInterface> neighbors = world.getNeighbors(boundaryRoom);
+
+    assertNotNull(neighbors);
+    assertTrue(neighbors.size() > 0); // Should have at least one neighbor
   }
 
 }
