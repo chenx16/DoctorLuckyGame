@@ -25,7 +25,7 @@ To create a text file that captures the output and save it in plain text format 
 
 output.txt file is saved out file which can be seen in the directory you at. However, the program will autosave the output.txt in /res when the program finish running.
 
-## Running the Program
+### Running the Program
 
 To run the driver class and demonstrate the functionality of the world model, you can also use the following command:
 
@@ -140,6 +140,19 @@ Added functionality for the target character to automatically move after each pl
 Modified the information displayed about each room to include players present in that space, providing players with more situational awareness.
 
 ## Milestone 3
+### Running the Program
+Run the JAR file using the following command with default 20 turns:
+
+     java -jar Milestone3.jar mansion.txt
+
+You can enter any maximum number of turns you like, it needs to be a positive integer (>0).
+
+     java -jar Milestone3.jar mansion.txt <custom max turn#>
+
+### References
+1. Course Material
+- Milestone 3: Gameplay, CS 5010 — Programming Design Paradigms, Northeastern University Vancouver. [https://northeastern.instructure.com/courses/192582/assignments/2382093](https://northeastern.instructure.com/courses/192582/assignments/2382096?module_item_id=10809104), [Manual Grading Checklist](https://northeastern.instructure.com/courses/192582/pages/manual-grading-checklist)
+
 
 ### Design Changes
 - Gameplay Implementation: 
@@ -158,12 +171,3 @@ Added depth-first traversal logic to enable the pet to wander automatically, enh
 Players, including computer-controlled ones, can attempt to kill the target character, following rules such as visibility checks, item usage, and removing items used in attacks.
 - Game Ending Scenarios:
 Defined clear conditions for ending the game, including successful target elimination or the target escaping after the maximum number of turns.
-
-Run the JAR file using the following command with default 20 turns:
-
-     java -jar Milestone3.jar mansion.txt
-
-You can enter any maximum number of turns you like, it needs to be a positive integer (>0).
-
-     java -jar Milestone3.jar mansion.txt <custom max turn#>
-
