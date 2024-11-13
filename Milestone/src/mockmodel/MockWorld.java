@@ -224,7 +224,6 @@ public class MockWorld implements WorldInterface {
     }
 
     if ("Revolver".equalsIgnoreCase(itemName)) {
-//      this.players.get(0).pickUpItem(this.items.get(0));
       targetCharacter.reduceHealth(50);
 
       setGameEnd(true);

@@ -77,8 +77,8 @@ public class Controller implements ControllerInterface {
         boolean validTurn = false; // Track if the player took a valid turn
 
         while (!validTurn) {
-          out.append(
-              "Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]\n");
+          out.append("Choose an action: [l: look, p: pickup, m: move, "
+              + "mp: move pet, a: attack, q: quit]\n");
           String action = scanner.nextLine().trim().toLowerCase();
 
           if ("q".equalsIgnoreCase(action)) {
