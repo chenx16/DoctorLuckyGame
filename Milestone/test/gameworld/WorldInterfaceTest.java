@@ -471,7 +471,7 @@ public class WorldInterfaceTest {
 
     String result = world.attemptOnTarget(playerH, "Dagger");
     assertNotNull(result);
-    assertTrue(result.contains("attacked the target with Dagger"));
+    assertEquals(result, "PlayerH attacked the target with Dagger. Remaining target health: 40");
   }
 
   /**
@@ -482,11 +482,16 @@ public class WorldInterfaceTest {
   @Test
   public void testAttemptOnTargetComputerPlayer() {
     world.addPlayer(playerC, 0);
-    playerC.pickUpItem(new Item(15, "Crossbow"));
-
     String result = world.attemptOnTarget(playerC, null);
     assertNotNull(result);
-    assertTrue(result.contains("attacked the target") || result.contains("poked the target"));
+    assertTrue(result.contains("poked the target"));
+    playerC.pickUpItem(new Item(15, "Crossbow"));
+
+    result = world.attemptOnTarget(playerC, null);
+    assertNotNull(result);
+    assertEquals(result,
+        "PlayerC (AI) attacked the target with Crossbow.The item is now removed from play.\n"
+            + "The target survived the attack. Remaining health: 34");
   }
 
   /**

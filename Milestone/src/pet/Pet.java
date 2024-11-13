@@ -27,7 +27,7 @@ public class Pet implements PetInterface {
   @Override
   public void moveTo(RoomInterface room) {
     this.currentRoom = room;
-//    System.out.println(room.getName());
+    // System.out.println(room.getName());
   }
 
   @Override

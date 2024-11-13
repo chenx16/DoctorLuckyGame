@@ -3,11 +3,13 @@ package gameworld;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import command.AttemptOnTargetCommand;
 import command.Command;
 import command.LookCommand;
 import command.MoveCommand;
 import command.MovePetCommand;
 import command.PickUpCommand;
+import item.Item;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -101,7 +103,7 @@ public class CommandTest {
     // System.out.println(out);
     // Verify the interaction with the world and output
     assertTrue(log.toString().contains("Action: pickup, Room: -1, Item: Revolver"));
-    assertTrue(out.toString().contains("Items in the room:\n" + "Revolver (Damage: 10)\n"
+    assertTrue(out.toString().contains("Items in the room:\n" + "Revolver (Damage: 50)\n"
         + "Enter the item name to pick up: Revolver picked up successfully.\n"));
   }
 
@@ -140,11 +142,92 @@ public class CommandTest {
     // System.out.println(log);
     // System.out.println(out);
     // Check that the correct move action was called in the world
+
     assertTrue(log.toString().contains("Action: movepet, Room: 1, Item: null"));
 
     // Verify the expected output
     String expectedOutput = "Select a room to move the pet to:\n" + "0: New Room\n"
         + "1: Neighbor\n" + "Enter the room number: Pet moved to room 1.\n";
     assertEquals(expectedOutput, out.toString());
+  }
+
+  /**
+   * Test AttemptOnTargetCommand to ensure the player can successfully attack the
+   * target with a valid item from inventory.
+   */
+  @Test
+  public void testExecuteAttemptOnTargetWithValidItem() throws IOException {
+    mockWorld = new MockWorld(log, "You attacked the target with Sword.");
+    PlayerInterface mockPlayer = new HumanPlayer("Human", mockWorld.getRooms().get(0), 2);
+    mockWorld.addPlayer(mockPlayer, 0);
+
+    // Add an item to player's inventory
+    mockPlayer.pickUpItem(new Item(10, "Sword"));
+
+    StringReader in = new StringReader("Sword\n");
+    Command attemptCommand = new AttemptOnTargetCommand(mockWorld, out, new Scanner(in));
+    attemptCommand.execute();
+
+    // System.out.println(log);
+    // System.out.println(out);
+
+    // Verify the interaction with the world
+    assertEquals("addPlayer called\n" + "getTurn called\n" + "attemptOnTarget called\n",
+        log.toString());
+
+    // Verify the expected output
+    String expectedOutput = "Enter the valid item name to use for the attack or "
+        + "press Enter to use the best item available: Attacked the target with Sword.\n";
+    assertEquals(expectedOutput, out.toString());
+  }
+
+  /**
+   * Test AttemptOnTargetCommand to ensure player is asked to input until they
+   * provide a valid item name.
+   */
+  @Test
+  public void testExecuteAttemptOnTargetWithMultipleInvalidInputs() throws IOException {
+    mockWorld = new MockWorld(log, "You attacked the target with Dagger.");
+    PlayerInterface mockPlayer = new HumanPlayer("Human", mockWorld.getRooms().get(0), 2);
+    mockWorld.addPlayer(mockPlayer, 0);
+
+    // Add items to player's inventory
+    mockPlayer.pickUpItem(new Item(20, "Dagger"));
+
+    StringReader in = new StringReader("WrongItem\nAnotherWrong\nDagger\n");
+    Command attemptCommand = new AttemptOnTargetCommand(mockWorld, out, new Scanner(in));
+    attemptCommand.execute();
+
+    // System.out.println(log);
+    // System.out.println(out);
+
+    // Verify the output prompts the user for multiple invalid entries
+    assertTrue(out.toString().contains("Enter the valid item name to use for the attack or "
+        + "press Enter to use the best item available: Invalid item name. "
+        + "Please enter a valid item from your inventory or press Enter to use the best item.\n"));
+    assertTrue(out.toString().contains("Enter the valid item name to use for the attack or "
+        + "press Enter to use the best item available: Attacked the target with Dagger."));
+  }
+
+  /**
+   * Test AttemptOnTargetCommand to ensure it handles attacking without any item
+   * available.
+   */
+  @Test
+  public void testExecuteAttemptOnTargetWithoutAnyItem() throws IOException {
+    StringReader in = new StringReader("\n"); // Press Enter without specifying an item
+    mockWorld = new MockWorld(log, "Poked the target in the eye for 1 damage.");
+    PlayerInterface mockPlayer = new HumanPlayer("Human", mockWorld.getRooms().get(0), 2);
+    mockWorld.addPlayer(mockPlayer, 0);
+
+    // No items in the player's inventory
+
+    Command attemptCommand = new AttemptOnTargetCommand(mockWorld, out, new Scanner(in));
+    attemptCommand.execute();
+    // System.out.println(log);
+    // System.out.println(out);
+
+    // Verify the output
+    assertTrue(out.toString().contains("Poked the target in the eye for 1 damage."));
   }
 }

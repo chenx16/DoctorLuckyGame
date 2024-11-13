@@ -97,7 +97,6 @@ public class Controller implements ControllerInterface {
                 attackCommand.execute();
                 // Check if the target is still alive
                 if (!world.getTargetCharacter().isAlive()) {
-//                  out.append("The target has been killed! Game over.\n");
                   return; // End the game if the target is dead
                 }
               }
@@ -121,7 +120,6 @@ public class Controller implements ControllerInterface {
         out.append(actionResult + "\n");
         // Check if the target is still alive after the computer player's turn
         if (!world.getTargetCharacter().isAlive()) {
-//          out.append("The target has been killed by a computer-controlled player! Game over.\n");
           return; // End the game if the target is dead
         }
       }

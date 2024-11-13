@@ -2,6 +2,7 @@ package player;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import coordinate.Coordinate;
@@ -19,9 +20,10 @@ import room.RoomInterface;
  */
 public class PlayerTest {
 
-  private HumanPlayer humanPlayer;
-  private ComputerPlayer computerPlayer;
+  private PlayerInterface humanPlayer;
+  private PlayerInterface computerPlayer;
   private RoomInterface startingRoom;
+  private RoomInterface neighboringRoom;
 
   /**
    * Sets up the test environment by creating players, rooms and items for
@@ -31,6 +33,12 @@ public class PlayerTest {
   public void setUp() {
     startingRoom = new Room(new Coordinate(0, 0), new Coordinate(1, 1), "Starting Room", 0,
         new ArrayList<>(), new ArrayList<>());
+    neighboringRoom = new Room(new Coordinate(2, 2), new Coordinate(3, 3), "Neighboring Room", 1,
+        new ArrayList<>(), new ArrayList<>());
+
+    startingRoom.addNeighbor(neighboringRoom);
+    neighboringRoom.addNeighbor(startingRoom);
+
     humanPlayer = new HumanPlayer("Human", startingRoom, 2);
     computerPlayer = new ComputerPlayer("Computer", startingRoom, 2);
   }
@@ -48,10 +56,8 @@ public class PlayerTest {
 
   @Test
   public void testMoveTo() {
-    RoomInterface newRoom = new Room(new Coordinate(2, 2), new Coordinate(3, 3), "New Room", 1,
-        new ArrayList<>(), new ArrayList<>());
-    humanPlayer.moveTo(newRoom);
-    assertEquals("New Room", humanPlayer.getCurrentRoom().getName());
+    humanPlayer.moveTo(neighboringRoom);
+    assertEquals("Neighboring Room", humanPlayer.getCurrentRoom().getName());
   }
 
   @Test
@@ -106,7 +112,7 @@ public class PlayerTest {
   public void testGetDescription() {
     String description = humanPlayer.getDescription();
     String expectedOutput = "It's Human's turn.\n" + "You are in: Starting Room\n"
-        + "There are 0 neighboring rooms.\n" + "Inventory: No items";
+        + "There are 1 neighboring rooms.\n" + "Inventory: No items";
     assertEquals(expectedOutput, description);
   }
 
@@ -114,4 +120,83 @@ public class PlayerTest {
   public void testToString() {
     assertEquals("Player Human in Starting Room with items: []", humanPlayer.toString());
   }
+
+  @Test
+  public void testRemoveItem() {
+    ItemInterface item = new Item(5, "Sword");
+    startingRoom.addItem(item);
+    humanPlayer.pickUpItem(item);
+    assertEquals(1, humanPlayer.getInventory().size());
+    humanPlayer.removeItem(item);
+    assertEquals(0, humanPlayer.getInventory().size());
+  }
+
+  @Test
+  public void testCanSeePlayerInSameRoom() {
+    humanPlayer.moveTo(startingRoom);
+    computerPlayer.moveTo(startingRoom);
+
+    assertTrue(humanPlayer.canSeePlayer(computerPlayer));
+    assertTrue(computerPlayer.canSeePlayer(humanPlayer));
+  }
+
+  @Test
+  public void testCanSeePlayerInNeighboringRoom() {
+    humanPlayer.moveTo(startingRoom);
+    computerPlayer.moveTo(neighboringRoom);
+
+    assertTrue(humanPlayer.canSeePlayer(computerPlayer));
+    assertTrue(computerPlayer.canSeePlayer(humanPlayer));
+  }
+
+  @Test
+  public void testCanNotSeePlayer() {
+    RoomInterface otherRoom = new Room(new Coordinate(4, 4), new Coordinate(5, 5), "Other Room", 2,
+        new ArrayList<>(), new ArrayList<>());
+
+    humanPlayer.moveTo(startingRoom);
+    computerPlayer.moveTo(otherRoom);
+
+    assertFalse(humanPlayer.canSeePlayer(computerPlayer));
+    assertFalse(computerPlayer.canSeePlayer(humanPlayer));
+  }
+
+  @Test
+  public void testGetMaxItems() {
+    assertEquals(2, humanPlayer.getMaxItems());
+    assertEquals(2, computerPlayer.getMaxItems());
+  }
+
+  @Test
+  public void testGetIsComputerControlled() {
+    assertFalse(humanPlayer.getIsComputerControlled());
+    assertTrue(computerPlayer.getIsComputerControlled());
+  }
+
+  @Test
+  public void testHashCodeAndEquals() {
+    PlayerInterface anotherHumanPlayer = new HumanPlayer("Human", startingRoom, 2);
+
+    // Test if two HumanPlayers with the same properties are considered equal
+    assertEquals(humanPlayer, anotherHumanPlayer);
+    assertEquals(humanPlayer, humanPlayer);
+    assertEquals(humanPlayer.hashCode(), anotherHumanPlayer.hashCode());
+
+    // Test if a HumanPlayer and a ComputerPlayer with the same properties are not
+    // equal
+    PlayerInterface anotherComputerPlayer = new ComputerPlayer("Human", startingRoom, 2);
+    assertNotEquals(humanPlayer, anotherComputerPlayer);
+    assertNotEquals(humanPlayer, computerPlayer);
+
+    // Test if two ComputerPlayers with the same properties are equal
+    PlayerInterface anotherComputerPlayerSame = new ComputerPlayer("Computer", startingRoom, 2);
+    assertEquals(computerPlayer, anotherComputerPlayerSame);
+    assertEquals(computerPlayer, computerPlayer);
+    assertEquals(computerPlayer.hashCode(), anotherComputerPlayerSame.hashCode());
+
+    // Test null and different types
+    assertFalse(humanPlayer.equals(null));
+    assertFalse(humanPlayer.equals("Not a Player"));
+  }
+
 }

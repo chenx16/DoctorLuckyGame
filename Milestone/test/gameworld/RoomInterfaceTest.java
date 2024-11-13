@@ -276,6 +276,115 @@ public class RoomInterfaceTest {
   }
 
   /**
+   * Tests getRoomDescriptionVisible for a room with items and players. Ensures
+   * that the description includes all items and players correctly.
+   */
+  @Test
+  public void testGetRoomDescriptionVisibleWithItemsAndPlayers() {
+    // Add items and players to the room
+    room.addItem(item1);
+    room.addItem(item2);
+    room.addPlayer(player1);
+    room.addPlayer(player2);
+
+    String expectedDescription = "You are in: Armory.\n" + "Items here:\n"
+        + "- Sword with 5 damage.\n" + "- Shield with 3 damage.\n"
+        + "Players here: Player1 Player2 \n\n" + "Visible neighboring spaces:\n";
+
+    String actualDescription = room.getRoomDescriptionVisible();
+    assertEquals(expectedDescription, actualDescription);
+  }
+
+  /**
+   * Tests getRoomDescriptionVisible for a room with neighbors where some are
+   * sealed. Ensures that only unsealed neighbors are visible.
+   */
+  @Test
+  public void testGetRoomDescriptionVisibleWithSomeSealedNeighbors() {
+    RoomInterface neighbor1 = new Room(new Coordinate(0, 3), new Coordinate(2, 5), "Neighbor 1", 1,
+        new ArrayList<>(), new ArrayList<>());
+    RoomInterface neighbor2 = new Room(new Coordinate(3, 3), new Coordinate(5, 5), "Neighbor 2", 2,
+        new ArrayList<>(), new ArrayList<>());
+
+    // Add neighbors and seal one of them
+    room.addNeighbor(neighbor1);
+    room.addNeighbor(neighbor2);
+    neighbor1.setSealed();
+
+    String expectedDescription = "You are in: Armory.\n" + "No items in this room.\n"
+        + "Players here: No players in this room.\n\n" + "Visible neighboring spaces:\n"
+        + "- 2 Neighbor 2\n" + "Players: No players.\n" + "Items: No items.\n\n";
+
+    String actualDescription = room.getRoomDescriptionVisible();
+    assertEquals(expectedDescription, actualDescription);
+  }
+
+  /**
+   * Tests getRoomDescriptionVisible for a room with no items, no players, and
+   * unsealed neighbors. Ensures that the description includes only the room
+   * itself and visible neighbors.
+   */
+  @Test
+  public void testGetRoomDescriptionVisibleWithNoItemsOrPlayers() {
+    RoomInterface neighbor = new Room(new Coordinate(0, 3), new Coordinate(2, 5), "Neighbor Room",
+        1, new ArrayList<>(), new ArrayList<>());
+
+    // Add an unsealed neighbor
+    room.addNeighbor(neighbor);
+
+    String expectedDescription = "You are in: Armory.\n" + "No items in this room.\n"
+        + "Players here: No players in this room.\n\n" + "Visible neighboring spaces:\n"
+        + "- 1 Neighbor Room\n" + "Players: No players.\n" + "Items: No items.\n\n";
+
+    String actualDescription = room.getRoomDescriptionVisible();
+    assertEquals(expectedDescription, actualDescription);
+  }
+
+  /**
+   * Tests getRoomDescriptionVisible for a room with all neighbors sealed. Ensures
+   * that no neighbors are listed as visible.
+   */
+  @Test
+  public void testGetRoomDescriptionVisibleWithAllNeighborsSealed() {
+    RoomInterface neighbor1 = new Room(new Coordinate(0, 3), new Coordinate(2, 5), "Neighbor 1", 1,
+        new ArrayList<>(), new ArrayList<>());
+    RoomInterface neighbor2 = new Room(new Coordinate(3, 3), new Coordinate(5, 5), "Neighbor 2", 2,
+        new ArrayList<>(), new ArrayList<>());
+
+    // Add neighbors and seal both of them
+    room.addNeighbor(neighbor1);
+    room.addNeighbor(neighbor2);
+    neighbor1.setSealed();
+    neighbor2.setSealed();
+
+    String expectedDescription = "You are in: Armory.\n" + "No items in this room.\n"
+        + "Players here: No players in this room.\n\n" + "Visible neighboring spaces:\n";
+
+    String actualDescription = room.getRoomDescriptionVisible();
+    assertEquals(expectedDescription, actualDescription);
+  }
+
+  /**
+   * Tests getRoomDescriptionVisible for a room with one visible neighbor. Ensures
+   * that the description includes the single visible neighbor correctly.
+   */
+  @Test
+  public void testGetRoomDescriptionVisibleWithOneNeighbor() {
+    RoomInterface neighbor = new Room(new Coordinate(3, 3), new Coordinate(5, 5),
+        "Visible Neighbor", 2, new ArrayList<>(), new ArrayList<>());
+
+    // Add the neighbor and leave it unsealed
+    room.addNeighbor(neighbor);
+
+    String expectedDescription = "You are in: Armory.\n" + "No items in this room.\n"
+        + "Players here: No players in this room.\n\n" + "Visible neighboring spaces:\n"
+        + "- 2 Visible Neighbor\n" + "Players: No players.\n" + "Items: No items.\n\n";
+
+    String actualDescription = room.getRoomDescriptionVisible();
+    assertEquals(expectedDescription, actualDescription);
+  }
+
+  /**
    * Test the description of a room with no neighbors.
    */
   @Test
@@ -289,4 +398,142 @@ public class RoomInterfaceTest {
 
     assertEquals(expectedDescription, isolatedRoom.getRoomDescription());
   }
+
+  /**
+   * Tests sealing and unsealing a room to verify the room's seal state changes
+   * correctly.
+   */
+  @Test
+  public void testSealAndUnsealRoom() {
+    room.setSealed();
+    assertTrue(room.isSealed());
+
+    room.unseal();
+    assertFalse(room.isSealed());
+  }
+
+  /**
+   * Tests getting visible neighbors when some rooms are sealed. Ensures only
+   * unsealed neighboring rooms are returned.
+   */
+  @Test
+  public void testGetVisibleNeighborsWithSealedRooms() {
+    RoomInterface neighbor1 = new Room(new Coordinate(0, 3), new Coordinate(2, 5), "Neighbor 1", 1,
+        new ArrayList<>(), new ArrayList<>());
+    RoomInterface neighbor2 = new Room(new Coordinate(3, 3), new Coordinate(5, 5), "Neighbor 2", 2,
+        new ArrayList<>(), new ArrayList<>());
+
+    // Add neighbors and seal one of them
+    room.addNeighbor(neighbor1);
+    room.addNeighbor(neighbor2);
+    neighbor1.setSealed();
+
+    List<RoomInterface> visibleNeighbors = room.getVisibleNeighbors();
+    assertEquals(1, visibleNeighbors.size());
+    assertEquals(neighbor2, visibleNeighbors.get(0));
+  }
+
+  /**
+   * Tests getting neighbors when no neighbors are added. Ensures that the
+   * returned list is empty.
+   */
+  @Test
+  public void testGetNeighborsWhenEmpty() {
+    List<RoomInterface> neighbors = room.getListofNeighbors();
+    assertNotNull(neighbors);
+    assertTrue(neighbors.isEmpty());
+  }
+
+  /**
+   * Tests getting items when no items are present in the room. Ensures that the
+   * returned list is empty.
+   */
+  @Test
+  public void testGetItemsWhenEmpty() {
+    List<ItemInterface> items = room.getItems();
+    assertNotNull(items);
+    assertTrue(items.isEmpty());
+  }
+
+  /**
+   * Tests getting players when no players are present in the room. Ensures that
+   * the returned list is empty.
+   */
+  @Test
+  public void testGetPlayersWhenEmpty() {
+    List<PlayerInterface> players = room.getPlayers();
+    assertNotNull(players);
+    assertTrue(players.isEmpty());
+  }
+
+  /**
+   * Tests adding and removing neighbors to ensure consistency.
+   */
+  @Test
+  public void testAddAndRemoveNeighborConsistency() {
+    RoomInterface neighborRoom = new Room(new Coordinate(0, 3), new Coordinate(2, 5),
+        "Billiard Room", 1, new ArrayList<>(), new ArrayList<>());
+
+    // Add a neighbor and verify
+    room.addNeighbor(neighborRoom);
+    assertTrue(room.getListofNeighbors().contains(neighborRoom));
+
+    // Reset neighbors and verify it's empty
+    room.resetNeighbors();
+    assertTrue(room.getListofNeighbors().isEmpty());
+  }
+
+  /**
+   * Tests the description of a room that is sealed.
+   */
+  @Test
+  public void testRoomDescriptionWhenSealed() {
+    room.setSealed();
+    String expectedDescription = "Room: Armory\n" + "No items in this room.\n"
+        + "Players in room: No players in this room.\n" + "This room has no neighboring rooms.\n";
+    assertEquals(expectedDescription, room.getRoomDescription());
+  }
+
+  /**
+   * Tests getRoomDescriptionVisible when the room has sealed neighbors. Ensures
+   * that sealed rooms are not listed as visible.
+   */
+  @Test
+  public void testGetRoomDescriptionVisibleWithSealedNeighbors() {
+    RoomInterface neighbor1 = new Room(new Coordinate(0, 3), new Coordinate(2, 5), "Neighbor 1", 1,
+        new ArrayList<>(), new ArrayList<>());
+    RoomInterface neighbor2 = new Room(new Coordinate(3, 3), new Coordinate(5, 5), "Neighbor 2", 2,
+        new ArrayList<>(), new ArrayList<>());
+
+    // Add neighbors and seal one of them
+    room.addNeighbor(neighbor1);
+    room.addNeighbor(neighbor2);
+    neighbor1.setSealed();
+
+    String visibleDescription = room.getRoomDescriptionVisible();
+    assertTrue(visibleDescription.contains("Visible neighboring spaces:"));
+    assertFalse(visibleDescription.contains("Neighbor 1")); // Sealed neighbor should not be visible
+    assertTrue(visibleDescription.contains("Neighbor 2")); // Unsealed neighbor should be visible
+  }
+
+  /**
+   * Tests if an exception is thrown when trying to remove a non-existent item.
+   */
+  @Test
+  public void testRemoveNonExistentItem() {
+    ItemInterface nonExistentItem = new Item(15, "Non-Existent");
+    room.removeItem(nonExistentItem); // Should not throw an exception
+    assertFalse(room.getItems().contains(nonExistentItem));
+  }
+
+  /**
+   * Tests if an exception is thrown when trying to remove a non-existent player.
+   */
+  @Test
+  public void testRemoveNonExistentPlayer() {
+    PlayerInterface nonExistentPlayer = new HumanPlayer("NonExistentPlayer", room, 5);
+    room.removePlayer(nonExistentPlayer); // Should not throw an exception
+    assertFalse(room.getPlayers().contains(nonExistentPlayer));
+  }
+
 }

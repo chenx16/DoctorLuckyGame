@@ -4,7 +4,6 @@ import item.ItemInterface;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import room.Room;
 import room.RoomInterface;
 
 /**
@@ -127,7 +126,7 @@ public abstract class Player implements PlayerInterface {
    */
   @Override
   public int hashCode() {
-    return Objects.hash(name, maxItems, isComputerControlled);
+    return Objects.hash(name, maxItems, isComputerControlled, currentRoom, inventory);
   }
 
   /**
@@ -146,10 +145,14 @@ public abstract class Player implements PlayerInterface {
     if (this == obj) {
       return true;
     }
-    if (!(obj instanceof Room)) {
-      return false;
+    if (getClass() != obj.getClass()) {
+      return false; // Ensure the same subclass type is compared
     }
     Player other = (Player) obj;
-    return this.hashCode() == other.hashCode();
+    return Objects.equals(this.name, other.name) && this.maxItems == other.maxItems
+        && this.isComputerControlled == other.isComputerControlled
+        && Objects.equals(this.currentRoom, other.currentRoom)
+        && Objects.equals(this.inventory, other.inventory);
   }
+
 }

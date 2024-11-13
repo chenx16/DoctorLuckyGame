@@ -258,7 +258,6 @@ public class World implements WorldInterface {
 
   @Override
   public void moveTargetCharacter() {
-
     RoomInterface currentRoom = targetCharacter.getCurrentRoom();
     int currentIndex = rooms.indexOf(currentRoom);
     int nextIndex = (currentIndex + 1) % rooms.size(); // Ensures the index stays within bounds
@@ -547,12 +546,9 @@ public class World implements WorldInterface {
           }
         }
         // Move the pet to the next room in the DFS traversal path
-        int oldRmInd = pet.getCurrentRoom().getRoomInd();
-//        rooms.get(oldRmInd).unseal();
+
         RoomInterface newRoom = rooms.get(nextRoom.getRoomInd());
-//        newRoom.setSealed();
         pet.moveTo(newRoom);
-//        calculateNeighbors();
         return;
       }
     }
@@ -575,10 +571,12 @@ public class World implements WorldInterface {
     dfsStack.push(newRoom);
   }
 
+  @Override
   public void setGameEnd(boolean isGameEnd) {
     this.gameEnd = isGameEnd;
   }
 
+  @Override
   public boolean isGameEnd() {
     return gameEnd;
   }
