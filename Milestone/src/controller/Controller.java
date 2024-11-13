@@ -24,7 +24,7 @@ import room.RoomInterface;
  */
 public class Controller implements ControllerInterface {
 
-  private Appendable out;
+  private static Appendable out;
   private Scanner scanner;
   private Map<String, Command> commandMap = new HashMap<>();
 
@@ -132,6 +132,7 @@ public class Controller implements ControllerInterface {
     out.append("Game over! Unfortunately, the maximum number of turns is reached.\n")
         .append("The target character escapes and runs away to live another day\n")
         .append("Nobody wins...\n");
+
   }
 
   /**
