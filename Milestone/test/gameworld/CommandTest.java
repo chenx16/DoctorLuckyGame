@@ -55,7 +55,8 @@ public class CommandTest {
     // System.out.println(log);
     // System.out.println(out);
     // Verify the interaction with the world
-    assertEquals("addPlayer called\n" + "Action: look, Room: -1, Item: null\n", log.toString());
+    assertEquals("addPlayer called\n" + "getTurn called\n" + "Action: look, Room: 0, Item: null\n",
+        log.toString());
 
     // Verify the output
     assertEquals("You are in a peaceful room with no items.\n", out.toString());

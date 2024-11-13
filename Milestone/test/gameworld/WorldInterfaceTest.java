@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import coordinate.Coordinate;
+import item.Item;
 import item.ItemInterface;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -169,9 +170,9 @@ public class WorldInterfaceTest {
     RoomInterface armory = world.getRooms().get(0); // Room 0 is Armory
 
     String expectedOutput = "Room: Armory\n" + "Items in this room:\n"
-        + "- Item Revolver with 3 damage.\n" + "Players in room: No players in this room.\n"
+        + "- Revolver with 3 damage.\n" + "Players in room: No players in this room.\n"
         + "Neighboring rooms:\n" + "- 1 Billiard Room\n" + "- 3 Dining Hall\n"
-        + "- 4 Drawing Room\n\n" + "Target character is here: Doctor Lucky\n";
+        + "- 4 Drawing Room\n" + "\n" + "Target character is here: Doctor Lucky\n";
 
     String actualOutput = world.getSpaceInfo(armory);
     assertEquals(expectedOutput, actualOutput);
@@ -393,7 +394,7 @@ public class WorldInterfaceTest {
 
   /**
    * Tests the pet's wandering behavior in the world using wanderPet(). Verifies
-   * that the pet moves to a new room each time wanderPet() is called.
+   * that the pet moves to a new room each time wanderPet() is called. //
    */
   @Test
   public void testWanderPet() {
@@ -401,13 +402,13 @@ public class WorldInterfaceTest {
     RoomInterface initialRoomTarget = world.getTargetCharacter().getCurrentRoom();
     assertEquals(initialRoom, initialRoomTarget);
     assertNotNull(initialRoom);
-    System.out.println(initialRoom.getName());
+    // System.out.println(initialRoom.getName());
     // First move
     world.wanderPet();
     RoomInterface firstMoveRoom = world.getPet().getCurrentRoom();
     assertNotNull(firstMoveRoom);
-    System.out.println(firstMoveRoom.getName());
-//    assertEquals(initialRoom, firstMoveRoom);
+    assertEquals(initialRoom, firstMoveRoom);
+    // System.out.println(firstMoveRoom.getName());
     // Second move
     world.wanderPet();
     RoomInterface secondMoveRoom = world.getPet().getCurrentRoom();
@@ -442,4 +443,119 @@ public class WorldInterfaceTest {
     world.wanderPet();
     world.wanderPet();
   }
+
+  /**
+   * Tests the attemptOnTarget method for a human player without specifying an
+   * item. Verifies that the method automatically selects the best item or
+   * defaults to a "poke" action.
+   */
+  @Test
+  public void testAttemptOnTargetHumanPlayerNoItem() {
+    world.addPlayer(playerH, 0);
+    String result = world.attemptOnTarget(playerH, "");
+    assertNotNull(result);
+    assertTrue(
+        result.contains("automatic attack activated") || result.contains("poked the target"));
+  }
+
+  /**
+   * Tests the attemptOnTarget method for a human player who specifies an item.
+   * Verifies that the correct item is used for the attack and the method behaves
+   * as expected.
+   */
+  @Test
+  public void testAttemptOnTargetHumanPlayerWithItem() {
+    world.addPlayer(playerH, 0);
+    world.getRooms().get(0).addItem(new Item(10, "Dagger"));
+    playerH.pickUpItem(new Item(10, "Dagger"));
+
+    String result = world.attemptOnTarget(playerH, "Dagger");
+    assertNotNull(result);
+    assertTrue(result.contains("attacked the target with Dagger"));
+  }
+
+  /**
+   * Tests the attemptOnTarget method for a computer-controlled player. Verifies
+   * that the method automatically selects the best item or defaults to a "poke"
+   * action.
+   */
+  @Test
+  public void testAttemptOnTargetComputerPlayer() {
+    world.addPlayer(playerC, 0);
+    playerC.pickUpItem(new Item(15, "Crossbow"));
+
+    String result = world.attemptOnTarget(playerC, null);
+    assertNotNull(result);
+    assertTrue(result.contains("attacked the target") || result.contains("poked the target"));
+  }
+
+  /**
+   * Tests the setGameEnd and isGameEnd methods to ensure that the game end state
+   * can be set and retrieved correctly.
+   */
+  @Test
+  public void testSetAndGetGameEnd() {
+    assertFalse(world.isGameEnd());
+    world.setGameEnd(true);
+    assertTrue(world.isGameEnd());
+  }
+
+  /**
+   * Tests the getTargetLocationHint method when the target's last known room is
+   * unknown. Verifies that the hint indicates no information is available.
+   */
+  @Test
+  public void testGetTargetLocationHintNoLastRoom() {
+    String hint = world.getTargetLocationHint();
+    assertNotNull(hint);
+    assertTrue(hint.contains("No information on the target’s last known location"));
+  }
+
+  /**
+   * Tests the getTargetLocationHint method when the target is in a known room.
+   * Verifies that the hint includes the current room information of the target.
+   */
+  @Test
+  public void testGetTargetLocationHintKnownRoom() {
+    RoomInterface currentRoom = world.getTargetCharacter().getCurrentRoom();
+    String hint = world.getTargetLocationHint();
+    // System.out.println(hint);
+    assertTrue(hint.contains("No information on the target’s last known location."));
+    world.addPlayer(playerC, 1);
+    world.turnComputerPlayer();
+    world.moveTargetCharacter();
+    String hintAfter = world.getTargetLocationHint();
+    assertTrue(hintAfter.contains("\nThe target was last seen in Armory with index 0."));
+    assertTrue(hintAfter.contains("\nATTENTION: Target character Doctor Lucky is here!!!"));
+    assertTrue(hintAfter.contains(currentRoom.getName()));
+  }
+
+  /**
+   * Tests the room sealing logic by setting a room as sealed and unsealing it.
+   * Verifies that the room's seal state is correctly set and retrieved.
+   */
+  @Test
+  public void testRoomSealLogic() {
+    RoomInterface room = world.getRooms().get(0);
+    room.setSealed();
+    assertTrue(room.isSealed());
+
+    room.unseal();
+    assertFalse(room.isSealed());
+  }
+
+  /**
+   * Tests the behavior of the pet moving to a room when some rooms are sealed.
+   * Verifies that the pet's movement and room seal status behave as expected.
+   */
+  @Test
+  public void testPetMovementWithSealedRooms() {
+    RoomInterface room = world.getRooms().get(1);
+    room.setSealed();
+
+    world.movePetTo(1);
+    assertEquals(room, world.getPet().getCurrentRoom());
+    assertTrue(room.isSealed());
+  }
+
 }

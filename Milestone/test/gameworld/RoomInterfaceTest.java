@@ -172,7 +172,7 @@ public class RoomInterfaceTest {
    */
   @Test
   public void testToStringValidItem() {
-    String expectedOutput = "Item Revolver with 10 damage.";
+    String expectedOutput = "Revolver with 10 damage.";
     assertEquals(expectedOutput, item.toString());
   }
 
@@ -240,7 +240,7 @@ public class RoomInterfaceTest {
 
     // Test the description of a room with items, players, and neighbors
     String expectedDescription = "Room: Armory\n" + "Items in this room:\n"
-        + "- Item Sword with 5 damage.\n" + "- Item Shield with 3 damage.\n"
+        + "- Sword with 5 damage.\n" + "- Shield with 3 damage.\n"
         + "Players in room: Player1 Player2 \n" + "Neighboring rooms:\n" + "- 1 Armory\n\n";
 
     assertEquals(expectedDescription, room.getRoomDescription());
@@ -255,7 +255,7 @@ public class RoomInterfaceTest {
     room.addItem(item1);
 
     String expectedDescription = "Room: Armory\n" + "Items in this room:\n"
-        + "- Item Sword with 5 damage.\n" + "Players in room: No players in this room.\n"
+        + "- Sword with 5 damage.\n" + "Players in room: No players in this room.\n"
         + "This room has no neighboring rooms.\n";
 
     assertEquals(expectedDescription, room.getRoomDescription());

@@ -98,16 +98,16 @@ public class PlayerTest {
     ItemInterface item = new Item(5, "Sword");
     startingRoom.addItem(item);
     String description = humanPlayer.lookAround();
-    String expectedOutput = "\nStarting Room contains: [Item Sword with 5 damage.]";
+    String expectedOutput = "\n" + "Starting Room contains: [Sword with 5 damage.]";
     assertEquals(expectedOutput, description);
   }
 
   @Test
   public void testGetDescription() {
     String description = humanPlayer.getDescription();
-    assertTrue(description.contains("Player Name: Human"));
-    assertTrue(description.contains("Current Room: Starting Room"));
-    assertTrue(description.contains("Inventory: No items"));
+    String expectedOutput = "It's Human's turn.\n" + "You are in: Starting Room\n"
+        + "There are 0 neighboring rooms.\n" + "Inventory: No items";
+    assertEquals(expectedOutput, description);
   }
 
   @Test

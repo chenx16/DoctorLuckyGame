@@ -183,19 +183,18 @@ public class MockWorld implements WorldInterface {
 
   @Override
   public void setGameEnd(boolean isGameEnd) {
-    // TODO Auto-generated method stub
-
+    log.append("setGameEnd called\n");
   }
 
   @Override
   public boolean isGameEnd() {
-    // TODO Auto-generated method stub
+    log.append("isGameEnd called\n");
     return false;
   }
 
   @Override
   public String attemptOnTarget(PlayerInterface player, String itemName) {
-    // TODO Auto-generated method stub
+    log.append("attemptOnTarget called\n");
     return null;
   }
 

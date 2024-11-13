@@ -548,11 +548,11 @@ public class World implements WorldInterface {
         }
         // Move the pet to the next room in the DFS traversal path
         int oldRmInd = pet.getCurrentRoom().getRoomInd();
-        rooms.get(oldRmInd).unseal();
+//        rooms.get(oldRmInd).unseal();
         RoomInterface newRoom = rooms.get(nextRoom.getRoomInd());
-        newRoom.setSealed();
+//        newRoom.setSealed();
         pet.moveTo(newRoom);
-        calculateNeighbors();
+//        calculateNeighbors();
         return;
       }
     }

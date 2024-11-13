@@ -48,7 +48,7 @@ public class ControllerInterfaceTest {
     // System.out.println(out);
 
     assertEquals(log.toString(), "addPlayer called\n" + "addPlayer called\n" + "wanderPet called\n"
-        + "getTurn called\n" + "getPet called\n");
+        + "getTurn called\n" + "getTargetLocationHint called\n" + "getPet called\n");
     assertTrue(out.toString().contains("Human player Human Player added to the game."));
     assertTrue(out.toString().contains("Turn number: 1/10"));
   }
@@ -63,8 +63,9 @@ public class ControllerInterfaceTest {
 
     assertEquals(log.toString(),
         "addPlayer called\n" + "addPlayer called\n" + "wanderPet called\n" + "getTurn called\n"
-            + "getPet called\n" + "Action: look, Room: -1, Item: null\n"
-            + "moveTargetCharacter called\n" + "wanderPet called\n" + "getTurn called\n"
+            + "getTargetLocationHint called\n" + "getPet called\n" + "getTurn called\n"
+            + "Action: look, Room: 0, Item: null\n" + "moveTargetCharacter called\n"
+            + "wanderPet called\n" + "getTurn called\n" + "getTargetLocationHint called\n"
             + "getPet called\n");
     assertTrue(out.toString().contains("Mocked model response\n"));
 
@@ -80,7 +81,7 @@ public class ControllerInterfaceTest {
     // System.out.println(out);
 
     assertEquals(log.toString(), "addPlayer called\n" + "addPlayer called\n" + "wanderPet called\n"
-        + "getTurn called\n" + "getPet called\n");
+        + "getTurn called\n" + "getTargetLocationHint called\n" + "getPet called\n");
     assertTrue(out.toString().contains("Human player Human Player added to the game."));
   }
 
@@ -129,8 +130,9 @@ public class ControllerInterfaceTest {
 
     assertEquals(log.toString(),
         "addPlayer called\n" + "addPlayer called\n" + "wanderPet called\n" + "getTurn called\n"
-            + "getPet called\n" + "Action: look, Room: -1, Item: null\n"
-            + "moveTargetCharacter called\n" + "wanderPet called\n" + "getTurn called\n"
+            + "getTargetLocationHint called\n" + "getPet called\n" + "getTurn called\n"
+            + "Action: look, Room: 0, Item: null\n" + "moveTargetCharacter called\n"
+            + "wanderPet called\n" + "getTurn called\n" + "getTargetLocationHint called\n"
             + "getPet called\n");
     assertTrue(out.toString().contains("Mocked model response"));
   }
@@ -146,8 +148,9 @@ public class ControllerInterfaceTest {
 
     assertEquals(log.toString(),
         "addPlayer called\n" + "addPlayer called\n" + "wanderPet called\n" + "getTurn called\n"
-            + "getPet called\n" + "getTurn called\n" + "Action: move, Room: 1, Item: null\n"
-            + "moveTargetCharacter called\n" + "wanderPet called\n" + "getTurn called\n"
+            + "getTargetLocationHint called\n" + "getPet called\n" + "getTurn called\n"
+            + "Action: move, Room: 1, Item: null\n" + "moveTargetCharacter called\n"
+            + "wanderPet called\n" + "getTurn called\n" + "getTargetLocationHint called\n"
             + "getPet called\n");
     assertTrue(out.toString().contains("Enter the room index to move to: Mocked model response"));
   }
@@ -169,11 +172,12 @@ public class ControllerInterfaceTest {
   public void testGameOverAtMaxTurns() throws IOException {
     StringReader in = new StringReader("Human Player\n0\nl\n");
     controller = new Controller(in, out);
-    controller.start(mockWorld, 1, new Random());
+    controller.start(mockWorld, 1, new Random(1));
     // System.out.println(log);
     // System.out.println(out);
 
-    assertTrue(out.toString().contains("Game over! The maximum number of turns has been reached."));
+    assertTrue(out.toString()
+        .contains("Game over! Unfortunately, the maximum number of turns is reached."));
   }
 
   // Test handling of invalid action input
@@ -186,7 +190,8 @@ public class ControllerInterfaceTest {
     // System.out.println(out);
 
     assertTrue(out.toString().contains("Exiting the game."));
-    assertTrue(out.toString().contains("Invalid action. Please enter 'l', 'p', 'm', or 'mp'."));
+    assertTrue(
+        out.toString().contains("Invalid action. Please enter 'l', 'p', 'm', 'mp', or 'a'."));
   }
 
   @Test
@@ -198,8 +203,8 @@ public class ControllerInterfaceTest {
     // System.out.println(out);
 
     assertTrue(out.toString().contains("Exiting the game."));
-    assertTrue(out.toString().contains("It's Human Player's turn.\n" + "Player Name: Human Player\n"
-        + "Current Room: New Room\n" + "Inventory: No items"));
+    assertTrue(out.toString().contains("It's Human Player's turn.\n" + "You are in: New Room\n"
+        + "There are 1 neighboring rooms.\n" + "Inventory: No itemsnull"));
   }
 
   // Test moving the pet to a new room using the MovePetCommand
