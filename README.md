@@ -127,8 +127,8 @@ Oracle. (n.d.). Class Use for Scanner. Retrieved from https://docs.oracle.com/en
 Apple Community. (2023). Discussion on Issue with Java Execution on Mac. Retrieved from https://discussions.apple.com/thread/255761734?sortBy=rank
 
 ### Design Changes
-Player Management:
-- Added the ability to include multiple players in the game, each identified by name.
+- Player Management:
+Added the ability to include multiple players in the game, each identified by name.
 Players can be human-controlled or computer-controlled, with logic to differentiate their behaviors during turns.
 - Turn-Based System:
 Introduced a turn-based mechanism where each player takes actions in sequence. The game now tracks turn order based on when players were added.
@@ -142,22 +142,22 @@ Modified the information displayed about each room to include players present in
 ## Milestone 3
 
 ### Design Changes
-Gameplay Implementation: 
-- Developed the core gameplay, enhancing the model from Milestones 1 and 2 to support actual gameplay with a text-based controller.
-Target Location Visibility:
-- Added functionality for players to receive information about the target character's current location, enabling strategic gameplay.
-Enhanced 'Look Around' Command:
-- Updated the command to provide realistic information about the current room, neighboring spaces, and who or what can be seen from the current location.
-Visibility Mechanics:
-- Implemented rules for determining visibility between players based on their locations, including direct line of sight and neighboring spaces.
-Pet Mechanics:
-- Introduced the target character's pet, which can affect the visibility of the room it occupies and can be moved by players as a game action.
-Wandering Pet (Extra Credit):
-- Added depth-first traversal logic to enable the pet to wander automatically, enhancing gameplay dynamics.
-Attack Rules:
-- Players, including computer-controlled ones, can attempt to kill the target character, following rules such as visibility checks, item usage, and removing items used in attacks.
-Game Ending Scenarios:
-- Defined clear conditions for ending the game, including successful target elimination or the target escaping after the maximum number of turns.
+- Gameplay Implementation: 
+Developed the core gameplay, enhancing the model from Milestones 1 and 2 to support actual gameplay with a text-based controller.
+- Target Location Visibility:
+Added functionality for players to receive information about the target character's current location, enabling strategic gameplay.
+- Enhanced 'Look Around' Command:
+Updated the command to provide realistic information about the current room, neighboring spaces, and who or what can be seen from the current location.
+- Visibility Mechanics:
+Implemented rules for determining visibility between players based on their locations, including direct line of sight and neighboring spaces.
+- Pet Mechanics:
+Introduced the target character's pet, which can affect the visibility of the room it occupies and can be moved by players as a game action.
+- Wandering Pet (Extra Credit):
+Added depth-first traversal logic to enable the pet to wander automatically, enhancing gameplay dynamics.
+- Attack Rules:
+Players, including computer-controlled ones, can attempt to kill the target character, following rules such as visibility checks, item usage, and removing items used in attacks.
+- Game Ending Scenarios:
+Defined clear conditions for ending the game, including successful target elimination or the target escaping after the maximum number of turns.
 
 Run the JAR file using the following command with default 20 turns:
 
