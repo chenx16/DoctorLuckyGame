@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.Random;
 import pet.PetInterface;
-import room.RoomInterface;
 import target.TargetInterface;
 
 /**
@@ -36,6 +35,7 @@ public class Driver {
    *             maximum number of turns allowed in the game.
    */
   public static void main(String[] args) {
+
     // Check if the necessary arguments are provided
     if (args.length < 1) {
       try {
@@ -112,16 +112,17 @@ public class Driver {
       output.append(pet.toString()).append("\n");
 
       // Show space information, including items
-      output.append("\nSpace information for each room:\n");
-      for (RoomInterface room : world.getRooms()) {
-        output.append(world.getSpaceInfo(room)).append("\n");
-      }
+      // output.append("\nSpace information for each room:\n");
+      // for (RoomInterface room : world.getRooms()) {
+      // output.append(world.getSpaceInfo(room)).append("\n");
+      // }
 
       // Start the game using the controller, passing the max turns
       Controller controller = new Controller(new InputStreamReader(System.in), output);
       controller.start(world, maxTurns, new Random());
 
       // Save the output to a file
+
       saveOutputToFile(output.toString());
 
     } catch (IOException e) {
@@ -139,10 +140,13 @@ public class Driver {
    * @param content The content to be saved.
    */
   private static void saveOutputToFile(String content) {
+
     File outputFile = new File("output.txt");
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
+
       writer.write(content);
       output.append("Output saved to output.txt\n");
+
     } catch (IOException e) {
       handleError("Failed to save output: " + e.getMessage());
     }

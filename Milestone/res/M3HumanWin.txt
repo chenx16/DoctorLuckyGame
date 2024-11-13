@@ -1,0 +1,378 @@
+zhuzhu@Doris-Chens-MacBook-Pro res %  java -jar Milestone3.jar mansion.txt 100
+Loading world...
+World: Doctor Lucky's Mansion
+Target character name: Doctor Lucky, health: 50, currentRoom: Armory
+Pet name: Fortune the Cat, currentRoom: Armory
+
+Maximum number of turns allowed: 100
+Saving the world map to a PNG file...
+2024-11-13 10:51:46.581 java[62451:13786727] +[IMKClient subclass]: chose IMKClient_Modern
+2024-11-13 10:51:46.581 java[62451:13786727] +[IMKInputSession subclass]: chose IMKInputSession_Modern
+World map saved successfully!
+Adding players to the game...
+Computer-controlled player AI Player added to the game, starting in Carriage House.
+Enter the name for the human player: hum
+Available rooms:
+0: Armory
+1: Billiard Room
+2: Carriage House
+3: Dining Hall
+4: Drawing Room
+5: Foyer
+6: Green House
+7: Hedge Maze
+8: Kitchen
+9: Lancaster Room
+10: Library
+11: Lilac Room
+12: Master Suite
+13: Nursery
+14: Parlor
+15: Piazza
+16: Servants' Quarters
+17: Tennessee Room
+18: Trophy Room
+19: Wine Cellar
+20: Winter Garden
+Enter the room index for the human player to start in: 15
+Human player hum added to the game.
+
+Turn number: 1/100
+It's AI Player's turn.
+You are in: Carriage House
+There are 1 neighboring rooms.
+Inventory: No itemsNo information on the target’s last known location.
+Pet Fortune the Cat is in: Armory
+Use 'look' to gather more details about your surroundings.
+AI Player looks around: You are in: Carriage House.
+Items here:
+- Chain Saw with 36 damage.
+- Big Red Hammer with 23 damage.
+Players here: AI Player 
+
+Visible neighboring spaces:
+- 20 Winter Garden
+Players: No players.
+Items: No items.
+
+
+
+
+Turn number: 2/100
+It's hum's turn.
+You are in: Piazza
+There are 3 neighboring rooms.
+Inventory: No items
+The target was last seen in Armory with index 0.
+Pet Fortune the Cat is in: Drawing Room
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+l
+You are in: Piazza.
+Items here:
+- Civil War Cannon with 53 damage.
+Players here: hum 
+
+Visible neighboring spaces:
+- 5 Foyer
+Players: No players.
+Items: No items.
+
+- 7 Hedge Maze
+Players: No players.
+Items: - Loud Noise with 40 damage.
+
+- 20 Winter Garden
+Players: No players.
+Items: No items.
+
+
+
+Turn number: 3/100
+It's AI Player's turn.
+You are in: Carriage House
+There are 1 neighboring rooms.
+Inventory: No items
+The target was last seen in Billiard Room with index 1.
+ATTENTION: Target character Doctor Lucky is here!!!
+Pet Fortune the Cat is in: Wine Cellar
+Use 'look' to gather more details about your surroundings.
+Detected Target character Doctor Lucky
+AI Player (AI) poked the target in the eye for 1 damage.
+The target survived the attack. Remaining health: 49
+
+Turn number: 4/100
+It's hum's turn.
+You are in: Piazza
+There are 3 neighboring rooms.
+Inventory: No items
+The target was last seen in Carriage House with index 2.
+Pet Fortune the Cat is in: Kitchen
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+p
+Items in the room:
+Civil War Cannon (Damage: 53)
+Enter the item name to pick up: Civil War Cannon
+hum picked up Civil War Cannon
+
+Turn number: 5/100
+It's AI Player's turn.
+You are in: Carriage House
+There are 1 neighboring rooms.
+Inventory: No items
+The target was last seen in Dining Hall with index 3.
+Pet Fortune the Cat is in: Parlor
+Use 'look' to gather more details about your surroundings.
+AI Player picked up Chain Saw
+
+
+Turn number: 6/100
+It's hum's turn.
+You are in: Piazza
+There are 3 neighboring rooms.
+Inventory: 
+- Civil War Cannon with 53 damage.
+The target was last seen in Drawing Room with index 4.
+Pet Fortune the Cat is in: Tennessee Room
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+l
+You are in: Piazza.
+No items in this room.
+Players here: hum 
+
+Visible neighboring spaces:
+- 5 Foyer
+Players: No players.
+Items: No items.
+
+- 7 Hedge Maze
+Players: No players.
+Items: - Loud Noise with 40 damage.
+
+- 20 Winter Garden
+Players: No players.
+Items: No items.
+
+
+
+Turn number: 7/100
+It's AI Player's turn.
+You are in: Carriage House
+There are 1 neighboring rooms.
+Inventory: 
+- Chain Saw with 36 damage.
+The target was last seen in Foyer with index 5.
+Pet Fortune the Cat is in: Trophy Room
+Use 'look' to gather more details about your surroundings.
+AI Player moved to Winter Garden
+
+
+Turn number: 8/100
+It's hum's turn.
+You are in: Piazza
+There are 3 neighboring rooms.
+Inventory: 
+- Civil War Cannon with 53 damage.
+The target was last seen in Green House with index 6.
+Pet Fortune the Cat is in: Library
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+l
+You are in: Piazza.
+No items in this room.
+Players here: hum 
+
+Visible neighboring spaces:
+- 5 Foyer
+Players: No players.
+Items: No items.
+
+- 7 Hedge Maze
+Players: No players.
+Items: - Loud Noise with 40 damage.
+
+- 20 Winter Garden
+Players: AI Player 
+Items: No items.
+
+
+
+Turn number: 9/100
+It's AI Player's turn.
+You are in: Winter Garden
+There are 2 neighboring rooms.
+Inventory: 
+- Chain Saw with 36 damage.
+The target was last seen in Hedge Maze with index 7.
+Pet Fortune the Cat is in: Nursery
+Use 'look' to gather more details about your surroundings.
+AI Player looks around: You are in: Winter Garden.
+No items in this room.
+Players here: AI Player 
+
+Visible neighboring spaces:
+- 2 Carriage House
+Players: No players.
+Items: - Big Red Hammer with 23 damage.
+
+- 15 Piazza
+Players: hum 
+Items: No items.
+
+
+
+
+Turn number: 10/100
+It's hum's turn.
+You are in: Piazza
+There are 3 neighboring rooms.
+Inventory: 
+- Civil War Cannon with 53 damage.
+The target was last seen in Kitchen with index 8.
+Pet Fortune the Cat is in: Master Suite
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+l
+You are in: Piazza.
+No items in this room.
+Players here: hum 
+
+Visible neighboring spaces:
+- 5 Foyer
+Players: No players.
+Items: No items.
+
+- 7 Hedge Maze
+Players: No players.
+Items: - Loud Noise with 40 damage.
+
+- 20 Winter Garden
+Players: AI Player 
+Items: No items.
+
+
+
+Turn number: 11/100
+It's AI Player's turn.
+You are in: Winter Garden
+There are 2 neighboring rooms.
+Inventory: 
+- Chain Saw with 36 damage.
+The target was last seen in Lancaster Room with index 9.
+Pet Fortune the Cat is in: Lilac Room
+Use 'look' to gather more details about your surroundings.
+AI Player moved to Carriage House
+
+
+Turn number: 12/100
+It's hum's turn.
+You are in: Piazza
+There are 3 neighboring rooms.
+Inventory: 
+- Civil War Cannon with 53 damage.
+The target was last seen in Library with index 10.
+Pet Fortune the Cat is in: Servants' Quarters
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+l
+You are in: Piazza.
+No items in this room.
+Players here: hum 
+
+Visible neighboring spaces:
+- 5 Foyer
+Players: No players.
+Items: No items.
+
+- 7 Hedge Maze
+Players: No players.
+Items: - Loud Noise with 40 damage.
+
+- 20 Winter Garden
+Players: No players.
+Items: No items.
+
+
+
+Turn number: 13/100
+It's AI Player's turn.
+You are in: Carriage House
+There are 1 neighboring rooms.
+Inventory: 
+- Chain Saw with 36 damage.
+The target was last seen in Lilac Room with index 11.
+Pet Fortune the Cat is in: Lancaster Room
+Use 'look' to gather more details about your surroundings.
+AI Player looks around: You are in: Carriage House.
+Items here:
+- Big Red Hammer with 23 damage.
+Players here: AI Player 
+
+Visible neighboring spaces:
+- 20 Winter Garden
+Players: No players.
+Items: No items.
+
+
+
+
+Turn number: 14/100
+It's hum's turn.
+You are in: Piazza
+There are 3 neighboring rooms.
+Inventory: 
+- Civil War Cannon with 53 damage.
+The target was last seen in Master Suite with index 12.
+Pet Fortune the Cat is in: Dining Hall
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+l
+You are in: Piazza.
+No items in this room.
+Players here: hum 
+
+Visible neighboring spaces:
+- 5 Foyer
+Players: No players.
+Items: No items.
+
+- 7 Hedge Maze
+Players: No players.
+Items: - Loud Noise with 40 damage.
+
+- 20 Winter Garden
+Players: No players.
+Items: No items.
+
+
+
+Turn number: 15/100
+It's AI Player's turn.
+You are in: Carriage House
+There are 1 neighboring rooms.
+Inventory: 
+- Chain Saw with 36 damage.
+The target was last seen in Nursery with index 13.
+Pet Fortune the Cat is in: Billiard Room
+Use 'look' to gather more details about your surroundings.
+AI Player picked up Big Red Hammer
+
+
+Turn number: 16/100
+It's hum's turn.
+You are in: Piazza
+There are 3 neighboring rooms.
+Inventory: 
+- Civil War Cannon with 53 damage.
+The target was last seen in Parlor with index 14.
+ATTENTION: Target character Doctor Lucky is here!!!
+Pet Fortune the Cat is in: Foyer
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+a
+Attempting to attack the target...
+Enter the valid item name to use for the attack or press Enter to use the best item available: Civil War Cannon
+CONGRATULATIONS! Game is over!hum successfully killed the target with Civil War Cannon! hum wins the game!
+Output saved to output.txt
