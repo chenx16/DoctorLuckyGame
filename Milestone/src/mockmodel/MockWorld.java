@@ -174,10 +174,10 @@ public class MockWorld implements WorldInterface {
   }
 
   @Override
-  public Set<RoomInterface> getPetVisitedRooms() {
+  public Set<Integer> getPetVisitedRooms() {
     log.append("getPetVisitedRooms called\n");
-    Set<RoomInterface> visitedRooms = new HashSet<>();
-    visitedRooms.add(pet.getCurrentRoom());
+    Set<Integer> visitedRooms = new HashSet<>();
+    visitedRooms.add(pet.getCurrentRoom().getRoomInd());
     return visitedRooms;
   }
 

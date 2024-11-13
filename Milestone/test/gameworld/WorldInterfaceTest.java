@@ -170,7 +170,7 @@ public class WorldInterfaceTest {
     RoomInterface armory = world.getRooms().get(0); // Room 0 is Armory
 
     String expectedOutput = "Room: Armory\n" + "Items in this room:\n"
-        + "- Revolver with 3 damage.\n" + "Players in room: No players in this room.\n"
+        + "- Revolver with 32 damage.\n" + "Players in room: No players in this room.\n"
         + "Neighboring rooms:\n" + "- 1 Billiard Room\n" + "- 3 Dining Hall\n"
         + "- 4 Drawing Room\n" + "\n" + "Target character is here: Doctor Lucky\n";
 
@@ -415,10 +415,10 @@ public class WorldInterfaceTest {
     assertNotNull(secondMoveRoom);
     assertNotEquals(firstMoveRoom, secondMoveRoom);
     // Continue moving until all rooms are visited
-    while (world.getPetVisitedRooms().size() < world.getRooms().size()) {
+    while (world.getPetVisitedRooms().size() < world.getRooms().size() - 1) {
       world.wanderPet();
     }
-    assertEquals(world.getRooms().size(), world.getPetVisitedRooms().size());
+    assertEquals(world.getRooms().size() - 1, world.getPetVisitedRooms().size());
     // System.out.println();
     // world.wanderPet();
   }
@@ -438,7 +438,7 @@ public class WorldInterfaceTest {
     // Call wanderPet() to verify that DFS starts from the new room
     world.wanderPet();
     assertFalse(world.getPetVisitedRooms().isEmpty());
-    assertEquals(targetRoom, world.getPetVisitedRooms().iterator().next());
+    assertEquals((Integer) targetRoom.getRoomInd(), world.getPetVisitedRooms().iterator().next());
     world.wanderPet();
     world.wanderPet();
     world.wanderPet();

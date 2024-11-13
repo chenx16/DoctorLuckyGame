@@ -176,7 +176,7 @@ public interface WorldInterface {
    *
    * @return a set of visited rooms
    */
-  Set<RoomInterface> getPetVisitedRooms();
+  Set<Integer> getPetVisitedRooms();
 
   /**
    * Moves the pet to a specified room by room index, resetting the DFS traversal

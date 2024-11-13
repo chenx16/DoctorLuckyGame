@@ -47,8 +47,8 @@ public class World implements WorldInterface {
   private int currentTurnIndex;
   private String worldName;
   private final int pixel;
-  private Stack<RoomInterface> dfsStack;
-  private Set<RoomInterface> visitedRooms;
+  private Stack<Integer> dfsStack;
+  private Set<Integer> visitedRooms;
   private boolean gameEnd;
 
   /**
@@ -65,7 +65,7 @@ public class World implements WorldInterface {
     this.setGameEnd(false);
     // Initialize DFS with the pet's starting room
     if (pet != null && pet.getCurrentRoom() != null) {
-      this.dfsStack.push(pet.getCurrentRoom());
+      this.dfsStack.push(pet.getCurrentRoom().getRoomInd());
     }
   }
 
@@ -165,7 +165,7 @@ public class World implements WorldInterface {
       this.pet = new Pet(petName, startingRoom);
 
       // Initialize DFS with the pet's starting room
-      this.dfsStack.push(startingRoom);
+      this.dfsStack.push(startingRoom.getRoomInd());
     } catch (NumberFormatException e) {
       throw new IOException("Failed to load the world: Invalid number format", e);
     } finally {
@@ -532,23 +532,27 @@ public class World implements WorldInterface {
     if (visitedRooms.size() == rooms.size()) {
       visitedRooms.clear();
       dfsStack.clear();
-      dfsStack.push(pet.getCurrentRoom());
+      dfsStack.push(pet.getCurrentRoom().getRoomInd());
     }
     // Perform DFS to determine the next room
     while (!dfsStack.isEmpty()) {
-      RoomInterface nextRoom = dfsStack.pop();
+      int nextRoom = dfsStack.pop();
       if (!visitedRooms.contains(nextRoom)) {
         visitedRooms.add(nextRoom);
-        List<RoomInterface> neighbors = nextRoom.getListofNeighbors();
+        List<RoomInterface> neighbors = this.rooms.get(nextRoom).getListofNeighbors();
         for (RoomInterface neighbor : neighbors) {
           if (!visitedRooms.contains(neighbor)) {
-            dfsStack.push(neighbor);
+            dfsStack.push(neighbor.getRoomInd());
           }
         }
         // Move the pet to the next room in the DFS traversal path
-
-        RoomInterface newRoom = rooms.get(nextRoom.getRoomInd());
+        int oldRmInd = pet.getCurrentRoom().getRoomInd();
+        rooms.get(oldRmInd).unseal();
+        RoomInterface newRoom = rooms.get(nextRoom);
+        // System.out.println(newRoom.getName());
+        newRoom.setSealed();
         pet.moveTo(newRoom);
+        calculateNeighbors();
         return;
       }
     }
@@ -568,7 +572,7 @@ public class World implements WorldInterface {
     // Reset DFS traversal starting from the new room
     visitedRooms.clear();
     dfsStack.clear();
-    dfsStack.push(newRoom);
+    dfsStack.push(newRoom.getRoomInd());
   }
 
   @Override
@@ -686,7 +690,7 @@ public class World implements WorldInterface {
   }
 
   @Override
-  public Set<RoomInterface> getPetVisitedRooms() {
+  public Set<Integer> getPetVisitedRooms() {
     return new HashSet<>(visitedRooms);
   }
 
