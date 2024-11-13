@@ -69,7 +69,9 @@ public class MockWorld implements WorldInterface {
 
   @Override
   public String turnHumanPlayer(String action, int roomInd, String itemName) {
-    this.players.get(0).pickUpItem(this.items.get(0));
+    if (!this.players.isEmpty()) {
+      this.players.get(0).pickUpItem(this.items.get(0));
+    }
     log.append("Action: ").append(action).append(", Room: ").append(roomInd).append(", Item: ")
         .append(itemName).append("\n");
     return response;
