@@ -36,11 +36,6 @@ public class Pet implements PetInterface {
   }
 
   @Override
-  public boolean isInRoom(RoomInterface room) {
-    return this.currentRoom.equals(room);
-  }
-
-  @Override
   public String getName() {
     return name;
   }

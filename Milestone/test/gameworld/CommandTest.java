@@ -139,8 +139,8 @@ public class CommandTest {
     mockWorld = new MockWorld(log, "Pet moved to room 1.");
     Command movePetCommand = new MovePetCommand(mockWorld, out, new Scanner(in));
     movePetCommand.execute();
-    System.out.println(log);
-    System.out.println(out);
+    // System.out.println(log);
+    // System.out.println(out);
     // Check that the correct move action was called in the world
 
     assertTrue(log.toString().contains("Action: movepet, Room: 1, Item: null"));

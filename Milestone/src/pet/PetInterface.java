@@ -21,14 +21,6 @@ public interface PetInterface {
   RoomInterface getCurrentRoom();
 
   /**
-   * Checks if the pet is in a specific room.
-   *
-   * @param room the room to check
-   * @return true if the pet is in the specified room, false otherwise
-   */
-  boolean isInRoom(RoomInterface room);
-
-  /**
    * Gets the name of the pet.
    *
    * @return the name of the pet

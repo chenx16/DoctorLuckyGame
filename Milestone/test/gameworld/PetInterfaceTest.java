@@ -1,9 +1,7 @@
 package gameworld;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import coordinate.Coordinate;
 import item.ItemInterface;
@@ -61,17 +59,6 @@ public class PetInterfaceTest {
   public void testMoveTo() {
     pet.moveTo(room2);
     assertEquals(room2, pet.getCurrentRoom());
-  }
-
-  /**
-   * Tests whether the pet is correctly identified as being in a specific room.
-   */
-  @Test
-  public void testIsInRoom() {
-    assertTrue(pet.isInRoom(room1));
-    pet.moveTo(room2);
-    assertFalse(pet.isInRoom(room1));
-    assertTrue(pet.isInRoom(room2));
   }
 
   /**
