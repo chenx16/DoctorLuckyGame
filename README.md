@@ -1,7 +1,7 @@
 # DoctorLuckyGame
 This semester, we are going to develop a kind of board game that is very loosely inspired by the Doctor Lucky series of games created by Cheapass GamesLinks. The game will be developed in 4 parts and delivered as milestones. The goal of this milestone is to start building the model that will be used in our MVC project. 
 
-## Milestone 1 - Running the JAR
+## Milestone 1 - The World
 
 ### Prerequisites
 To run this JAR file, ensure you have the following:
@@ -62,7 +62,7 @@ This output shows a successful interaction where the target character moves thro
 ### Design Changes
 After the preliminary design submission, I made minimal changes to the design based on the feedback received. The main change I implemented was addressing the suggestion that items do not need to track the room they are in. Since the room was already handling this information, I removed the redundant tracking of the item's location in the Item class to avoid potential inconsistencies and the need to update this information in two places. I also added a driver class to demonstrate how the model works. This driver class handles the loading of the world from a file, moves the target character, and interacts with the model to showcase its functionality.
 
-## Milestone 2
+## Milestone 2 - Synchronous Controller
 ### Steps to Run the JAR
 1. Open a terminal or command prompt.
 2. Navigate to the directory /res which containing the `Milestone1.jar` file. You can use the `cd` command to change directories:
@@ -139,7 +139,7 @@ Added functionality for the target character to automatically move after each pl
 - Enhanced World Representation:
 Modified the information displayed about each room to include players present in that space, providing players with more situational awareness.
 
-## Milestone 3
+## Milestone 3 - GamePlay
 ### Running the Program
 Run the JAR file using the following command with default 20 turns:
 
