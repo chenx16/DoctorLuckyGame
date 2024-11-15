@@ -287,7 +287,7 @@ public class RoomInterfaceTest {
     room.addPlayer(player1);
     room.addPlayer(player2);
 
-    String expectedDescription = "You are in: Armory.\n" + "Items here:\n"
+    String expectedDescription = "You are in: Armory with index 0.\n\n" + "Items here:\n"
         + "- Sword with 5 damage.\n" + "- Shield with 3 damage.\n"
         + "Players here: Player1 Player2 \n\n" + "Visible neighboring spaces:\n";
 
@@ -311,9 +311,9 @@ public class RoomInterfaceTest {
     room.addNeighbor(neighbor2);
     neighbor1.setSealed();
 
-    String expectedDescription = "You are in: Armory.\n" + "No items in this room.\n"
+    String expectedDescription = "You are in: Armory with index 0.\n\n" + "No items in this room.\n"
         + "Players here: No players in this room.\n\n" + "Visible neighboring spaces:\n"
-        + "- 2 Neighbor 2\n" + "Players: No players.\n" + "Items: No items.\n\n";
+        + "Neighbor 2 with index 2\n" + "Players: No players.\n" + "Items: No items.\n\n";
 
     String actualDescription = room.getRoomDescriptionVisible();
     assertEquals(expectedDescription, actualDescription);
@@ -332,9 +332,9 @@ public class RoomInterfaceTest {
     // Add an unsealed neighbor
     room.addNeighbor(neighbor);
 
-    String expectedDescription = "You are in: Armory.\n" + "No items in this room.\n"
+    String expectedDescription = "You are in: Armory with index 0.\n\n" + "No items in this room.\n"
         + "Players here: No players in this room.\n\n" + "Visible neighboring spaces:\n"
-        + "- 1 Neighbor Room\n" + "Players: No players.\n" + "Items: No items.\n\n";
+        + "Neighbor Room with index 1\n" + "Players: No players.\n" + "Items: No items.\n\n";
 
     String actualDescription = room.getRoomDescriptionVisible();
     assertEquals(expectedDescription, actualDescription);
@@ -357,7 +357,7 @@ public class RoomInterfaceTest {
     neighbor1.setSealed();
     neighbor2.setSealed();
 
-    String expectedDescription = "You are in: Armory.\n" + "No items in this room.\n"
+    String expectedDescription = "You are in: Armory with index 0.\n\n" + "No items in this room.\n"
         + "Players here: No players in this room.\n\n" + "Visible neighboring spaces:\n";
 
     String actualDescription = room.getRoomDescriptionVisible();
@@ -376,9 +376,9 @@ public class RoomInterfaceTest {
     // Add the neighbor and leave it unsealed
     room.addNeighbor(neighbor);
 
-    String expectedDescription = "You are in: Armory.\n" + "No items in this room.\n"
+    String expectedDescription = "You are in: Armory with index 0.\n\n" + "No items in this room.\n"
         + "Players here: No players in this room.\n\n" + "Visible neighboring spaces:\n"
-        + "- 2 Visible Neighbor\n" + "Players: No players.\n" + "Items: No items.\n\n";
+        + "Visible Neighbor with index 2\n" + "Players: No players.\n" + "Items: No items.\n\n";
 
     String actualDescription = room.getRoomDescriptionVisible();
     assertEquals(expectedDescription, actualDescription);

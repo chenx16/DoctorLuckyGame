@@ -111,7 +111,7 @@ public class PlayerTest {
   @Test
   public void testGetDescription() {
     String description = humanPlayer.getDescription();
-    String expectedOutput = "It's Human's turn.\n" + "You are in: Starting Room\n"
+    String expectedOutput = "It's Human's turn.\n" + "You are in: Starting Room with index 0\n"
         + "There are 1 neighboring rooms.\n" + "Inventory: No items";
     assertEquals(expectedOutput, description);
   }

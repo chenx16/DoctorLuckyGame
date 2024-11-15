@@ -153,7 +153,8 @@ public class Room implements RoomInterface {
   @Override
   public String getRoomDescriptionVisible() {
     // Collect room information
-    StringBuilder description = new StringBuilder("You are in: " + name + ".\n");
+    StringBuilder description = new StringBuilder(
+        "You are in: " + name + " with index " + roomInd + ".\n\n");
 
     // Add information about the items in the room
     if (items.isEmpty()) {
@@ -179,7 +180,7 @@ public class Room implements RoomInterface {
     // Display visible neighboring spaces
     description.append("\nVisible neighboring spaces:\n");
     for (RoomInterface neighbor : this.getVisibleNeighbors()) {
-      description.append("- ").append(neighbor.getRoomInd() + " ").append(neighbor.getName())
+      description.append(neighbor.getName()).append(" with index ").append(neighbor.getRoomInd())
           .append("\n");
 
       description.append("Players: ");
@@ -197,8 +198,9 @@ public class Room implements RoomInterface {
         description.append("No items.\n");
       } else {
         for (ItemInterface item : neighbor.getItems()) {
-          description.append("- ").append(item.toString()).append("\n");
+          description.append("\n- ").append(item.toString());
         }
+        description.append("\n");
       }
       description.append("\n");
     }

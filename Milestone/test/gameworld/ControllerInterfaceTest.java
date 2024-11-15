@@ -224,7 +224,7 @@ public class ControllerInterfaceTest {
 
     assertTrue(out.toString().contains("Exiting the game."));
     assertTrue(out.toString()
-        .contains("It's Human Player's turn.\n" + "You are in: New Room\n"
+        .contains("It's Human Player's turn.\n" + "You are in: New Room with index 0\n"
             + "There are 1 neighboring rooms.\n" + "Inventory: No items\n"
             + "The target might be near New Room.\n" + "Pet Fortune the Cat is in: Neighbor\n"));
   }
