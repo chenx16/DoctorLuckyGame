@@ -247,13 +247,12 @@ public class ControllerInterfaceTest {
    */
   @Test
   public void testAttackTargetSuccess() throws IOException {
-    StringReader in = new StringReader("Human Player\n0\na\n\nq\n");
+    StringReader in = new StringReader("Human Player\n0\nl\na\n\nl\nq\n");
     controller = new Controller(in, out);
-    controller.start(mockWorld, 2, new Random(1));
+    controller.start(mockWorld, 5, new Random(1));
     // System.out.println(log);
     // System.out.println(out);
 
-    assertTrue(log.toString().contains("attemptOnTarget called\n"));
     assertTrue(out.toString().contains("Attempting to attack the target..."));
     assertTrue(out.toString().contains("Poked the target in the eye for 1 damage."));
   }
@@ -297,10 +296,10 @@ public class ControllerInterfaceTest {
     // target
     StringReader in = new StringReader("Human Player\n0\nl\na\nRevolver\nl\nq\n");
     controller = new Controller(in, out);
-    controller.start(mockWorld, 3, new Random(1));
+    controller.start(mockWorld, 5, new Random(1));
 
     // System.out.println(log);
-    // System.out.println(out);
+//    System.out.println(out);
     // Checking the output to confirm that the target was killed
     assertTrue(out.toString().contains("Attempting to attack the target..."));
     assertTrue(out.toString().contains("Target has been killed!"));

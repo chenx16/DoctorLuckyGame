@@ -3,11 +3,11 @@ World: Doctor Lucky's Mansion
 Target character name: Doctor Lucky, health: 50, currentRoom: Armory
 Pet name: Fortune the Cat, currentRoom: Armory
 
-Maximum number of turns allowed: 2
+Maximum number of turns allowed: 100
 Saving the world map to a PNG file...
 World map saved successfully!
 Adding players to the game...
-Computer-controlled player AI Player added to the game, starting in Dining Hall.
+Computer-controlled player AI Player added to the game, starting in Billiard Room.
 Enter the name for the human player: Available rooms:
 0: Armory
 1: Billiard Room
@@ -30,23 +30,490 @@ Enter the name for the human player: Available rooms:
 18: Trophy Room
 19: Wine Cellar
 20: Winter Garden
-Enter the room index for the human player to start in: Human player l added to the game.
+Enter the room index for the human player to start in: Human player hum added to the game.
 
-Turn number: 1/2
+Turn number: 1/100
+It's AI Player's turn.
+You are in: Billiard Room
+There are 3 neighboring rooms.
+Inventory: No itemsNo information on the target’s last known location.
+Pet Fortune the Cat is in: Armory
+Use 'look' to gather more details about your surroundings.
+AI Player looks around: You are in: Billiard Room.
+Items here:
+- Billiard Cue with 20 damage.
+Players here: AI Player 
+
+Visible neighboring spaces:
+- 3 Dining Hall
+Players: No players.
+Items: No items.
+
+- 18 Trophy Room
+Players: No players.
+Items: - Duck Decoy with 12 damage.
+- Monkey Hand with 47 damage.
+
+
+
+
+Turn number: 2/100
+It's hum's turn.
+You are in: Armory
+There are 3 neighboring rooms.
+Inventory: No items
+The target was last seen in Armory with index 0.
+Pet Fortune the Cat is in: Drawing Room
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+You are in: Armory.
+Items here:
+- Revolver with 32 damage.
+Players here: hum 
+
+Visible neighboring spaces:
+- 1 Billiard Room
+Players: AI Player 
+Items: - Billiard Cue with 20 damage.
+
+- 3 Dining Hall
+Players: No players.
+Items: No items.
+
+
+
+Turn number: 3/100
+It's AI Player's turn.
+You are in: Billiard Room
+There are 3 neighboring rooms.
+Inventory: No items
+The target was last seen in Billiard Room with index 1.
+Pet Fortune the Cat is in: Wine Cellar
+Use 'look' to gather more details about your surroundings.
+AI Player picked up Billiard Cue
+
+
+Turn number: 4/100
+It's hum's turn.
+You are in: Armory
+There are 3 neighboring rooms.
+Inventory: No items
+The target was last seen in Carriage House with index 2.
+Pet Fortune the Cat is in: Kitchen
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+Items in the room:
+Revolver (Damage: 32)
+Enter the item name to pick up: hum picked up Revolver
+
+Turn number: 5/100
+It's AI Player's turn.
+You are in: Billiard Room
+There are 3 neighboring rooms.
+Inventory: 
+- Billiard Cue with 20 damage.
+The target was last seen in Dining Hall with index 3.
+Pet Fortune the Cat is in: Parlor
+Use 'look' to gather more details about your surroundings.
+AI Player moved to Trophy Room
+
+
+Turn number: 6/100
+It's hum's turn.
+You are in: Armory
+There are 3 neighboring rooms.
+Inventory: 
+- Revolver with 32 damage.
+The target was last seen in Drawing Room with index 4.
+Pet Fortune the Cat is in: Tennessee Room
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+You are in: Armory.
+No items in this room.
+Players here: hum 
+
+Visible neighboring spaces:
+- 1 Billiard Room
+Players: No players.
+Items: No items.
+
+- 3 Dining Hall
+Players: No players.
+Items: No items.
+
+- 4 Drawing Room
+Players: No players.
+Items: - Letter Opener with 40 damage.
+
+
+
+Turn number: 7/100
+It's AI Player's turn.
+You are in: Trophy Room
+There are 4 neighboring rooms.
+Inventory: 
+- Billiard Cue with 20 damage.
+The target was last seen in Foyer with index 5.
+Pet Fortune the Cat is in: Trophy Room
+Use 'look' to gather more details about your surroundings.
+AI Player looks around: You are in: Trophy Room.
+Items here:
+- Duck Decoy with 12 damage.
+- Monkey Hand with 47 damage.
+Players here: AI Player 
+
+Visible neighboring spaces:
+- 1 Billiard Room
+Players: No players.
+Items: No items.
+
+- 3 Dining Hall
+Players: No players.
+Items: No items.
+
+- 10 Library
+Players: No players.
+Items: No items.
+
+- 17 Tennessee Room
+Players: No players.
+Items: No items.
+
+
+
+
+Turn number: 8/100
+It's hum's turn.
+You are in: Armory
+There are 3 neighboring rooms.
+Inventory: 
+- Revolver with 32 damage.
+The target was last seen in Green House with index 6.
+Pet Fortune the Cat is in: Library
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+You are in: Armory.
+No items in this room.
+Players here: hum 
+
+Visible neighboring spaces:
+- 1 Billiard Room
+Players: No players.
+Items: No items.
+
+- 3 Dining Hall
+Players: No players.
+Items: No items.
+
+- 4 Drawing Room
+Players: No players.
+Items: - Letter Opener with 40 damage.
+
+
+
+Turn number: 9/100
+It's AI Player's turn.
+You are in: Trophy Room
+There are 4 neighboring rooms.
+Inventory: 
+- Billiard Cue with 20 damage.
+The target was last seen in Hedge Maze with index 7.
+Pet Fortune the Cat is in: Nursery
+Use 'look' to gather more details about your surroundings.
+AI Player picked up Duck Decoy
+
+
+Turn number: 10/100
+It's hum's turn.
+You are in: Armory
+There are 3 neighboring rooms.
+Inventory: 
+- Revolver with 32 damage.
+The target was last seen in Kitchen with index 8.
+Pet Fortune the Cat is in: Master Suite
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+You are in: Armory.
+No items in this room.
+Players here: hum 
+
+Visible neighboring spaces:
+- 1 Billiard Room
+Players: No players.
+Items: No items.
+
+- 3 Dining Hall
+Players: No players.
+Items: No items.
+
+- 4 Drawing Room
+Players: No players.
+Items: - Letter Opener with 40 damage.
+
+
+
+Turn number: 11/100
+It's AI Player's turn.
+You are in: Trophy Room
+There are 4 neighboring rooms.
+Inventory: 
+- Billiard Cue with 20 damage.
+- Duck Decoy with 12 damage.
+The target was last seen in Lancaster Room with index 9.
+Pet Fortune the Cat is in: Lilac Room
+Use 'look' to gather more details about your surroundings.
+AI Player moved to Billiard Room
+
+
+Turn number: 12/100
+It's hum's turn.
+You are in: Armory
+There are 3 neighboring rooms.
+Inventory: 
+- Revolver with 32 damage.
+The target was last seen in Library with index 10.
+Pet Fortune the Cat is in: Servants' Quarters
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+You are in: Armory.
+No items in this room.
+Players here: hum 
+
+Visible neighboring spaces:
+- 1 Billiard Room
+Players: AI Player 
+Items: No items.
+
+- 3 Dining Hall
+Players: No players.
+Items: No items.
+
+- 4 Drawing Room
+Players: No players.
+Items: - Letter Opener with 40 damage.
+
+
+
+Turn number: 13/100
+It's AI Player's turn.
+You are in: Billiard Room
+There are 3 neighboring rooms.
+Inventory: 
+- Billiard Cue with 20 damage.
+- Duck Decoy with 12 damage.
+The target was last seen in Lilac Room with index 11.
+Pet Fortune the Cat is in: Lancaster Room
+Use 'look' to gather more details about your surroundings.
+AI Player looks around: You are in: Billiard Room.
+No items in this room.
+Players here: AI Player 
+
+Visible neighboring spaces:
+- 0 Armory
+Players: hum 
+Items: No items.
+
+- 3 Dining Hall
+Players: No players.
+Items: No items.
+
+- 18 Trophy Room
+Players: No players.
+Items: - Monkey Hand with 47 damage.
+
+
+
+
+Turn number: 14/100
+It's hum's turn.
+You are in: Armory
+There are 3 neighboring rooms.
+Inventory: 
+- Revolver with 32 damage.
+The target was last seen in Master Suite with index 12.
+Pet Fortune the Cat is in: Dining Hall
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+You are in: Armory.
+No items in this room.
+Players here: hum 
+
+Visible neighboring spaces:
+- 1 Billiard Room
+Players: AI Player 
+Items: No items.
+
+- 4 Drawing Room
+Players: No players.
+Items: - Letter Opener with 40 damage.
+
+
+
+Turn number: 15/100
+It's AI Player's turn.
+You are in: Billiard Room
+There are 3 neighboring rooms.
+Inventory: 
+- Billiard Cue with 20 damage.
+- Duck Decoy with 12 damage.
+The target was last seen in Nursery with index 13.
+Pet Fortune the Cat is in: Billiard Room
+Use 'look' to gather more details about your surroundings.
+AI Player moved to Armory
+
+
+Turn number: 16/100
+It's hum's turn.
+You are in: Armory
+There are 3 neighboring rooms.
+Inventory: 
+- Revolver with 32 damage.
+The target was last seen in Parlor with index 14.
+Pet Fortune the Cat is in: Foyer
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+You are in: Armory.
+No items in this room.
+Players here: hum AI Player 
+
+Visible neighboring spaces:
+- 1 Billiard Room
+Players: No players.
+Items: No items.
+
+- 3 Dining Hall
+Players: No players.
+Items: No items.
+
+- 4 Drawing Room
+Players: No players.
+Items: - Letter Opener with 40 damage.
+
+
+
+Turn number: 17/100
+It's AI Player's turn.
+You are in: Armory
+There are 3 neighboring rooms.
+Inventory: 
+- Billiard Cue with 20 damage.
+- Duck Decoy with 12 damage.
+The target was last seen in Piazza with index 15.
+Pet Fortune the Cat is in: Piazza
+Use 'look' to gather more details about your surroundings.
+AI Player looks around: You are in: Armory.
+No items in this room.
+Players here: hum AI Player 
+
+Visible neighboring spaces:
+- 1 Billiard Room
+Players: No players.
+Items: No items.
+
+- 3 Dining Hall
+Players: No players.
+Items: No items.
+
+- 4 Drawing Room
+Players: No players.
+Items: - Letter Opener with 40 damage.
+
+
+
+
+Turn number: 18/100
+It's hum's turn.
+You are in: Armory
+There are 3 neighboring rooms.
+Inventory: 
+- Revolver with 32 damage.
+The target was last seen in Servants' Quarters with index 16.
+Pet Fortune the Cat is in: Winter Garden
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+You are in: Armory.
+No items in this room.
+Players here: hum AI Player 
+
+Visible neighboring spaces:
+- 1 Billiard Room
+Players: No players.
+Items: No items.
+
+- 3 Dining Hall
+Players: No players.
+Items: No items.
+
+- 4 Drawing Room
+Players: No players.
+Items: - Letter Opener with 40 damage.
+
+
+
+Turn number: 19/100
+It's AI Player's turn.
+You are in: Armory
+There are 3 neighboring rooms.
+Inventory: 
+- Billiard Cue with 20 damage.
+- Duck Decoy with 12 damage.
+The target was last seen in Tennessee Room with index 17.
+Pet Fortune the Cat is in: Carriage House
+Use 'look' to gather more details about your surroundings.
+AI Player moved to Dining Hall
+
+
+Turn number: 20/100
+It's hum's turn.
+You are in: Armory
+There are 3 neighboring rooms.
+Inventory: 
+- Revolver with 32 damage.
+The target was last seen in Trophy Room with index 18.
+Pet Fortune the Cat is in: Hedge Maze
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+You are in: Armory.
+No items in this room.
+Players here: hum 
+
+Visible neighboring spaces:
+- 1 Billiard Room
+Players: No players.
+Items: No items.
+
+- 3 Dining Hall
+Players: AI Player 
+Items: No items.
+
+- 4 Drawing Room
+Players: No players.
+Items: - Letter Opener with 40 damage.
+
+
+
+Turn number: 21/100
 It's AI Player's turn.
 You are in: Dining Hall
 There are 8 neighboring rooms.
-Inventory: No itemsNo information on the target’s last known location.
-Pet Fortune the Cat is in: Armory
+Inventory: 
+- Billiard Cue with 20 damage.
+- Duck Decoy with 12 damage.
+The target was last seen in Wine Cellar with index 19.
+Pet Fortune the Cat is in: Green House
 Use 'look' to gather more details about your surroundings.
 AI Player looks around: You are in: Dining Hall.
 No items in this room.
 Players here: AI Player 
 
 Visible neighboring spaces:
+- 0 Armory
+Players: hum 
+Items: No items.
+
 - 1 Billiard Room
 Players: No players.
-Items: - Billiard Cue with 20 damage.
+Items: No items.
 
 - 4 Drawing Room
 Players: No players.
@@ -67,8 +534,7 @@ Items: No items.
 
 - 18 Trophy Room
 Players: No players.
-Items: - Duck Decoy with 12 damage.
-- Monkey Hand with 47 damage.
+Items: - Monkey Hand with 47 damage.
 
 - 19 Wine Cellar
 Players: No players.
@@ -78,31 +544,69 @@ Items: - Rat Poison with 27 damage.
 
 
 
-Turn number: 2/2
-It's l's turn.
+Turn number: 22/100
+It's hum's turn.
 You are in: Armory
 There are 3 neighboring rooms.
-Inventory: No items
+Inventory: 
+- Revolver with 32 damage.
+The target was last seen in Winter Garden with index 20.
+ATTENTION: Target character Doctor Lucky is here!!!
+Pet Fortune the Cat is in: Green House
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
+Attempting to attack the target...
+Enter the valid item name to use for the attack or press Enter to use the best item available: hum's attack was seen by another player and stopped. No damage was done.
+
+Turn number: 23/100
+It's hum's turn.
+You are in: Armory
+There are 3 neighboring rooms.
+Inventory: 
+- Revolver with 32 damage.
 The target was last seen in Armory with index 0.
-Pet Fortune the Cat is in: Drawing Room
+Pet Fortune the Cat is in: Hedge Maze
 Use 'look' to gather more details about your surroundings.
 Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]
 You are in: Armory.
-Items here:
-- Revolver with 32 damage.
-Players here: l 
+No items in this room.
+Players here: hum 
 
 Visible neighboring spaces:
 - 1 Billiard Room
 Players: No players.
-Items: - Billiard Cue with 20 damage.
+Items: No items.
 
 - 3 Dining Hall
 Players: AI Player 
 Items: No items.
 
+- 4 Drawing Room
+Players: No players.
+Items: - Letter Opener with 40 damage.
 
-Game over! Unfortunately, the maximum number of turns is reached.
-The target character escapes and runs away to live another day
-Nobody wins...
-Output saved to output.txt
+
+
+Turn number: 24/100
+It's AI Player's turn.
+You are in: Dining Hall
+There are 8 neighboring rooms.
+Inventory: 
+- Billiard Cue with 20 damage.
+- Duck Decoy with 12 damage.
+The target was last seen in Billiard Room with index 1.
+Pet Fortune the Cat is in: Piazza
+Use 'look' to gather more details about your surroundings.
+AI Player moved to Billiard Room
+
+
+Turn number: 25/100
+It's hum's turn.
+You are in: Armory
+There are 3 neighboring rooms.
+Inventory: 
+- Revolver with 32 damage.
+The target was last seen in Carriage House with index 2.
+Pet Fortune the Cat is in: Winter Garden
+Use 'look' to gather more details about your surroundings.
+Choose an action: [l: look, p: pickup, m: move, mp: move pet, a: attack, q: quit]

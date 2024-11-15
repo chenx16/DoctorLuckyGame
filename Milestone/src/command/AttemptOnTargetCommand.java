@@ -41,7 +41,7 @@ public class AttemptOnTargetCommand implements Command {
       // Check if item name is valid or empty
       if (itemName.isEmpty() || player.getInventory().stream()
           .anyMatch(item -> item.getName().equalsIgnoreCase(itemName))) {
-        String result = world.attemptOnTarget(player, itemName);
+        String result = world.turnHumanPlayer("attempt", -1, itemName);
         out.append(result).append("\n");
         validItem = true; // End loop after a valid attempt
       } else {

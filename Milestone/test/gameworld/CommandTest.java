@@ -172,12 +172,13 @@ public class CommandTest {
     // System.out.println(out);
 
     // Verify the interaction with the world
-    assertEquals("addPlayer called\n" + "getTurn called\n" + "attemptOnTarget called\n",
+    assertEquals(
+        "addPlayer called\n" + "getTurn called\n" + "getTurn called\n" + "attemptOnTarget called\n",
         log.toString());
 
     // Verify the expected output
-    String expectedOutput = "Enter the valid item name to use for the attack or "
-        + "press Enter to use the best item available: Attacked the target with Sword.\n";
+    String expectedOutput = "Enter the valid item name to use for the attack or press Enter "
+        + "to use the best item available: Attacked the target with Sword.\n";
     assertEquals(expectedOutput, out.toString());
   }
 
@@ -206,7 +207,7 @@ public class CommandTest {
         + "press Enter to use the best item available: Invalid item name. "
         + "Please enter a valid item from your inventory or press Enter to use the best item.\n"));
     assertTrue(out.toString().contains("Enter the valid item name to use for the attack or "
-        + "press Enter to use the best item available: Attacked the target with Dagger."));
+        + "press Enter to use the best item available: Attacked the target with Dagger.\n"));
   }
 
   /**

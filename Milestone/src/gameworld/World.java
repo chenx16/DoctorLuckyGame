@@ -294,6 +294,7 @@ public class World implements WorldInterface {
   public String turnComputerPlayer() {
     PlayerInterface currentPlayer = getTurn();
     int lastRmId = currentPlayer.getCurrentRoom().getRoomInd();
+    updateTurn();
     RoomInterface targetRoom = this.targetCharacter.getCurrentRoom();
     if (lastRmId == targetRoom.getRoomInd()) {
       // attack target automatically
@@ -301,13 +302,11 @@ public class World implements WorldInterface {
       attackDescription.append("Detected Target character ").append(targetCharacter.getName())
           .append("\n");
       String result = attemptOnTarget(currentPlayer, null);
-      updateTurn();
       return attackDescription.append(result).toString();
     } else {
       // not attack
       StringBuilder lookDescription = new StringBuilder();
       String output = ((ComputerPlayer) currentPlayer).takeTurn();
-      updateTurn();
       if ("look".equals(output)) {
         // this.rooms.get(lastRmId).setSealed();
         lookDescription.append(currentPlayer.getName()).append(" looks around: ")
