@@ -65,7 +65,7 @@ After the preliminary design submission, I made minimal changes to the design ba
 ## Milestone 2 - Synchronous Controller
 ### Steps to Run the JAR
 1. Open a terminal or command prompt.
-2. Navigate to the directory /res which containing the `Milestone1.jar` file. You can use the `cd` command to change directories:
+2. Navigate to the directory /res which containing the `Milestone2.jar` file. You can use the `cd` command to change directories:
    ```bash
    cd /Users/zhuzhu/eclipse-workspace/CS5010/DoctorLuckyGame/Milestone/res
 
@@ -141,8 +141,10 @@ Modified the information displayed about each room to include players present in
 
 ## Milestone 3 - GamePlay
 ### Running the Program
+1. Open a terminal or command prompt.
+2. Navigate to the directory /res which containing the `Milestone3.jar` file. You can use the `cd` command to change directories:
 Run the JAR file using the following command with default 20 turns:
-
+      ```bash
      java -jar Milestone3.jar mansion.txt
 
 You can enter any maximum number of turns you like, it needs to be a positive integer (>0).
