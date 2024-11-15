@@ -31,7 +31,7 @@ To run the driver class and demonstrate the functionality of the world model, yo
 
     java -jar Milestone1.jar mansion.txt 
 
-### demonstrating ouput files in /res
+### Demonstrating ouput files in /res
 1. Console Handling Exceptions (Invalid Input Scenarios) - consoleHadleExceptions.txt
    
 This file shows how the program handles invalid inputs or non-existent file paths. When the file does not exist or is not valid, the program correctly print an error in console.
@@ -93,7 +93,7 @@ This is the format of string:
      
      java -jar Milestone2.jar <world description> <max turn#>
      
-### demonstrating ouput files in /res
+### Demonstrating ouput files in /res
 1. outputM2Success.txt:
 This file contains the results of a successful execution of the game "Doctor Lucky's Mansion." It showcases the following information:
 
@@ -153,7 +153,7 @@ You can enter any maximum number of turns you like, it needs to be a positive in
 1. Course Material
 - Milestone 3: Gameplay, CS 5010 — Programming Design Paradigms, Northeastern University Vancouver. [https://northeastern.instructure.com/courses/192582/assignments/2382093](https://northeastern.instructure.com/courses/192582/assignments/2382096?module_item_id=10809104), [Manual Grading Checklist](https://northeastern.instructure.com/courses/192582/pages/manual-grading-checklist)
 
-### demonstrating ouput files in /res
+### Demonstrating ouput files in /res
 1. M3PetVisibility.txt: the target character's pet effect on the visibility of a space from neighboring spaces
 2. M3MovePet.txt: the player moving the target character's pet
 3. M3HumanWin.txt: a human-player making an attempt on the target character's life and a human-player winning the game by killing the target character
