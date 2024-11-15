@@ -466,7 +466,7 @@ public class World implements WorldInterface {
         result.append(player.getName())
             .append("You didn't choose an item, so an automatic attack activated.\n");
         result.append(player.getName()).append(" attacked the target with ")
-            .append(bestItem.getName()).append(".\n" + " The item is now removed from play.");
+            .append(bestItem.getName()).append(".\n" + "The item is now removed from play.");
       } else {
         result.append(player.getName()).append(" poked the target in the eye for 1 damage.");
       }
