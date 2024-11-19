@@ -216,11 +216,15 @@ You can enter any maximum number of turns you like, it needs to be a positive in
 2. Stack Overflow thread on output to a text file and console handling: https://stackoverflow.com/questions/47499875/output-to-text-file-console-empty-java
 
 ### Demonstrating ouput files in /res
-1. M3PetVisibility.txt: the target character's pet effect on the visibility of a space from neighboring spaces
-2. M3MovePet.txt: the player moving the target character's pet
-3. M3HumanWin.txt: a human-player making an attempt on the target character's life and a human-player winning the game by killing the target character
-4. M3ComputerWin.txt: a computer-controlled player making an attempt on the target character's life and a computer-controlled player winning the game by killing the target character
-5. Each example run shows the pet moves around the world with DFS by displaying where is pet is at in each turn
+1. M3PetVisibility.txt: Illustrates the target character's pet affecting the visibility of spaces. In the second turn, the human player looks around and observes that only 7 out of 8 neighboring rooms are visible due to the pet being in one of the rooms, demonstrating the visibility functionality.
+   
+3. M3MovePet.txt: Shows the player moving the target character's pet to a new space, showcasing the command for player actions involving the pet.
+   
+5. M3HumanWin.txt: Demonstrates a human player making an attempt on the target character's life and successfully winning the game by killing the target.
+   
+7. M3ComputerWin.txt: Displays a computer-controlled player attempting to kill the target character and winning the game.
+   
+9. Each run consistently shows the pet moving around the game world using DFS, with clear indications of the pet's location on each turn to demonstrate its movement algorithm.
 
 ### Design Changes
 - Gameplay Implementation: 
