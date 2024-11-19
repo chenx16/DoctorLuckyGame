@@ -62,6 +62,41 @@ This output shows a successful interaction where the target character moves thro
 ### Design Changes
 After the preliminary design submission, I made minimal changes to the design based on the feedback received. The main change I implemented was addressing the suggestion that items do not need to track the room they are in. Since the room was already handling this information, I removed the redundant tracking of the item's location in the Item class to avoid potential inconsistencies and the need to update this information in two places. I also added a driver class to demonstrate how the model works. This driver class handles the loading of the world from a file, moves the target character, and interacts with the model to showcase its functionality.
 
+### Assumptions
+1. World Representation:
+The world is assumed to be a grid of non-overlapping spaces (rooms), and these rooms are rectangular in shape, defined by upper-left and lower-right corner coordinates.
+Rooms have unique names and indices, and no two rooms can occupy the same space on the grid.
+
+2. Target Character Movement:
+The target character moves sequentially through rooms based on their index, regardless of adjacency or other spatial relationships.
+The character starts in room 0 and moves to the next room in the list, looping around if they reach the last room.
+
+3. Item Placement and Damage:
+Items are assumed to belong to specific rooms, and each item has a specific damage value. Items can only be added to rooms, not moved between rooms once placed.
+Negative damage values for items are considered invalid, as reflected in the test cases.
+
+4. Input Format:
+The world is loaded from a text file in a specific format (rows, columns, room coordinates, items, etc.). It is assumed that the input file is well-formed and follows this format closely, with error handling for malformed files.
+
+5. Neighbors:
+Rooms are considered neighbors if they share a wall, meaning their boundaries touch on one side (horizontally or vertically).
+
+### Limitations
+1. Room Shape:
+Rooms are assumed to be rectangular, defined by upper-left and lower-right corners. This limits the flexibility to create rooms in other shapes on the grid.
+
+2. World Representation Size:
+The current design assumes a fixed grid size for the world, which may limit future expansion if larger or more complex worlds are needed.
+
+3. Limited Item Interactions:
+Once an item is placed in a room, it is stationary and cannot be moved or interacted with except to deal damage to the target. For example, picking up items.
+
+4. Graphical Representation:
+While the design includes generating a graphical representation of the world using a BufferedImage, the current implementation might not handle complex or very large worlds efficiently in terms of visual clarity or performance.
+
+5. No Player Character:
+The current milestone focuses on the movement of the target character, but does not consider interactions outside of the player character or the observed target path. This temporarily limits gameplay interactions.
+
 ## Milestone 2 - Synchronous Controller
 ### Steps to Run the JAR
 1. Open a terminal or command prompt.
@@ -139,6 +174,29 @@ Added functionality for the target character to automatically move after each pl
 - Enhanced World Representation:
 Modified the information displayed about each room to include players present in that space, providing players with more situational awareness.
 
+### Assumptions
+Single Turn Per Player: Each player (whether human or computer-controlled) takes exactly one action per turn, and this action could be moving, picking up an item, or looking around.
+
+Player Start Location: Players are assumed to choose their starting location within the world, and the order of turns is based on the order in which players are added to the game.
+
+Turn-Based System: The game follows a strictly sequential turn-based system where actions are processed one player at a time. The turn sequence is round-robin, and each player must complete their action before the next player can act.
+
+Computer Player Logic: The actions of computer-controlled players are deterministic based on predefined game rules. We assumed that the computer players would follow simple strategies, such as moving toward the next available item or exploring neighboring rooms.
+
+World Map Generation: The world map can be generated and saved as a PNG file. We assumed the map generation would work with all the rooms and players set in the world, and it is saved as a visual reference for the player.
+
+Target Character Movement: The target character moves automatically at the end of every player’s turn. It is assumed that this movement happens without any direct influence from the players.
+
+### Limitations
+Mock Model for Controller Testing:
+Currently, there is no mock model implemented, which limits the testing capabilities for the controller. Without a mock model, it is challenging to isolate and test the controller independently of the full game model, reducing the ability to simulate edge cases or specific scenarios without setting up the entire game world.
+
+Command Design Pattern:
+The command design pattern, which is ideal for handling user inputs and game actions in a modular way, has not been fully integrated into the controller. This makes extending or modifying command functionalities (such as adding new player actions) more complex. Integrating the command design pattern would improve code flexibility, readability, and testability.
+
+Simple AI for Computer-Controlled Players:
+The AI logic for computer-controlled players is relatively basic, following a fixed set of actions without any adaptive or intelligent decision-making. This could limit the challenge and engagement of the gameplay for users interacting with computer-controlled characters.
+
 ## Milestone 3 - GamePlay
 ### Running the Program
 1. Open a terminal or command prompt.
@@ -179,3 +237,6 @@ Added depth-first traversal logic to enable the pet to wander automatically, enh
 Players, including computer-controlled ones, can attempt to kill the target character, following rules such as visibility checks, item usage, and removing items used in attacks.
 - Game Ending Scenarios:
 Defined clear conditions for ending the game, including successful target elimination or the target escaping after the maximum number of turns.
+
+### Assumptions
+### Limitations
