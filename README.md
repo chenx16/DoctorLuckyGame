@@ -239,4 +239,34 @@ Players, including computer-controlled ones, can attempt to kill the target char
 Defined clear conditions for ending the game, including successful target elimination or the target escaping after the maximum number of turns.
 
 ### Assumptions
+- Pet Behavior and Visibility:
+The pet starts in the same space as the target character and moves with a depth-first traversal algorithm unless moved manually by a player. If manually moved, the pet resumes its traversal from the new location.
+Any space occupied by the pet cannot be seen by its neighboring rooms. This affects how players perceive adjacent rooms and influences their strategic decisions.
+
+- Player Visibility Logic:
+A player can see another player if they are in the same room or in adjacent rooms that are visible. If the pet is present in any of these rooms, it blocks visibility, making it impossible for players to see into the room where the pet is located.
+Players cannot move into a sealed room until it is unsealed, either by player movement or at the start of a new turn.
+
+- Look Command:
+The "look around" command provides detailed information about the current room and its visible neighboring spaces, such as items and players in those spaces. This command helps players make informed decisions and avoid wasting turns trying to pick up items that are not present.
+The use of "look around" does not change the room's sealed state; it simply consumes a turn to give the player more visibility into their surroundings.
+
+- Game Turn and Action Limitations:
+Each action a player takes—whether it be moving, picking up an item, looking around, moving the pet, or attacking the target—counts as a turn. Invalid or failed actions do not advance the turn count.
+The game ends either when a player successfully kills the target character or when the maximum number of turns is reached.
+
+- Computer-Controlled Player Actions:
+The computer-controlled player will attempt to attack the target character if they are in the same room, regardless of whether the attack can be seen by others or not.
+
+- Room and Player Movement:
+Players can move to neighboring rooms that are visible and accessible. If a room is occupied by the pet, it is excluded from the options, as it cannot be seen or entered.
+
 ### Limitations
+- Pet Movement and Temporary Presence:
+Once a player moves the pet to a specified room, the pet only stays there for one turn. After that, the pet resumes its automated depth-first traversal (DFS) around the world, starting from that room. This behavior may reduce the player's control over using the pet strategically for longer durations.
+
+- Target Movement and Limited Hints:
+Since the target character moves autonomously each turn, combined with limited hints about its location, players may need more turns to successfully locate and attack the target. This mechanic increases the game's difficulty, requiring more strategic planning to succeed within the given turn limit.
+
+- Single Human and Computer Player Restriction:
+The game currently supports only one human-controlled player and one computer-controlled player. This limitation restricts the number of participants in the game and may reduce potential multiplayer gameplay experiences or team-based strategies.
