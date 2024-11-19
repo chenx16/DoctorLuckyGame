@@ -175,26 +175,26 @@ Added functionality for the target character to automatically move after each pl
 Modified the information displayed about each room to include players present in that space, providing players with more situational awareness.
 
 ### Assumptions
-Single Turn Per Player: Each player (whether human or computer-controlled) takes exactly one action per turn, and this action could be moving, picking up an item, or looking around.
+- Single Turn Per Player: Each player (whether human or computer-controlled) takes exactly one action per turn, and this action could be moving, picking up an item, or looking around.
 
-Player Start Location: Players are assumed to choose their starting location within the world, and the order of turns is based on the order in which players are added to the game.
+- Player Start Location: Players are assumed to choose their starting location within the world, and the order of turns is based on the order in which players are added to the game.
 
-Turn-Based System: The game follows a strictly sequential turn-based system where actions are processed one player at a time. The turn sequence is round-robin, and each player must complete their action before the next player can act.
+- Turn-Based System: The game follows a strictly sequential turn-based system where actions are processed one player at a time. The turn sequence is round-robin, and each player must complete their action before the next player can act.
 
-Computer Player Logic: The actions of computer-controlled players are deterministic based on predefined game rules. We assumed that the computer players would follow simple strategies, such as moving toward the next available item or exploring neighboring rooms.
+- Computer Player Logic: The actions of computer-controlled players are deterministic based on predefined game rules. We assumed that the computer players would follow simple strategies, such as moving toward the next available item or exploring neighboring rooms.
 
-World Map Generation: The world map can be generated and saved as a PNG file. We assumed the map generation would work with all the rooms and players set in the world, and it is saved as a visual reference for the player.
+- World Map Generation: The world map can be generated and saved as a PNG file. We assumed the map generation would work with all the rooms and players set in the world, and it is saved as a visual reference for the player.
 
-Target Character Movement: The target character moves automatically at the end of every player’s turn. It is assumed that this movement happens without any direct influence from the players.
+- Target Character Movement: The target character moves automatically at the end of every player’s turn. It is assumed that this movement happens without any direct influence from the players.
 
 ### Limitations
-Mock Model for Controller Testing:
+- Mock Model for Controller Testing:
 Currently, there is no mock model implemented, which limits the testing capabilities for the controller. Without a mock model, it is challenging to isolate and test the controller independently of the full game model, reducing the ability to simulate edge cases or specific scenarios without setting up the entire game world.
 
-Command Design Pattern:
+- Command Design Pattern:
 The command design pattern, which is ideal for handling user inputs and game actions in a modular way, has not been fully integrated into the controller. This makes extending or modifying command functionalities (such as adding new player actions) more complex. Integrating the command design pattern would improve code flexibility, readability, and testability.
 
-Simple AI for Computer-Controlled Players:
+- Simple AI for Computer-Controlled Players:
 The AI logic for computer-controlled players is relatively basic, following a fixed set of actions without any adaptive or intelligent decision-making. This could limit the challenge and engagement of the gameplay for users interacting with computer-controlled characters.
 
 ## Milestone 3 - GamePlay
