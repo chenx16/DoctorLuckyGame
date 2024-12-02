@@ -225,4 +225,11 @@ public interface WorldInterface {
    * @throws IllegalArgumentException if the provided player is null.
    */
   String attemptOnTarget(PlayerInterface player, String itemName);
+
+  /**
+   * Gets the world pixel.
+   *
+   * @return the world pixel
+   */
+  int getPixel();
 }

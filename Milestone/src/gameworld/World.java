@@ -60,7 +60,7 @@ public class World implements WorldInterface {
     this.items = new ArrayList<ItemInterface>();
     this.dfsStack = new Stack<>();
     this.visitedRooms = new HashSet<>();
-    this.pixel = 50;
+    this.pixel = 26;
     this.currentTurnIndex = 0;
     this.setGameEnd(false);
     // Initialize DFS with the pet's starting room
@@ -741,6 +741,11 @@ public class World implements WorldInterface {
   @Override
   public int hashCode() {
     return Objects.hash(rooms, items, targetCharacter, rows, cols, worldName);
+  }
+
+  @Override
+  public int getPixel() {
+    return this.pixel;
   }
 
 }

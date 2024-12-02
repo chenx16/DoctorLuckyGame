@@ -299,7 +299,7 @@ public class ControllerInterfaceTest {
     controller.start(mockWorld, 5, new Random(1));
 
     // System.out.println(log);
-//    System.out.println(out);
+    // System.out.println(out);
     // Checking the output to confirm that the target was killed
     assertTrue(out.toString().contains("Attempting to attack the target..."));
     assertTrue(out.toString().contains("Target has been killed!"));
