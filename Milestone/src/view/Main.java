@@ -2,6 +2,7 @@ package view;
 
 import gameworld.World;
 import gameworld.WorldInterface;
+import java.io.FileReader;
 import javax.swing.SwingUtilities;
 
 public class Main {
@@ -32,10 +33,11 @@ public class Main {
 
         // Assuming you load the world from a file
         String worldFilePath = "./res/mansion.txt"; // Replace with actual path
-        world.loadFromFile(new java.io.FileReader(worldFilePath));
+        Readable worldFile = new FileReader(worldFilePath);
+        world.loadFromFile(worldFile);
 
         // Step 2: Create the GameView
-        GameView view = new GameView(world);
+        GameView view = new GameView(world, worldFilePath);
         view.setVisible(true);
 
         // Step 3: Create the Controller with the view and model

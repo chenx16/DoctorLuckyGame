@@ -29,10 +29,12 @@ public class GameView extends JFrame {
   private AddPlayerPanel addPlayerPanel;
   private WorldInterface world;
   private ViewController controller;
+  private String worldFilePath;
 
-  public GameView(WorldInterface world) {
+  public GameView(WorldInterface world, String worldFilePath) {
     // Setting up the frame properties
     this.world = world;
+    this.worldFilePath = worldFilePath;
     setTitle("Doctor Lucky Game");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(800, 600);
@@ -147,6 +149,7 @@ public class GameView extends JFrame {
           if (userSelection == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             try {
+              worldFilePath = selectedFile.getAbsolutePath();
               Readable worldFile = new FileReader(selectedFile);
               world = new World();
               world.loadFromFile(worldFile);
@@ -168,6 +171,13 @@ public class GameView extends JFrame {
           // Logic to start a new game with the current world specification
           System.out.println("Starting a new game with the current world specification...");
           world = new World(); // Reset the world
+          try {
+            Readable worldFile = new FileReader(worldFilePath);
+            world.loadFromFile(worldFile);
+          } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+          }
           switchToAddPlayerPanel();
           break;
 
