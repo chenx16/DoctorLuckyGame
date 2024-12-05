@@ -3,21 +3,20 @@ package viewcontroller;
 import gameworld.WorldInterface;
 import player.PlayerInterface;
 
-//Concrete command for moving a player
-public class MoveCommand implements ViewCommand {
+public class PickUpCommand implements ViewCommand {
   private WorldInterface world;
   private PlayerInterface player;
-  private int roomIndex;
+  private String itemName;
 
-  public MoveCommand(WorldInterface world, PlayerInterface player, int roomIndex) {
+  public PickUpCommand(WorldInterface world, PlayerInterface player, String itemName) {
     this.world = world;
     this.player = player;
-    this.roomIndex = roomIndex;
+    this.itemName = itemName;
   }
 
   @Override
   public String execute() {
-    String result = world.turnHumanPlayer("move", roomIndex, null);
+    String result = world.turnHumanPlayer("pickup", player.getCurrentRoom().getRoomInd(), itemName);
     System.out.println(result);
     return result;
   }

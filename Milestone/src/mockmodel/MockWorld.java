@@ -237,4 +237,9 @@ public class MockWorld implements WorldInterface {
 
     return "Attacked the target with " + itemName + ".";
   }
+
+  @Override
+  public int getPixel() {
+    return 0;
+  }
 }

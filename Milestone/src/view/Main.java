@@ -38,14 +38,8 @@ public class Main {
 
         // Step 2: Create the GameView
         GameView view = new GameView(world, worldFilePath);
+//        ViewController viewController = new ViewController(view, world);
         view.setVisible(true);
-
-        // Step 3: Create the Controller with the view and model
-//        ViewController controller = new ViewController(view, world);
-
-//        // Step 4: Start the game using the controller
-//        int maxTurns = 50; // Define the maximum number of turns
-//        controller.startGame(maxTurns);
 
       } catch (Exception e) {
         e.printStackTrace();

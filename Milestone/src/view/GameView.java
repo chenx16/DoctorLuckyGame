@@ -4,8 +4,11 @@ import gameworld.World;
 import gameworld.WorldInterface;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import player.PlayerInterface;
+import room.RoomInterface;
 import viewcontroller.ViewController;
 
 /**
@@ -93,47 +97,132 @@ public class GameView extends JFrame {
     infoPanel = new InfoPanel();
     add(infoPanel, BorderLayout.SOUTH);
 
+    // Register mouse listener AFTER all components are initialized
+//    if (controller != null) {
+//      controller.registerMouseListener(gamePanel);
+//    }
+
     revalidate();
     repaint();
-
+    controller = new ViewController(this, world, 50);
+//    if (controller != null) {
+////      controller.registerMouseListener(gamePanel);
+//      controller.registerKeyListener(gamePanel);
+//    }
     // After setting up the game panels, prompt the user to add players
   }
 
-  // Method to update the turn information
-  public void updateTurnInfo(PlayerInterface currentPlayer) {
-    String playerName = currentPlayer.getName();
-    String roomName = currentPlayer.getCurrentRoom().getName();
-    infoPanel.updateTurnInfo(playerName, roomName);
+  public void registerMouseListener(MouseListener listener) {
+    gamePanel.addMouseListener(listener);
   }
 
-  // Define the ActionListener for menu actions
-//  private class MenuActionListener implements ActionListener {
-//    @Override
-//    public void actionPerformed(ActionEvent e) {
-//      String command = e.getActionCommand();
-//      switch (command) {
-//        case "New Game with New World Specification":
-//          // Logic to start a new game with a new world specification
-//          System.out.println("Starting a new game with a new world specification...");
-//          // TODO: Add logic to prompt the user for a new world specification
-//          switchToAddPlayerPanel();
-//          break;
+//  public void registerKeyListener(KeyListener listener) {
+//    addKeyListener(listener);
+//  }
+
+  public PlayerInterface getPlayerAtLocation(Point point) {
+    for (PlayerInterface player : world.getPlayers()) {
+      Rectangle playerBounds = gamePanel.getPlayerBounds(player); // You need to implement
+                                                                  // getPlayerBounds() in GamePanel
+      if (playerBounds.contains(point)) {
+        return player;
+      }
+    }
+    return null;
+  }
 //
-//        case "New Game with Current World Specification":
-//          // Logic to start a new game with the current world specification
-//          System.out.println("Starting a new game with the current world specification...");
-//          world = new World(); // Reset the world
-//          switchToAddPlayerPanel();
-//          break;
-//
-//        case "Quit":
-//          // Logic to quit the game
-//          System.out.println("Quitting game...");
-//          System.exit(0);
-//          break;
+//  public RoomInterface getRoomAtLocation(Point clickPoint) {
+//    for (RoomInterface room : world.getRooms()) {
+//      Rectangle roomBounds = gamePanel.getRoomBounds(room);
+//      if (roomBounds.contains(clickPoint)) { // Assuming rooms have a graphical boundary
+//        return room;
 //      }
 //    }
+//    return null;
 //  }
+
+  public int promptForRoom() {
+    String[] roomNames = world.getRooms().stream().map(RoomInterface::getName)
+        .toArray(String[]::new);
+    String selectedRoomName = (String) JOptionPane.showInputDialog(this, "Select a room:",
+        "Choose Room", JOptionPane.PLAIN_MESSAGE, null, roomNames, roomNames[0]);
+
+    return world.getRooms().stream().filter(r -> r.getName().equals(selectedRoomName)).findFirst()
+        .map(RoomInterface::getRoomInd).orElse(-1);
+  }
+
+  public String promptForItem() {
+    PlayerInterface currentPlayer = world.getTurn();
+    RoomInterface currentRoom = currentPlayer.getCurrentRoom();
+    // Combine item name and damage
+    String[] items = currentRoom.getItems().stream()
+        .map(item -> String.format("%s (Damage: %d)", item.getName(), item.getDamage()))
+        .toArray(String[]::new);
+
+    if (items.length == 0) {
+      JOptionPane.showMessageDialog(this, "No items available in the current room.", "No Items",
+          JOptionPane.WARNING_MESSAGE);
+      return null;
+    }
+
+    String selectedItem = (String) JOptionPane.showInputDialog(this, "Select an item to pick up:",
+        "Choose Item", JOptionPane.PLAIN_MESSAGE, null, items, items[0]);
+
+    // Extract the item name (removing the damage part)
+    if (selectedItem != null) {
+      return selectedItem.split(" \\(Damage:")[0];
+    }
+    return null;
+  }
+
+  public void showMessage(String message) {
+    JOptionPane.showMessageDialog(this, message);
+  }
+
+  public String promptForInventoryItem() {
+    PlayerInterface currentPlayer = world.getTurn();
+    // Combine item name and damage
+    String[] inventoryItems = currentPlayer.getInventory().stream()
+        .map(item -> String.format("%s (Damage: %d)", item.getName(), item.getDamage()))
+        .toArray(String[]::new);
+
+    if (inventoryItems.length == 0) {
+      JOptionPane.showMessageDialog(this, "Your inventory is empty!", "No Items",
+          JOptionPane.WARNING_MESSAGE);
+      return null;
+    }
+
+    String selectedItem = (String) JOptionPane.showInputDialog(this,
+        "Select an item to attack with:", "Inventory", JOptionPane.PLAIN_MESSAGE, null,
+        inventoryItems, inventoryItems[0]);
+
+    // Extract the item name (removing the damage part)
+    if (selectedItem != null) {
+      return selectedItem.split(" \\(Damage:")[0];
+    }
+    return null;
+  }
+
+//Method to show an error message to the user
+  public void showErrorMessage(String errorMessage) {
+    JOptionPane.showMessageDialog(this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+  }
+
+//Method to get the InfoPanel
+  public InfoPanel getInfoPanel() {
+    return infoPanel;
+  }
+
+  // Method to update the turn information
+  public void updateTurnInfo(int turnNum) {
+    PlayerInterface currentPlayer = world.getTurn();
+    String playerName = currentPlayer.getName();
+    String roomName = currentPlayer.getCurrentRoom().getName();
+    infoPanel.updateTurnInfo(turnNum, playerName, roomName);
+    // Repaint the view to reflect updates
+    repaint();
+  }
+
   private class MenuActionListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -175,7 +264,6 @@ public class GameView extends JFrame {
             Readable worldFile = new FileReader(worldFilePath);
             world.loadFromFile(worldFile);
           } catch (IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
           }
           switchToAddPlayerPanel();
@@ -188,6 +276,11 @@ public class GameView extends JFrame {
           break;
       }
     }
+  }
+
+  public GamePanel getGamePanel() {
+    // TODO Auto-generated method stub
+    return gamePanel;
   }
 
 }

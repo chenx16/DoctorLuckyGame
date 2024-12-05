@@ -26,7 +26,8 @@ public class InfoPanel extends JPanel {
     infoLabel.setText(info);
   }
 
-  public void updateTurnInfo(String playerName, String roomName) {
-    turnLabel.setText("Current Turn: " + playerName + " - Location: " + roomName);
+  public void updateTurnInfo(int num, String playerName, String roomName) {
+    turnLabel.setText("Current Turn: " + num + " " + playerName + " - Location: " + roomName);
   }
+
 }

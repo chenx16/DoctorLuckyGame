@@ -5,6 +5,7 @@ import gameworld.WorldInterface;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
@@ -17,7 +18,7 @@ import target.TargetInterface;
  * GamePanel class is responsible for rendering the game world, including
  * players, the target, and other elements.
  */
-class GamePanel extends JPanel {
+public class GamePanel extends JPanel {
   private WorldInterface world;
   private BufferedImage worldImage;
   private int pixel;
@@ -34,15 +35,6 @@ class GamePanel extends JPanel {
       e.printStackTrace();
     }
   }
-
-//  @Override
-//  protected void paintComponent(Graphics g) {
-//    super.paintComponent(g);
-//    // Example rendering, replace with actual game logic
-//    drawWorld(g);
-//    drawTarget(g);
-//    drawPlayers(g);
-//  }
 
   @Override
   protected void paintComponent(Graphics g) {
@@ -125,6 +117,44 @@ class GamePanel extends JPanel {
         }
       }
     }
+  }
+
+  public Rectangle getPlayerBounds(PlayerInterface player) {
+    for (RoomInterface room : world.getRooms()) {
+      if (room.getPlayers().contains(player)) {
+        CoordinateInterface upperLeft = room.getCoordinateUpperLeft();
+        CoordinateInterface lowerRight = room.getCoordinateLowerRight();
+
+        int roomWidth = (lowerRight.getY() - upperLeft.getY() + 1) * pixel;
+        int roomHeight = (lowerRight.getX() - upperLeft.getX() + 1) * pixel;
+
+        // Calculate the center of the room for placing players
+        int centerX = (upperLeft.getY() * pixel) + roomWidth / 8;
+        int centerY = (upperLeft.getX() * pixel) + roomHeight / 2;
+
+        int playerSize = 10;
+        int offset = 35;
+
+        // Find the player's position within the room and return its bounds
+        int playerIndex = room.getPlayers().indexOf(player);
+        if (playerIndex >= 0) {
+          int offsetX = (playerIndex % 3) * offset; // Change this if you want to place them
+                                                    // differently
+          int offsetY = (playerIndex / 3) * offset;
+
+          int drawX = centerX - playerSize / 2 + offsetX;
+          int drawY = centerY - playerSize / 2 + offsetY;
+
+          return new Rectangle(drawX, drawY, playerSize, playerSize);
+        }
+      }
+    }
+    return null; // If the player is not found in any room
+  }
+
+  public Rectangle getRoomBounds(RoomInterface room) {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }
