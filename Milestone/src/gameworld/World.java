@@ -168,6 +168,8 @@ public class World implements WorldInterface {
       this.dfsStack.push(startingRoom.getRoomInd());
     } catch (NumberFormatException e) {
       throw new IOException("Failed to load the world: Invalid number format", e);
+    } catch (NullPointerException e) {
+      throw new IOException("Failed to load the world: Invalid world format", e);
     } finally {
       reader.close();
     }

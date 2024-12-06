@@ -18,7 +18,7 @@ import target.TargetInterface;
  * GamePanel class is responsible for rendering the game world, including
  * players, the target, and other elements.
  */
-public class GamePanel extends JPanel implements GamePanelInterface {
+public class GamePanel extends JPanel {
   private WorldInterface world;
   private BufferedImage worldImage;
   private int pixel;
@@ -36,6 +36,11 @@ public class GamePanel extends JPanel implements GamePanelInterface {
     }
   }
 
+  /**
+   * Renders the game world, including players, target, and other elements.
+   *
+   * @param g the graphics context to use for rendering.
+   */
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
@@ -47,13 +52,21 @@ public class GamePanel extends JPanel implements GamePanelInterface {
     drawTarget(g);
   }
 
-  @Override
+  /**
+   * Draws the world representation.
+   *
+   * @param g the graphics context to use for rendering.
+   */
   public void drawWorld(Graphics g) {
     g.setColor(Color.LIGHT_GRAY);
     g.fillRect(50, 50, 600, 400); // Example room representation
   }
 
-  @Override
+  /**
+   * Draws the target character within its current room.
+   *
+   * @param g the graphics context to use for rendering.
+   */
   public void drawTarget(Graphics g) {
     TargetInterface target = world.getTargetCharacter();
     if (target != null) {
@@ -78,7 +91,11 @@ public class GamePanel extends JPanel implements GamePanelInterface {
     }
   }
 
-  @Override
+  /**
+   * Draws all players within their respective rooms.
+   *
+   * @param g the graphics context to use for rendering.
+   */
   public void drawPlayers(Graphics g) {
     for (RoomInterface room : world.getRooms()) {
       List<PlayerInterface> playersInRoom = room.getPlayers();
@@ -121,7 +138,13 @@ public class GamePanel extends JPanel implements GamePanelInterface {
     }
   }
 
-  @Override
+  /**
+   * Retrieves the boundary rectangle of a player for interaction purposes.
+   *
+   * @param player the player whose boundary is being retrieved.
+   * @return a {@code Rectangle} representing the player's boundary, or
+   *         {@code null} if not found.
+   */
   public Rectangle getPlayerBounds(PlayerInterface player) {
     for (RoomInterface room : world.getRooms()) {
       if (room.getPlayers().contains(player)) {
@@ -141,8 +164,7 @@ public class GamePanel extends JPanel implements GamePanelInterface {
         // Find the player's position within the room and return its bounds
         int playerIndex = room.getPlayers().indexOf(player);
         if (playerIndex >= 0) {
-          int offsetX = (playerIndex % 3) * offset; // Change this if you want to place them
-                                                    // differently
+          int offsetX = (playerIndex % 3) * offset;
           int offsetY = (playerIndex / 3) * offset;
 
           int drawX = centerX - playerSize / 2 + offsetX;
@@ -155,7 +177,13 @@ public class GamePanel extends JPanel implements GamePanelInterface {
     return null; // If the player is not found in any room
   }
 
-  @Override
+  /**
+   * Retrieves the boundary rectangle of a room for interaction purposes.
+   *
+   * @param room the room whose boundary is being retrieved.
+   * @return a {@code Rectangle} representing the room's boundary, or {@code null}
+   *         if not found.
+   */
   public Rectangle getRoomBounds(RoomInterface room) {
     if (room == null || room.getCoordinateUpperLeft() == null
         || room.getCoordinateLowerRight() == null) {

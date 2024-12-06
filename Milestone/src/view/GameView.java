@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import player.PlayerInterface;
 import room.RoomInterface;
 import viewcontroller.ViewController;
+import viewcontroller.ViewControllerInterface;
 
 /**
  * GameView class responsible for setting up the main game window, allowing the
@@ -31,7 +32,7 @@ public class GameView extends JFrame implements GameViewInterface {
   private AboutPanel aboutPanel;
   private AddPlayerPanel addPlayerPanel;
   private WorldInterface world;
-  private ViewController controller;
+  private ViewControllerInterface controller;
   private String worldFilePath;
 
   /**

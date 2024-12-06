@@ -9,7 +9,7 @@ import javax.swing.JPanel;
  * as whose turn it is, current game status, etc.
  */
 
-public class InfoPanel extends JPanel implements InfoPanelInterface {
+public class InfoPanel extends JPanel {
   private JLabel infoLabel;
   private JLabel turnLabel;
 
@@ -25,12 +25,22 @@ public class InfoPanel extends JPanel implements InfoPanelInterface {
     add(turnLabel);
   }
 
-  @Override
+  /**
+   * Updates general information displayed on the panel.
+   *
+   * @param info the information to display.
+   */
   public void updateInfo(String info) {
     infoLabel.setText(info);
   }
 
-  @Override
+  /**
+   * Updates the turn information displayed on the panel.
+   *
+   * @param num        the current turn number.
+   * @param playerName the name of the current player.
+   * @param roomName   the name of the current room.
+   */
   public void updateTurnInfo(int num, String playerName, String roomName) {
     turnLabel.setText("Current Turn: " + num + " " + playerName + " - Location: " + roomName);
   }

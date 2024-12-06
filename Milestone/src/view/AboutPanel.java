@@ -14,7 +14,7 @@ import javax.swing.JPanel;
  * AboutPanel class that represents the About screen for the game. It contains a
  * welcome message, description, and a "Start Game" button.
  */
-public class AboutPanel extends JPanel implements AboutPanelInterface {
+public class AboutPanel extends JPanel {
 
   private JButton startGameButton;
 
@@ -62,7 +62,11 @@ public class AboutPanel extends JPanel implements AboutPanelInterface {
     add(Box.createVerticalGlue());
   }
 
-  @Override
+  /**
+   * Registers an action listener for the "Start Game" button.
+   *
+   * @param listener the action listener to be registered.
+   */
   public void registerActionListener(ActionListener listener) {
     startGameButton.addActionListener(listener);
   }

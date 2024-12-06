@@ -20,7 +20,7 @@ import room.RoomInterface;
  * The {@code AddPlayerPanel} class provides a UI for adding human and computer
  * players to the game.
  */
-public class AddPlayerPanel extends JPanel implements AddPlayerPanelInterface {
+public class AddPlayerPanel extends JPanel {
   private WorldInterface world;
   private JButton addHumanButton;
   private JButton addComputerButton;
@@ -84,7 +84,9 @@ public class AddPlayerPanel extends JPanel implements AddPlayerPanelInterface {
     });
   }
 
-  @Override
+  /**
+   * Adds a human player to the game.
+   */
   public void addHumanPlayer() {
     if (world.getPlayers().size() >= 10) {
       JOptionPane.showMessageDialog(this, "Cannot add more than 10 players to the game.",
@@ -104,7 +106,9 @@ public class AddPlayerPanel extends JPanel implements AddPlayerPanelInterface {
     }
   }
 
-  @Override
+  /**
+   * Adds a computer-controlled player to the game.
+   */
   public void addComputerPlayer() {
     if (world.getPlayers().size() >= 10) {
       JOptionPane.showMessageDialog(this, "Cannot add more than 10 players to the game.",
@@ -120,7 +124,12 @@ public class AddPlayerPanel extends JPanel implements AddPlayerPanelInterface {
     updateStatus();
   }
 
-  @Override
+  /**
+   * Opens a dialog to select a starting room for a player.
+   *
+   * @return the selected {@code RoomInterface}, or {@code null} if no selection
+   *         was made.
+   */
   public RoomInterface selectRoomDialog() {
     String[] roomNames = world.getRooms().stream().map(RoomInterface::getName)
         .toArray(String[]::new);
@@ -132,13 +141,19 @@ public class AddPlayerPanel extends JPanel implements AddPlayerPanelInterface {
         .orElse(null);
   }
 
-  @Override
+  /**
+   * Selects a random starting room for a player.
+   *
+   * @return the randomly selected {@code RoomInterface}.
+   */
   public RoomInterface selectRandomRoom() {
     Random random = new Random();
     return world.getRooms().get(random.nextInt(world.getRooms().size()));
   }
 
-  @Override
+  /**
+   * Updates the status label to reflect the number of players added.
+   */
   public void updateStatus() {
     statusLabel.setText("Players Added: " + world.getPlayers().size());
   }

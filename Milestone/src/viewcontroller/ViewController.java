@@ -79,7 +79,6 @@ public class ViewController implements ViewControllerInterface {
 
   @Override
   public void updateTurnInfo() {
-//    PlayerInterface currentPlayer = world.getTurn();
     view.updateTurnInfo(currentTurnCount);
   }
 
