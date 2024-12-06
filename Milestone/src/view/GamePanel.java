@@ -153,8 +153,20 @@ public class GamePanel extends JPanel {
   }
 
   public Rectangle getRoomBounds(RoomInterface room) {
-    // TODO Auto-generated method stub
-    return null;
+    if (room == null || room.getCoordinateUpperLeft() == null
+        || room.getCoordinateLowerRight() == null) {
+      return null;
+    }
+
+    CoordinateInterface upperLeft = room.getCoordinateUpperLeft();
+    CoordinateInterface lowerRight = room.getCoordinateLowerRight();
+
+    int x = upperLeft.getY() * pixel;
+    int y = upperLeft.getX() * pixel;
+    int width = (lowerRight.getY() - upperLeft.getY() + 1) * pixel;
+    int height = (lowerRight.getX() - upperLeft.getX() + 1) * pixel;
+
+    return new Rectangle(x, y, width, height);
   }
 
 }

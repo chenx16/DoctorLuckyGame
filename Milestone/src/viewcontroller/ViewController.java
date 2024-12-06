@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import player.PlayerInterface;
+import room.RoomInterface;
 import view.GameView;
 
 /**
@@ -122,6 +123,23 @@ public class ViewController {
     @Override
     public void mouseClicked(MouseEvent e) {
       Point clickPoint = e.getPoint();
+      // Movement mode: Move player to the clicked room
+      if (isMovementMode) {
+        RoomInterface clickedRoom = view.getRoomAtLocation(clickPoint);
+        PlayerInterface currentPlayer = world.getTurn();
+        RoomInterface currentRoom = currentPlayer.getCurrentRoom();
+
+        if (clickedRoom != null && currentRoom.getListofNeighbors().contains(clickedRoom)) {
+          ViewCommand command = new MoveCommand(world, currentPlayer, clickedRoom.getRoomInd());
+          command.execute();
+          view.showMessage("Moved to: " + clickedRoom.getName());
+          isMovementMode = false; // Exit movement mode after moving
+          processTurn();
+        } else {
+          view.showMessage("Invalid move! Click on a neighboring room.");
+        }
+        return;
+      }
 
       // Check if a player is clicked
       PlayerInterface clickedPlayer = view.getPlayerAtLocation(clickPoint);
@@ -181,8 +199,10 @@ public class ViewController {
       switch (key) {
         case 'm': // Move
           // Move command, ask for room index or logic to select room
-          int roomIndex = view.promptForRoom();
-          command = new MoveCommand(world, currentPlayer, roomIndex);
+//          int roomIndex = view.promptForRoom();
+//          command = new MoveCommand(world, currentPlayer, roomIndex);
+          isMovementMode = true;
+          view.showMessage("Click on a neighboring room to move.");
 //          result = command.execute();
           break;
         case 'p':

@@ -87,7 +87,7 @@ public abstract class Player implements PlayerInterface {
   public String getDescription() {
     StringBuilder description = new StringBuilder();
     int neighborCount = currentRoom.getListofNeighbors().size();
-    description.append("It's " + name + "'s turn.").append("\nIn the Room: ")
+    description.append("It's " + name + "'s turn.").append("\nYou are in: ")
         .append(currentRoom.getName()).append(" with index ").append(currentRoom.getRoomInd())
         .append("\nThere are ").append(neighborCount).append(" neighboring rooms.")
         .append("\nInventory: ");
@@ -107,7 +107,7 @@ public abstract class Player implements PlayerInterface {
   public String getViewDescription() {
     StringBuilder description = new StringBuilder();
     int neighborCount = currentRoom.getListofNeighbors().size();
-    description.append("Player Name: " + name).append("\nYou are in: ")
+    description.append("Player Name: " + name).append("\nIn the Room: ")
         .append(currentRoom.getName()).append(" with index ").append(currentRoom.getRoomInd())
         .append("\nThere are ").append(neighborCount).append(" neighboring rooms.")
         .append("\nInventory: ");
