@@ -89,4 +89,16 @@ public interface PlayerInterface {
    * @param item item needs to be removed from inventory
    */
   void removeItem(ItemInterface item);
+
+  /**
+   * Provides a detailed description of the current state of the player. The
+   * description includes the player's name, current room, neighboring rooms,
+   * inventory, and whether the player is controlled by a computer or a human.
+   *
+   * @return A string that describes the player's current state including: -
+   *         Player name and type (human or computer-controlled) - Current room
+   *         name and index - The number of neighboring rooms - The items
+   *         currently in the player's inventory
+   */
+  String getViewDescription();
 }

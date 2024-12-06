@@ -130,16 +130,16 @@ public class GameView extends JFrame {
     }
     return null;
   }
-//
-//  public RoomInterface getRoomAtLocation(Point clickPoint) {
-//    for (RoomInterface room : world.getRooms()) {
-//      Rectangle roomBounds = gamePanel.getRoomBounds(room);
-//      if (roomBounds.contains(clickPoint)) { // Assuming rooms have a graphical boundary
-//        return room;
-//      }
-//    }
-//    return null;
-//  }
+
+  public RoomInterface getRoomAtLocation(Point clickPoint) {
+    for (RoomInterface room : world.getRooms()) {
+      Rectangle roomBounds = gamePanel.getRoomBounds(room);
+      if (roomBounds.contains(clickPoint)) { // Assuming rooms have a graphical boundary
+        return room;
+      }
+    }
+    return null;
+  }
 
   public int promptForRoom() {
     String[] roomNames = world.getRooms().stream().map(RoomInterface::getName)

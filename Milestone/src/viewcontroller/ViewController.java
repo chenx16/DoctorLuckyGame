@@ -37,9 +37,10 @@ public class ViewController {
     this.world = world;
     this.maxTurns = maxTurns;
     this.currentTurnCount = 0;
+    this.isMovementMode = false;
 
     // Registering event listeners
-    view.registerMouseListener(new GameMouseListener());
+    this.view.registerMouseListener(new GameMouseListener());
     this.view.addKeyListener(new GameKeyListener());
 //    registerMouseListener(view.getGamePanel());
     processTurn();
@@ -126,7 +127,7 @@ public class ViewController {
       PlayerInterface clickedPlayer = view.getPlayerAtLocation(clickPoint);
       if (clickedPlayer != null) {
         // Show the player's description
-        String description = clickedPlayer.getDescription();
+        String description = clickedPlayer.getViewDescription();
         JOptionPane.showMessageDialog(view, description, "Player Description",
             JOptionPane.INFORMATION_MESSAGE);
         return;

@@ -87,7 +87,7 @@ public abstract class Player implements PlayerInterface {
   public String getDescription() {
     StringBuilder description = new StringBuilder();
     int neighborCount = currentRoom.getListofNeighbors().size();
-    description.append("It's " + name + "'s turn.").append("\nYou are in: ")
+    description.append("It's " + name + "'s turn.").append("\nIn the Room: ")
         .append(currentRoom.getName()).append(" with index ").append(currentRoom.getRoomInd())
         .append("\nThere are ").append(neighborCount).append(" neighboring rooms.")
         .append("\nInventory: ");
@@ -99,6 +99,28 @@ public abstract class Player implements PlayerInterface {
         description.append("\n- ").append(item.toString());
       }
     }
+
+    return description.toString();
+  }
+
+  @Override
+  public String getViewDescription() {
+    StringBuilder description = new StringBuilder();
+    int neighborCount = currentRoom.getListofNeighbors().size();
+    description.append("Player Name: " + name).append("\nYou are in: ")
+        .append(currentRoom.getName()).append(" with index ").append(currentRoom.getRoomInd())
+        .append("\nThere are ").append(neighborCount).append(" neighboring rooms.")
+        .append("\nInventory: ");
+
+    if (inventory.isEmpty()) {
+      description.append("No items");
+    } else {
+      for (ItemInterface item : inventory) {
+        description.append("\n- ").append(item.toString());
+      }
+    }
+    description.append("\nPlayer Type: ")
+        .append(getIsComputerControlled() ? "Computer-controlled" : "Human-controlled");
 
     return description.toString();
   }
