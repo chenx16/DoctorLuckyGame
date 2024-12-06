@@ -2,17 +2,25 @@ package viewcontroller;
 
 import gameworld.WorldInterface;
 import player.PlayerInterface;
-import view.InfoPanel;
 
+/**
+ * The {@code AttackCommand} class represents the command for a player to
+ * attempt an attack on the target character using a specific item.
+ */
 public class AttackCommand implements ViewCommand {
   private WorldInterface world;
   private PlayerInterface player;
-  private InfoPanel infoPanel;
   private String itemName;
 
-  public AttackCommand(WorldInterface world, PlayerInterface player, String itemName) {
+  /**
+   * Constructs an {@code AttackCommand} object.
+   *
+   * @param world    the game world model.
+   * @param itemName the name of the item to use for the attack.
+   */
+  public AttackCommand(WorldInterface world, String itemName) {
     this.world = world;
-    this.player = player;
+    this.player = world.getTurn();
     this.itemName = itemName;
   }
 
@@ -21,11 +29,9 @@ public class AttackCommand implements ViewCommand {
     if (player.getCurrentRoom().equals(world.getTargetCharacter().getCurrentRoom())) {
       // Player attempts an attack on the target
       String result = world.turnHumanPlayer("attempt", -1, itemName);
-//      infoPanel.updateInfo(result);
       return result;
     } else {
       return "The target is not in your current room. You cannot attack.";
-//      infoPanel.updateInfo("The target is not in your current room. You cannot attack.");
     }
   }
 }

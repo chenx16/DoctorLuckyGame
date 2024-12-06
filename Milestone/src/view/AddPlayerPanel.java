@@ -16,13 +16,22 @@ import player.HumanPlayer;
 import player.PlayerInterface;
 import room.RoomInterface;
 
-public class AddPlayerPanel extends JPanel {
+/**
+ * The {@code AddPlayerPanel} class provides a UI for adding human and computer
+ * players to the game.
+ */
+public class AddPlayerPanel extends JPanel implements AddPlayerPanelInterface {
   private WorldInterface world;
   private JButton addHumanButton;
   private JButton addComputerButton;
   private JButton doneButton;
   private JLabel statusLabel;
 
+  /**
+   * Constructs an {@code AddPlayerPanel} to manage player addition in the game.
+   *
+   * @param world the game world model.
+   */
   public AddPlayerPanel(WorldInterface world) {
     this.world = world;
     setLayout(new BorderLayout());
@@ -75,7 +84,8 @@ public class AddPlayerPanel extends JPanel {
     });
   }
 
-  private void addHumanPlayer() {
+  @Override
+  public void addHumanPlayer() {
     if (world.getPlayers().size() >= 10) {
       JOptionPane.showMessageDialog(this, "Cannot add more than 10 players to the game.",
           "Player Limit Reached", JOptionPane.WARNING_MESSAGE);
@@ -94,7 +104,8 @@ public class AddPlayerPanel extends JPanel {
     }
   }
 
-  private void addComputerPlayer() {
+  @Override
+  public void addComputerPlayer() {
     if (world.getPlayers().size() >= 10) {
       JOptionPane.showMessageDialog(this, "Cannot add more than 10 players to the game.",
           "Player Limit Reached", JOptionPane.WARNING_MESSAGE);
@@ -109,7 +120,8 @@ public class AddPlayerPanel extends JPanel {
     updateStatus();
   }
 
-  private RoomInterface selectRoomDialog() {
+  @Override
+  public RoomInterface selectRoomDialog() {
     String[] roomNames = world.getRooms().stream().map(RoomInterface::getName)
         .toArray(String[]::new);
     String selectedRoomName = (String) JOptionPane.showInputDialog(this,
@@ -120,12 +132,14 @@ public class AddPlayerPanel extends JPanel {
         .orElse(null);
   }
 
-  private RoomInterface selectRandomRoom() {
+  @Override
+  public RoomInterface selectRandomRoom() {
     Random random = new Random();
     return world.getRooms().get(random.nextInt(world.getRooms().size()));
   }
 
-  private void updateStatus() {
+  @Override
+  public void updateStatus() {
     statusLabel.setText("Players Added: " + world.getPlayers().size());
   }
 }

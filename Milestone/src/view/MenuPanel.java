@@ -7,13 +7,21 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-class MenuPanel extends JPanel {
+/**
+ * MenuPanel class that provides a menu bar with options to start a new game or
+ * quit.
+ */
+public class MenuPanel extends JPanel implements MenuPanelInterface {
+
   private JMenuBar menuBar;
   private JMenu gameMenu;
   private JMenuItem newGameItem;
   private JMenuItem currentGameItem;
   private JMenuItem quitItem;
 
+  /**
+   * Constructs a MenuPanel with menu options for starting a new game or quitting.
+   */
   public MenuPanel() {
     setLayout(new FlowLayout(FlowLayout.LEFT));
     menuBar = new JMenuBar();
@@ -39,6 +47,7 @@ class MenuPanel extends JPanel {
     add(menuBar);
   }
 
+  @Override
   public void registerActionListener(ActionListener listener) {
     newGameItem.addActionListener(listener);
     currentGameItem.addActionListener(listener);

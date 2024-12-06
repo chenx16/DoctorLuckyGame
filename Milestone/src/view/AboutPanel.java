@@ -14,10 +14,14 @@ import javax.swing.JPanel;
  * AboutPanel class that represents the About screen for the game. It contains a
  * welcome message, description, and a "Start Game" button.
  */
-public class AboutPanel extends JPanel {
+public class AboutPanel extends JPanel implements AboutPanelInterface {
 
   private JButton startGameButton;
 
+  /**
+   * Constructs an {@code AboutPanel} with a welcome message, description, author
+   * information, and a "Start Game" button.
+   */
   public AboutPanel() {
     // Set the layout and border for the panel
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -29,9 +33,10 @@ public class AboutPanel extends JPanel {
     welcomeLabel.setAlignmentX(CENTER_ALIGNMENT);
 
     // Create the description label
-    JLabel descriptionLabel = new JLabel("<html><div style='text-align: center;'>"
-        + "In Doctor Lucky, players attempt to track and kill Doctor Lucky while outsmarting their opponents. "
-        + "Can you succeed before anyone else?</div></html>");
+    JLabel descriptionLabel = new JLabel(
+        "<html><div style='text-align: center;'>" + "In Doctor Lucky, players attempt to track "
+            + "and kill Doctor Lucky while outsmarting their opponents. "
+            + "Can you succeed before anyone else?</div></html>");
     descriptionLabel.setFont(new Font("SansSerif", Font.PLAIN, 16));
     descriptionLabel.setAlignmentX(CENTER_ALIGNMENT);
 
@@ -57,7 +62,7 @@ public class AboutPanel extends JPanel {
     add(Box.createVerticalGlue());
   }
 
-  // Method to register an ActionListener for the start game button
+  @Override
   public void registerActionListener(ActionListener listener) {
     startGameButton.addActionListener(listener);
   }

@@ -1,15 +1,21 @@
 package viewcontroller;
 
 import gameworld.WorldInterface;
-import player.PlayerInterface;
 
+/**
+ * The {@code LookCommand} class represents the command for a player to look
+ * around their current room and observe their surroundings.
+ */
 public class LookCommand implements ViewCommand {
-  private final WorldInterface world;
-  private final PlayerInterface player;
+  private WorldInterface world;
 
-  public LookCommand(WorldInterface world, PlayerInterface player) {
+  /**
+   * Constructs a {@code LookCommand} object.
+   *
+   * @param world the game world model.
+   */
+  public LookCommand(WorldInterface world) {
     this.world = world;
-    this.player = player;
   }
 
   @Override

@@ -18,7 +18,7 @@ import target.TargetInterface;
  * GamePanel class is responsible for rendering the game world, including
  * players, the target, and other elements.
  */
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements GamePanelInterface {
   private WorldInterface world;
   private BufferedImage worldImage;
   private int pixel;
@@ -37,7 +37,7 @@ public class GamePanel extends JPanel {
   }
 
   @Override
-  protected void paintComponent(Graphics g) {
+  public void paintComponent(Graphics g) {
     super.paintComponent(g);
 
     g.drawImage(worldImage, 0, 0, this);
@@ -47,13 +47,14 @@ public class GamePanel extends JPanel {
     drawTarget(g);
   }
 
-  // Draw the world map
-  private void drawWorld(Graphics g) {
+  @Override
+  public void drawWorld(Graphics g) {
     g.setColor(Color.LIGHT_GRAY);
     g.fillRect(50, 50, 600, 400); // Example room representation
   }
 
-  private void drawTarget(Graphics g) {
+  @Override
+  public void drawTarget(Graphics g) {
     TargetInterface target = world.getTargetCharacter();
     if (target != null) {
       RoomInterface targetRoom = target.getCurrentRoom();
@@ -77,7 +78,8 @@ public class GamePanel extends JPanel {
     }
   }
 
-  private void drawPlayers(Graphics g) {
+  @Override
+  public void drawPlayers(Graphics g) {
     for (RoomInterface room : world.getRooms()) {
       List<PlayerInterface> playersInRoom = room.getPlayers();
       if (!playersInRoom.isEmpty()) {
@@ -119,6 +121,7 @@ public class GamePanel extends JPanel {
     }
   }
 
+  @Override
   public Rectangle getPlayerBounds(PlayerInterface player) {
     for (RoomInterface room : world.getRooms()) {
       if (room.getPlayers().contains(player)) {
@@ -152,6 +155,7 @@ public class GamePanel extends JPanel {
     return null; // If the player is not found in any room
   }
 
+  @Override
   public Rectangle getRoomBounds(RoomInterface room) {
     if (room == null || room.getCoordinateUpperLeft() == null
         || room.getCoordinateLowerRight() == null) {

@@ -8,7 +8,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -24,7 +23,7 @@ import viewcontroller.ViewController;
  * GameView class responsible for setting up the main game window, allowing the
  * user to add human or computer players to the game.
  */
-public class GameView extends JFrame {
+public class GameView extends JFrame implements GameViewInterface {
 
   private GamePanel gamePanel;
   private MenuPanel menuPanel;
@@ -35,6 +34,13 @@ public class GameView extends JFrame {
   private ViewController controller;
   private String worldFilePath;
 
+  /**
+   * Constructs a {@code GameView} object with the specified world and world file
+   * path.
+   *
+   * @param world         the game world model.
+   * @param worldFilePath the file path of the world specification.
+   */
   public GameView(WorldInterface world, String worldFilePath) {
     // Setting up the frame properties
     this.world = world;
@@ -49,13 +55,11 @@ public class GameView extends JFrame {
     aboutPanel = new AboutPanel();
     add(aboutPanel, BorderLayout.CENTER);
 
-    // Register the action listener for the start game button
-//    aboutPanel.registerActionListener(e -> switchToGameView());
-    // Register the action listener for the start game button
     aboutPanel.registerActionListener(e -> switchToAddPlayerPanel());
   }
 
-  private void switchToAddPlayerPanel() {
+  @Override
+  public void switchToAddPlayerPanel() {
     getContentPane().removeAll();
     revalidate();
     repaint();
@@ -69,13 +73,8 @@ public class GameView extends JFrame {
     repaint();
   }
 
-//
-//  public void setController(ViewController controller) {
-//    this.controller = controller;
-//  }
-
-  // Method to switch to the main game view
-  private void switchToGameView() {
+  @Override
+  public void switchToGameView() {
     getContentPane().removeAll();
     revalidate();
     repaint();
@@ -97,33 +96,15 @@ public class GameView extends JFrame {
     infoPanel = new InfoPanel();
     add(infoPanel, BorderLayout.SOUTH);
 
-    // Register mouse listener AFTER all components are initialized
-//    if (controller != null) {
-//      controller.registerMouseListener(gamePanel);
-//    }
-
     revalidate();
     repaint();
     controller = new ViewController(this, world, 50);
-//    if (controller != null) {
-////      controller.registerMouseListener(gamePanel);
-//      controller.registerKeyListener(gamePanel);
-//    }
-    // After setting up the game panels, prompt the user to add players
   }
 
-  public void registerMouseListener(MouseListener listener) {
-    gamePanel.addMouseListener(listener);
-  }
-
-//  public void registerKeyListener(KeyListener listener) {
-//    addKeyListener(listener);
-//  }
-
+  @Override
   public PlayerInterface getPlayerAtLocation(Point point) {
     for (PlayerInterface player : world.getPlayers()) {
-      Rectangle playerBounds = gamePanel.getPlayerBounds(player); // You need to implement
-                                                                  // getPlayerBounds() in GamePanel
+      Rectangle playerBounds = gamePanel.getPlayerBounds(player);
       if (playerBounds.contains(point)) {
         return player;
       }
@@ -131,6 +112,7 @@ public class GameView extends JFrame {
     return null;
   }
 
+  @Override
   public RoomInterface getRoomAtLocation(Point clickPoint) {
     for (RoomInterface room : world.getRooms()) {
       Rectangle roomBounds = gamePanel.getRoomBounds(room);
@@ -141,6 +123,7 @@ public class GameView extends JFrame {
     return null;
   }
 
+  @Override
   public int promptForRoom() {
     String[] roomNames = world.getRooms().stream().map(RoomInterface::getName)
         .toArray(String[]::new);
@@ -151,6 +134,7 @@ public class GameView extends JFrame {
         .map(RoomInterface::getRoomInd).orElse(-1);
   }
 
+  @Override
   public String promptForItem() {
     PlayerInterface currentPlayer = world.getTurn();
     RoomInterface currentRoom = currentPlayer.getCurrentRoom();
@@ -175,10 +159,12 @@ public class GameView extends JFrame {
     return null;
   }
 
+  @Override
   public void showMessage(String message) {
     JOptionPane.showMessageDialog(this, message);
   }
 
+  @Override
   public String promptForInventoryItem() {
     PlayerInterface currentPlayer = world.getTurn();
     // Combine item name and damage
@@ -203,17 +189,12 @@ public class GameView extends JFrame {
     return null;
   }
 
-//Method to show an error message to the user
+  @Override
   public void showErrorMessage(String errorMessage) {
     JOptionPane.showMessageDialog(this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
   }
 
-//Method to get the InfoPanel
-  public InfoPanel getInfoPanel() {
-    return infoPanel;
-  }
-
-  // Method to update the turn information
+  @Override
   public void updateTurnInfo(int turnNum) {
     PlayerInterface currentPlayer = world.getTurn();
     String playerName = currentPlayer.getName();
@@ -221,6 +202,16 @@ public class GameView extends JFrame {
     infoPanel.updateTurnInfo(turnNum, playerName, roomName);
     // Repaint the view to reflect updates
     repaint();
+  }
+
+  @Override
+  public InfoPanel getInfoPanel() {
+    return infoPanel;
+  }
+
+  @Override
+  public GamePanel getGamePanel() {
+    return gamePanel;
   }
 
   private class MenuActionListener implements ActionListener {
@@ -274,13 +265,14 @@ public class GameView extends JFrame {
           System.out.println("Quitting game...");
           System.exit(0);
           break;
+        default:
+          // Handle unexpected commands
+          JOptionPane.showMessageDialog(GameView.this, "Unrecognized command: " + command, "Error",
+              JOptionPane.ERROR_MESSAGE);
+          System.err.println("Unrecognized command: " + command);
+          break;
       }
     }
-  }
-
-  public GamePanel getGamePanel() {
-    // TODO Auto-generated method stub
-    return gamePanel;
   }
 
 }

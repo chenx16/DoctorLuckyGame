@@ -19,7 +19,7 @@ import view.GameView;
  * ViewController bridges the GameView and the WorldInterface, handling user
  * inputs and automating computer players.
  */
-public class ViewController {
+public class ViewController implements ViewControllerInterface {
   private GameView view;
   private WorldInterface world;
   private int maxTurns;
@@ -41,17 +41,14 @@ public class ViewController {
     this.isMovementMode = false;
 
     // Registering event listeners
-    this.view.registerMouseListener(new GameMouseListener());
+    this.view.addMouseListener(new GameMouseListener());
     this.view.addKeyListener(new GameKeyListener());
-//    registerMouseListener(view.getGamePanel());
     processTurn();
 
   }
 
-  /**
-   * Processes the current player's turn.
-   */
-  private void processTurn() {
+  @Override
+  public void processTurn() {
     boolean gameOver = world.isGameEnd();
     if (gameOver) {
       handleGameOver();
@@ -70,7 +67,6 @@ public class ViewController {
       updateTurnInfo();
       String result = world.turnComputerPlayer();
       view.showMessage("Computer Player Turn: " + result);
-//      currentTurnCount++;
       processTurn(); // Recursive call to handle the next turn
     } else {
       // Update the view for human player's turn
@@ -81,12 +77,14 @@ public class ViewController {
     world.moveTargetCharacter();
   }
 
-  private void updateTurnInfo() {
+  @Override
+  public void updateTurnInfo() {
 //    PlayerInterface currentPlayer = world.getTurn();
     view.updateTurnInfo(currentTurnCount);
   }
 
-  private void handleGameOver() {
+  @Override
+  public void handleGameOver() {
 
     int choice = JOptionPane.showConfirmDialog(view, "Do you want to start a new game?",
         "Game Over", JOptionPane.YES_NO_OPTION);
@@ -98,7 +96,8 @@ public class ViewController {
     }
   }
 
-  private void startNewGame() {
+  @Override
+  public void startNewGame() {
     // Clear and reset the world
     WorldInterface newWorld = new World();
     String worldFilePath = "./res/mansion.txt"; // Replace with actual path
@@ -112,9 +111,8 @@ public class ViewController {
       e.printStackTrace();
     }
 
-    // Step 2: Create the GameView
+    // Create the GameView
     GameView newView = new GameView(world, worldFilePath);
-//    ViewController viewController = new ViewController(view, world);
     newView.setVisible(true);
     view.dispose();
   }
@@ -130,7 +128,7 @@ public class ViewController {
         RoomInterface currentRoom = currentPlayer.getCurrentRoom();
 
         if (clickedRoom != null && currentRoom.getListofNeighbors().contains(clickedRoom)) {
-          ViewCommand command = new MoveCommand(world, currentPlayer, clickedRoom.getRoomInd());
+          ViewCommand command = new MoveCommand(world, clickedRoom.getRoomInd());
           command.execute();
           view.showMessage("Moved to: " + clickedRoom.getName());
           isMovementMode = false; // Exit movement mode after moving
@@ -151,35 +149,8 @@ public class ViewController {
         return;
       }
 
-//      // Check if a room is clicked
-//      RoomInterface clickedRoom = view.getRoomAtLocation(clickPoint);
-//      if (clickedRoom != null) {
-//        PlayerInterface currentPlayer = world.getTurn();
-//        RoomInterface currentRoom = currentPlayer.getCurrentRoom();
-//
-//        // Check if the clicked room is a neighbor
-//        if (currentRoom.getListofNeighbors().contains(clickedRoom)) {
-//          world.movePlayer(currentPlayer, clickedRoom);
-//          view.updateTurnInfo(currentPlayer);
-//          view.showMessage("Moved to: " + clickedRoom.getName());
-//        } else {
-//          view.showMessage("Invalid move! You can only move to neighboring rooms.");
-//        }
-//      }
     }
   }
-
-//  public void registerMouseListener(GamePanel gamePanel) {
-//    gamePanel.addMouseListener(new MouseAdapter() {
-//      @Override
-//      public void mouseClicked(MouseEvent e) {
-//        PlayerInterface clickedPlayer = view.getPlayerAtLocation(e.getPoint());
-//        if (clickedPlayer != null) {
-//          view.showMessage("Player clicked: " + clickedPlayer.getName());
-//        }
-//      }
-//    });
-//  }
 
   // Handles keyboard commands
   private class GameKeyListener implements KeyListener {
@@ -192,38 +163,30 @@ public class ViewController {
         return;
       }
       ViewCommand command = null;
-//      InfoPanel infoPanel = view.getInfoPanel();
 
       char key = e.getKeyChar();
       String result = "";
       switch (key) {
         case 'm': // Move
-          // Move command, ask for room index or logic to select room
-//          int roomIndex = view.promptForRoom();
-//          command = new MoveCommand(world, currentPlayer, roomIndex);
+          // Move command
           isMovementMode = true;
           view.showMessage("Click on a neighboring room to move.");
-//          result = command.execute();
           break;
         case 'p':
           // Pick up item command
           String itemName = view.promptForItem();
-          command = new PickUpCommand(world, currentPlayer, itemName);
-//          result =  command.execute();
+          command = new PickUpCommand(world, itemName);
           break;
         case 'l':
           // Look command
-          command = new LookCommand(world, currentPlayer);
-//          result = command.execute();
+          command = new LookCommand(world);
           break;
         case 'a':
           // Attempt attack command
           String item = view.promptForInventoryItem();
-          command = new AttackCommand(world, currentPlayer, item);
-//          result =  command.execute();
+          command = new AttackCommand(world, item);
           break;
         default:
-//          view.showErrorMessage("Invalid key pressed");
           result = "Invalid key pressed";
           return;
       }
@@ -232,7 +195,10 @@ public class ViewController {
         result = command.execute();
         updateTurnInfo(); // Update turn information after the command
       }
-      view.showMessage(result);
+      if (result != null && !result.isEmpty()) {
+        view.showMessage(result); // Only show meaningful messages
+      }
+
       processTurn();
     }
 

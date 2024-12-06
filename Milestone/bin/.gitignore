@@ -1,12 +1,2 @@
-/mockmodel/
-/controller/
-/driver/
-/gameworld/
-/command/
-/pet/
-/room/
-/target/
-/player/
-/item/
-/view/
 /viewcontroller/
+/view/
