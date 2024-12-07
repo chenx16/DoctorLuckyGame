@@ -324,7 +324,7 @@ The game currently supports only one human-controlled player and one computer-co
   - Added several getters in `World.java` to support the graphical interface and dynamic updates.
 
 - **Testing Enhancements:**
-  - Expanded testing for pet and player interactions to ensure robustness.
+  - Expanded testing for pet and player interactions to ensure room visibility logic works correctly.
 
 - **Controller Changes:**
   - Introduced a separate controller for the graphical interface using the **command design pattern**.
