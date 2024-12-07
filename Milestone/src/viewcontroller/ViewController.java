@@ -24,6 +24,7 @@ public class ViewController implements ViewControllerInterface {
   private WorldInterface world;
   private int maxTurns;
   private String worldFilePath;
+  private boolean isTesting;
   private boolean isMovementMode; // Tracks if movement mode is active
 
   /**
@@ -39,7 +40,7 @@ public class ViewController implements ViewControllerInterface {
     this.maxTurns = maxTurns;
     this.worldFilePath = worldFilePath;
     this.isMovementMode = false;
-
+    this.isTesting = false;
     // Registering event listeners
     this.view.registerListeners(new GameKeyListener(), new GameMouseListener());
     processTurn();
@@ -48,6 +49,9 @@ public class ViewController implements ViewControllerInterface {
 
   @Override
   public void processTurn() {
+    if (isTesting && world.isGameEnd()) {
+      return; // Prevent infinite loop in testing
+    }
     boolean gameOver = world.isGameEnd();
     if (gameOver) {
       handleGameOver();
@@ -87,15 +91,20 @@ public class ViewController implements ViewControllerInterface {
 
   @Override
   public void handleGameOver() {
-
-    int choice = JOptionPane.showConfirmDialog(view, "Do you want to start a new game?",
-        "Game Over", JOptionPane.YES_NO_OPTION);
-
+    if (isTesting) {
+      return; // Prevent further calls during testing
+    }
+    int choice = getGameOverChoice();
     if (choice == JOptionPane.YES_OPTION) {
       startNewGame(); // Transition to a new game
     } else {
       System.exit(0); // Exit the application
     }
+  }
+
+  public int getGameOverChoice() {
+    return JOptionPane.showConfirmDialog(view, "Do you want to start a new game?", "Game Over",
+        JOptionPane.YES_NO_OPTION);
   }
 
   @Override
@@ -134,7 +143,7 @@ public class ViewController implements ViewControllerInterface {
     view.dispose();
   }
 
-  private class GameMouseListener extends MouseAdapter {
+  public class GameMouseListener extends MouseAdapter {
     @Override
     public void mouseClicked(MouseEvent e) {
       Point clickPoint = e.getPoint();
@@ -171,7 +180,7 @@ public class ViewController implements ViewControllerInterface {
   }
 
   // Handles keyboard commands
-  private class GameKeyListener implements KeyListener {
+  public class GameKeyListener implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
       PlayerInterface currentPlayer = world.getTurn();
@@ -229,5 +238,20 @@ public class ViewController implements ViewControllerInterface {
     @Override
     public void keyTyped(KeyEvent e) {
     }
+  }
+
+  @Override
+  public GameMouseListener getGameMouseListener() {
+    return new GameMouseListener();
+  }
+
+  @Override
+  public GameKeyListener getGameKeyListener() {
+    return new GameKeyListener();
+  }
+
+  @Override
+  public void setIsTesting() {
+    this.isTesting = true;
   }
 }

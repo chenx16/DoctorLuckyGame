@@ -56,6 +56,12 @@ public class GameView extends JFrame implements GameViewInterface {
     setSize(800, 600);
     setLayout(new BorderLayout());
     setMinimumSize(new Dimension(300, 300));
+    // Initialize and add MenuPanel to the top
+    menuPanel = new MenuPanel();
+    add(menuPanel, BorderLayout.NORTH);
+
+    // Registering the ActionListener for menu items
+    menuPanel.registerActionListener(new MenuActionListener());
 
     // Initialize and add AboutPanel to the center
     aboutPanel = new AboutPanel();
@@ -66,7 +72,7 @@ public class GameView extends JFrame implements GameViewInterface {
 
   @Override
   public void switchToAddPlayerPanel() {
-    getContentPane().removeAll();
+    getContentPane().remove(aboutPanel);
     revalidate();
     repaint();
 
@@ -81,7 +87,7 @@ public class GameView extends JFrame implements GameViewInterface {
 
   @Override
   public void switchToGameView() {
-    getContentPane().removeAll();
+    getContentPane().remove(addPlayerPanel);
     revalidate();
     repaint();
 

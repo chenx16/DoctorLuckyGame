@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Set;
 import pet.Pet;
 import pet.PetInterface;
+import player.ComputerPlayer;
+import player.HumanPlayer;
 import player.PlayerInterface;
 import room.Room;
 import room.RoomInterface;
@@ -146,10 +148,11 @@ public class MockWorld implements WorldInterface {
   public PlayerInterface getTurn() {
     log.append("getTurn called\n");
     if (players.isEmpty()) {
-      return null;
+      // Add both a human and a computer player for testing
+      players.add(new HumanPlayer("PlayerH", rooms.get(0), 5));
+      players.add(new ComputerPlayer("PlayerC", rooms.get(1), 5));
     }
-    // Returning the first player for simplicity, could implement cycling logic if
-    // needed
+
     return players.get(0);
   }
 

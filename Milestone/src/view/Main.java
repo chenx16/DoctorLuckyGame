@@ -6,24 +6,6 @@ import java.io.FileReader;
 import javax.swing.SwingUtilities;
 
 public class Main {
-//  public static void main(String[] args) {
-//    String worldFilePath = "./res/mansion.txt";
-//    WorldInterface world = new World();
-//
-//    // Load the world from file
-//    try (FileReader reader = new FileReader(worldFilePath)) {
-//      world.loadFromFile(reader);
-//      System.out.println("World loaded successfully from: " + worldFilePath);
-//    } catch (IOException e) {
-//      System.err.println("Error loading the world: " + e.getMessage());
-//      System.exit(1);
-//    }
-//
-//    SwingUtilities.invokeLater(() -> {
-//      GameView view = new GameView(world);
-//      view.setVisible(true);
-//    });
-//  }
 
   public static void main(String[] args) {
     SwingUtilities.invokeLater(() -> {

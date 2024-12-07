@@ -1,0 +1,32 @@
+Loading world...
+World: Doctor Lucky's Mansion
+Target character name: Doctor Lucky, health: 50, currentRoom: Armory
+Pet name: Fortune the Cat, currentRoom: Armory
+
+Maximum number of turns allowed: 20
+Saving the world map to a PNG file...
+World map saved successfully!
+Adding players to the game...
+Enter the name for the human player: Available rooms:
+0: Armory
+1: Billiard Room
+2: Carriage House
+3: Dining Hall
+4: Drawing Room
+5: Foyer
+6: Green House
+7: Hedge Maze
+8: Kitchen
+9: Lancaster Room
+10: Library
+11: Lilac Room
+12: Master Suite
+13: Nursery
+14: Parlor
+15: Piazza
+16: Servants' Quarters
+17: Tennessee Room
+18: Trophy Room
+19: Wine Cellar
+20: Winter Garden
+Enter the room index for the human player to start in: 
