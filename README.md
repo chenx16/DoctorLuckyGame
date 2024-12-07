@@ -276,3 +276,68 @@ Since the target character moves autonomously each turn, combined with limited h
 
 - Single Human and Computer Player Restriction:
 The game currently supports only one human-controlled player and one computer-controlled player. This limitation restricts the number of participants in the game and may reduce potential multiplayer gameplay experiences or team-based strategies.
+
+
+## Milestone 4 - The View
+
+### How to Run the Program (JAR File)
+- Ensure you have **Java 8 or above** installed on your system.
+- Navigate to the `res/` directory containing the `Milestone4.jar` file.
+- Run the JAR file from the terminal or command line:
+  - **Text-Based Mode**:  
+    `java -jar Milestone4.jar <path-to-world-specification-file> <max-turns>`  
+    Example:  
+    `java -jar Milestone4.jar mansion.txt 20`
+  - **Graphical Mode**:  
+    `java -jar Milestone4.jar view <path-to-world-specification-file> <max-turns>`  
+    Example:  
+    `java -jar Milestone4.jar view mansion.txt 20`
+
+### References
+- Project Assignment: [Milestone 4 - The View](https://northeastern.instructure.com/courses/192582/assignments/2382102)
+
+### Demonstrating How to Play the Game
+#### Text-Based Mode:
+1. Launch the program using the command specified above for text-based mode.
+2. Follow on-screen prompts to:
+   - View room details.
+   - Pick up items.
+   - Attempt attacks on the target character.
+   - Move to neighboring rooms.
+
+#### Graphical Mode:
+1. Launch the program using the command specified above for graphical mode.
+2. Features:
+   - **Welcome Screen**: Displays a welcome message and credits. Use the menu to start a new game or quit.
+   - **Player Movement**: Press `M` and click on a neighboring room to move the player.
+   - **Pick Up Items**: Press `P` to pick up an item in the current room.
+   - **Look Around**: Press `L` to explore the surroundings.
+   - **Attempt Attack**: Press `A` to attack the target character.
+   - **Player Descriptions**: Click on a player to view their details.
+   - The game ends when the target character is killed or the maximum number of turns is reached.
+
+---
+
+### Design Changes
+- Refactored the **controller** to follow the **command design pattern**.
+- Separated the **text-based** and **graphical** interfaces by redesigning the controller and decoupling logic from the view.
+- Added a `GameView` implementation using Java Swing for the graphical interface.
+- Integrated scrolling for large worlds in the graphical view.
+- Updated the model to support dynamic turn updates and graphical player representation.
+
+---
+
+### Assumptions
+- The game world specification file is correctly formatted and valid.
+- A graphical representation is available for all entities (players, target, rooms).
+- Players cannot perform invalid moves, such as moving to non-adjacent rooms.
+- Keyboard shortcuts (`M`,`P`, `L`, `A`, etc.) will work only during a human player's turn.
+
+---
+
+### Limitations
+- The graphical interface only supports up to **10 players** in total.
+- No real-time validation of incorrect world files; errors are reported during file loading.
+- The pet is not visually represented in the graphical interface.
+- Scrolling in the graphical view is functional but may not work optimally on very small screens (<300x300).
+- The game does not support saving and loading progress.
