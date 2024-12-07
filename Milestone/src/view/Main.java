@@ -37,7 +37,7 @@ public class Main {
         world.loadFromFile(worldFile);
 
         // Step 2: Create the GameView
-        GameView view = new GameView(world, worldFilePath);
+        GameView view = new GameView(world, worldFilePath, 3);
 //        ViewController viewController = new ViewController(view, world);
         view.setVisible(true);
 

@@ -23,7 +23,7 @@ public class ViewController implements ViewControllerInterface {
   private GameView view;
   private WorldInterface world;
   private int maxTurns;
-  private int currentTurnCount;
+  private String worldFilePath;
   private boolean isMovementMode; // Tracks if movement mode is active
 
   /**
@@ -33,16 +33,15 @@ public class ViewController implements ViewControllerInterface {
    * @param world    the game world model.
    * @param maxTurns the maximum number of turns allowed.
    */
-  public ViewController(GameView view, WorldInterface world, int maxTurns) {
+  public ViewController(GameView view, WorldInterface world, String worldFilePath, int maxTurns) {
     this.view = view;
     this.world = world;
     this.maxTurns = maxTurns;
-    this.currentTurnCount = 0;
+    this.worldFilePath = worldFilePath;
     this.isMovementMode = false;
 
     // Registering event listeners
-    this.view.addMouseListener(new GameMouseListener());
-    this.view.addKeyListener(new GameKeyListener());
+    this.view.registerListeners(new GameKeyListener(), new GameMouseListener());
     processTurn();
 
   }
@@ -54,32 +53,36 @@ public class ViewController implements ViewControllerInterface {
       handleGameOver();
       return;
     }
-    if (currentTurnCount >= maxTurns) {
-      view.showMessage("Maximum number of turns reached. Game over!");
+    if (world.getTotalTurn() > maxTurns) {
+      StringBuilder message = new StringBuilder();
+      message.append("Game over! Unfortunately, the maximum number of turns is reached.\n")
+          .append("The target character escapes and runs away to live another day.\n")
+          .append("Nobody wins...\n");
+      view.showMessage(message.toString());
       handleGameOver();
       return;
     }
 
     PlayerInterface currentPlayer = world.getTurn();
-    currentTurnCount++;
     if (currentPlayer.getIsComputerControlled()) {
       // Automate computer player's turn
       updateTurnInfo();
       String result = world.turnComputerPlayer();
       view.showMessage("Computer Player Turn: " + result);
       processTurn(); // Recursive call to handle the next turn
+      world.moveTargetCharacter();
     } else {
       // Update the view for human player's turn
       view.requestFocusInWindow();
       updateTurnInfo();
 
     }
-    world.moveTargetCharacter();
+
   }
 
   @Override
   public void updateTurnInfo() {
-    view.updateTurnInfo(currentTurnCount);
+    view.updateTurnInfo(world.getTotalTurn());
   }
 
   @Override
@@ -97,13 +100,28 @@ public class ViewController implements ViewControllerInterface {
 
   @Override
   public void startNewGame() {
+    maxTurns = 0;
+    while (maxTurns <= 0) {
+      String input = JOptionPane.showInputDialog(view, "Enter the maximum number of turns:",
+          "Max Turns", JOptionPane.PLAIN_MESSAGE);
+
+      try {
+        maxTurns = Integer.parseInt(input);
+        if (maxTurns <= 0) {
+          JOptionPane.showMessageDialog(view, "Maximum turns must be a positive number.",
+              "Invalid Input", JOptionPane.WARNING_MESSAGE);
+        }
+      } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(view, "Invalid input. Please enter a positive integer.",
+            "Error", JOptionPane.ERROR_MESSAGE);
+      }
+    }
     // Clear and reset the world
-    WorldInterface newWorld = new World();
-    String worldFilePath = "./res/mansion.txt"; // Replace with actual path
+    WorldInterface newWorld = new World(); // Replace with actual path
     Readable worldFile;
     try {
       worldFile = new FileReader(worldFilePath);
-      world.loadFromFile(worldFile);
+      newWorld.loadFromFile(worldFile);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
@@ -111,7 +129,7 @@ public class ViewController implements ViewControllerInterface {
     }
 
     // Create the GameView
-    GameView newView = new GameView(world, worldFilePath);
+    GameView newView = new GameView(newWorld, worldFilePath, maxTurns);
     newView.setVisible(true);
     view.dispose();
   }
@@ -130,6 +148,7 @@ public class ViewController implements ViewControllerInterface {
           ViewCommand command = new MoveCommand(world, clickedRoom.getRoomInd());
           command.execute();
           view.showMessage("Moved to: " + clickedRoom.getName());
+          world.moveTargetCharacter();
           isMovementMode = false; // Exit movement mode after moving
           processTurn();
         } else {
@@ -193,6 +212,7 @@ public class ViewController implements ViewControllerInterface {
       if (command != null) {
         result = command.execute();
         updateTurnInfo(); // Update turn information after the command
+        world.moveTargetCharacter();
       }
       if (result != null && !result.isEmpty()) {
         view.showMessage(result); // Only show meaningful messages

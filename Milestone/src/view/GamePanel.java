@@ -22,13 +22,26 @@ public class GamePanel extends JPanel {
   private WorldInterface world;
   private BufferedImage worldImage;
   private int pixel;
+  private String worldFilePath;
 
-  public GamePanel(WorldInterface world) {
+  /**
+   * Constructs a {@code GamePanel} that represents the visual component of the
+   * game world. The panel initializes by rendering the world map and setting its
+   * size based on the map dimensions.
+   *
+   * @param world the game world model to be rendered, which provides the rooms,
+   *              players, and other elements of the game.
+   * @throws IllegalArgumentException if the provided {@code world} is
+   *                                  {@code null}.
+   */
+
+  public GamePanel(WorldInterface world, String worldFilePath) {
     this.world = world;
+    this.worldFilePath = worldFilePath;
     pixel = this.world.getPixel();
     setBackground(Color.WHITE);
     try {
-      worldImage = world.generateWorldMap("./res/mansion.txt");
+      worldImage = world.generateWorldMap(worldFilePath);
       // Set preferred size based on the world image dimensions
       setPreferredSize(new Dimension(worldImage.getWidth(), worldImage.getHeight()));
     } catch (IOException e) {
@@ -131,7 +144,6 @@ public class GamePanel extends JPanel {
           int drawY = centerY - playerSize / 2 + offsetY;
 
           // Draw the player
-//        g.drawString(player.getName(), x, y - 10);
           g.fillOval(drawX, drawY, playerSize, playerSize);
         }
       }

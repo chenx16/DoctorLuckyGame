@@ -24,7 +24,6 @@ public class MoveCommand implements ViewCommand {
   @Override
   public String execute() {
     String result = world.turnHumanPlayer("move", roomIndex, null);
-    System.out.println(result);
     return result;
   }
 }

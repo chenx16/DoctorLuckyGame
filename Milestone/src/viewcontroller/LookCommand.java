@@ -20,8 +20,6 @@ public class LookCommand implements ViewCommand {
 
   @Override
   public String execute() {
-    // Fetch and display information about the player's surroundings
-
     int currRoomInd = world.getTurn().getCurrentRoom().getRoomInd();
     String surroundingsInfo = world.turnHumanPlayer("look", currRoomInd, null);
     return surroundingsInfo;

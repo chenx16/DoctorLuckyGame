@@ -8,6 +8,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -34,6 +36,7 @@ public class GameView extends JFrame implements GameViewInterface {
   private WorldInterface world;
   private ViewControllerInterface controller;
   private String worldFilePath;
+  private int maxTurns;
 
   /**
    * Constructs a {@code GameView} object with the specified world and world file
@@ -41,11 +44,13 @@ public class GameView extends JFrame implements GameViewInterface {
    *
    * @param world         the game world model.
    * @param worldFilePath the file path of the world specification.
+   * @param maxTurns      the maximum number of turns allowed.
    */
-  public GameView(WorldInterface world, String worldFilePath) {
+  public GameView(WorldInterface world, String worldFilePath, int maxTurns) {
     // Setting up the frame properties
     this.world = world;
     this.worldFilePath = worldFilePath;
+    this.maxTurns = maxTurns;
     setTitle("Doctor Lucky Game");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(800, 600);
@@ -88,7 +93,7 @@ public class GameView extends JFrame implements GameViewInterface {
     menuPanel.registerActionListener(new MenuActionListener());
 
     // Initialize and add GamePanel to the center for the world map
-    gamePanel = new GamePanel(world);
+    gamePanel = new GamePanel(world, worldFilePath);
     JScrollPane scrollPane = new JScrollPane(gamePanel);
     scrollPane.setPreferredSize(new Dimension(800, 600));
     add(scrollPane, BorderLayout.CENTER);
@@ -99,7 +104,7 @@ public class GameView extends JFrame implements GameViewInterface {
 
     revalidate();
     repaint();
-    controller = new ViewController(this, world, 50);
+    controller = new ViewController(this, world, worldFilePath, maxTurns);
   }
 
   @Override
@@ -117,11 +122,17 @@ public class GameView extends JFrame implements GameViewInterface {
   public RoomInterface getRoomAtLocation(Point clickPoint) {
     for (RoomInterface room : world.getRooms()) {
       Rectangle roomBounds = gamePanel.getRoomBounds(room);
-      if (roomBounds.contains(clickPoint)) { // Assuming rooms have a graphical boundary
+      if (roomBounds != null && roomBounds.contains(clickPoint)) {
         return room;
       }
     }
     return null;
+  }
+
+  @Override
+  public void registerListeners(KeyListener keyListener, MouseAdapter mouseAdapter) {
+    this.addKeyListener(keyListener);
+    this.gamePanel.addMouseListener(mouseAdapter);
   }
 
   @Override
@@ -200,7 +211,9 @@ public class GameView extends JFrame implements GameViewInterface {
     PlayerInterface currentPlayer = world.getTurn();
     String playerName = currentPlayer.getName();
     String roomName = currentPlayer.getCurrentRoom().getName();
-    infoPanel.updateTurnInfo(turnNum, playerName, roomName);
+    infoPanel.updateTurnInfo(turnNum, maxTurns, playerName, roomName);
+    infoPanel.updateTargetInfo(world.getTargetCharacter().getName(),
+        world.getTargetCharacter().getHealth());
     // Repaint the view to reflect updates
     repaint();
   }
@@ -222,7 +235,7 @@ public class GameView extends JFrame implements GameViewInterface {
       switch (command) {
         case "New Game with New World Specification":
           // Logic to start a new game with a new world specification
-          System.out.println("Starting a new game with a new world specification...");
+          // System.out.println("Starting a new game with a new world specification...");
           JFileChooser fileChooser = new JFileChooser();
           fileChooser.setDialogTitle("Select a World Specification File");
 
@@ -234,7 +247,7 @@ public class GameView extends JFrame implements GameViewInterface {
               Readable worldFile = new FileReader(selectedFile);
               world = new World();
               world.loadFromFile(worldFile);
-              System.out.println("Loaded world from: " + selectedFile.getName());
+              // System.out.println("Loaded world from: " + selectedFile.getName());
 
               // Show the player adding panel.
               switchToAddPlayerPanel();
@@ -250,7 +263,8 @@ public class GameView extends JFrame implements GameViewInterface {
 
         case "New Game with Current World Specification":
           // Logic to start a new game with the current world specification
-          System.out.println("Starting a new game with the current world specification...");
+          // System.out.println("Starting a new game with the current world
+          // specification...");
           world = new World(); // Reset the world
           try {
             Readable worldFile = new FileReader(worldFilePath);
@@ -263,7 +277,7 @@ public class GameView extends JFrame implements GameViewInterface {
 
         case "Quit":
           // Logic to quit the game
-          System.out.println("Quitting game...");
+          // System.out.println("Quitting game...");
           System.exit(0);
           break;
         default:

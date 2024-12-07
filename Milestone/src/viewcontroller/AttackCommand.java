@@ -27,7 +27,6 @@ public class AttackCommand implements ViewCommand {
   @Override
   public String execute() {
     if (player.getCurrentRoom().equals(world.getTargetCharacter().getCurrentRoom())) {
-      // Player attempts an attack on the target
       String result = world.turnHumanPlayer("attempt", -1, itemName);
       return result;
     } else {

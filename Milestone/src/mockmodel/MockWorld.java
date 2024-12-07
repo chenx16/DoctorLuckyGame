@@ -242,4 +242,9 @@ public class MockWorld implements WorldInterface {
   public int getPixel() {
     return 0;
   }
+
+  @Override
+  public int getTotalTurn() {
+    return 0;
+  }
 }

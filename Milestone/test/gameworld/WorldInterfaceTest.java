@@ -626,7 +626,7 @@ public class WorldInterfaceTest {
     // System.out.println(result);
     assertNotNull(result);
     assertEquals(result,
-        "CONGRATULATIONS! " + "Game is over!PlayerH successfully killed the target with Dagger! "
+        "CONGRATULATIONS! " + "Game is over! PlayerH successfully killed the target with Dagger! "
             + "PlayerH wins the game!");
     assertTrue(world.isGameEnd());
   }
@@ -643,4 +643,42 @@ public class WorldInterfaceTest {
     assertTrue(neighbors.size() > 0); // Should have at least one neighbor
   }
 
+  /**
+   * Test to ensure that the {@code getPixel()} method returns the correct default
+   * pixel value.
+   */
+  @Test
+  public void testGetPixelDefault() {
+    int expectedPixel = 26; // Default value as defined in the World constructor
+    int actualPixel = world.getPixel();
+    assertEquals("The pixel value should match the default value.", expectedPixel, actualPixel);
+  }
+
+  /**
+   * Test to verify that the pixel value remains constant after performing various
+   * operations on the {@code World} object.
+   * 
+   * @throws IOException if cannot load the world
+   */
+  @Test
+  public void testGetPixelAfterOperations() throws IOException {
+    // Load a mock world file
+    Readable mockWorldFile = new java.io.StringReader("5 5 TestWorld\n" + "100 Target\n"
+        + "PetName\n" + "3\n" + "0 0 2 2 Room1\n" + "3 0 5 2 Room2\n" + "0 3 2 5 Room3\n" + "3\n"
+        + "0 10 Sword\n" + "1 20 Shield\n" + "2 15 Potion\n");
+    world.loadFromFile(mockWorldFile);
+
+    // Perform various operations
+    world.moveTargetCharacter();
+    world.getRooms();
+    world.getItems();
+    world.getTargetCharacter();
+    world.getPixel(); // Access the pixel value multiple times
+
+    // Ensure the pixel value is still correct
+    int expectedPixel = 26;
+    int actualPixel = world.getPixel();
+    assertEquals("The pixel value should remain constant after operations.", expectedPixel,
+        actualPixel);
+  }
 }

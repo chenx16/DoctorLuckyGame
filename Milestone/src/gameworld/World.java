@@ -45,6 +45,7 @@ public class World implements WorldInterface {
   private int rows;
   private int cols;
   private int currentTurnIndex;
+  private int totalTurn;
   private String worldName;
   private final int pixel;
   private Stack<Integer> dfsStack;
@@ -62,6 +63,7 @@ public class World implements WorldInterface {
     this.visitedRooms = new HashSet<>();
     this.pixel = 26;
     this.currentTurnIndex = 0;
+    this.totalTurn = 1;
     this.setGameEnd(false);
     // Initialize DFS with the pet's starting room
     if (pet != null && pet.getCurrentRoom() != null) {
@@ -504,7 +506,7 @@ public class World implements WorldInterface {
 
     if (!targetCharacter.isAlive()) {
       setGameEnd(true);
-      result.append("CONGRATULATIONS! Game is over!" + player.getName())
+      result.append("CONGRATULATIONS! Game is over! " + player.getName())
           .append(" successfully killed the target with ").append(selectedItem.getName())
           .append("! ").append(player.getName()).append(" wins the game!");
     } else {
@@ -519,6 +521,7 @@ public class World implements WorldInterface {
    * Updates the current turn to the next player.
    */
   private void updateTurn() {
+    this.totalTurn++;
     currentTurnIndex = (currentTurnIndex + 1) % players.size();
     // Update turn index for the next player
   }
@@ -748,6 +751,11 @@ public class World implements WorldInterface {
   @Override
   public int getPixel() {
     return this.pixel;
+  }
+
+  @Override
+  public int getTotalTurn() {
+    return this.totalTurn;
   }
 
 }

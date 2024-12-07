@@ -232,4 +232,11 @@ public interface WorldInterface {
    * @return the world pixel
    */
   int getPixel();
+
+  /**
+   * Gets the total turn number.
+   *
+   * @return the total turn number
+   */
+  int getTotalTurn();
 }

@@ -28,7 +28,6 @@ public class PickUpCommand implements ViewCommand {
   @Override
   public String execute() {
     String result = world.turnHumanPlayer("pickup", player.getCurrentRoom().getRoomInd(), itemName);
-    System.out.println(result);
     return result;
   }
 }

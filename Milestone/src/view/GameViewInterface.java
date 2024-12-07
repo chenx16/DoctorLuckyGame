@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.Point;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import player.PlayerInterface;
 import room.RoomInterface;
 
@@ -92,4 +94,15 @@ public interface GameViewInterface {
    * @return the InfoPanel
    */
   InfoPanel getInfoPanel();
+
+  /**
+   * Registers the necessary event listeners for handling user interactions such
+   * as key presses and mouse clicks. The listeners include:
+   * 
+   * @param keyListener  A KeyListener for capturing keyboard inputs in the
+   *                     GameView.
+   * @param mouseAdapter A MouseListener for detecting mouse clicks on the
+   *                     GamePanel.
+   */
+  void registerListeners(KeyListener keyListener, MouseAdapter mouseAdapter);
 }
