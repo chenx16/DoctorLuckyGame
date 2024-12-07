@@ -29,8 +29,10 @@ public class GamePanel extends JPanel {
    * game world. The panel initializes by rendering the world map and setting its
    * size based on the map dimensions.
    *
-   * @param world the game world model to be rendered, which provides the rooms,
-   *              players, and other elements of the game.
+   * @param world         the game world model to be rendered, which provides the
+   *                      rooms, players, and other elements of the game.
+   * @param worldFilePath the file path of the world specification file, used for
+   *                      loading and visualizing the world.
    * @throws IllegalArgumentException if the provided {@code world} is
    *                                  {@code null}.
    */

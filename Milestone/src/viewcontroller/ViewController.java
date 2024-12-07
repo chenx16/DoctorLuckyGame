@@ -28,11 +28,22 @@ public class ViewController implements ViewControllerInterface {
   private boolean isMovementMode; // Tracks if movement mode is active
 
   /**
-   * Constructs a ViewController.
+   * Constructs a {@code ViewController} to manage the interaction between the
+   * graphical user interface and the game world model. This controller is
+   * responsible for handling user inputs, updating the view, and orchestrating
+   * game logic such as turn processing.
    *
-   * @param view     the graphical user interface.
-   * @param world    the game world model.
-   * @param maxTurns the maximum number of turns allowed.
+   * @param view          the graphical user interface component that displays the
+   *                      game world and receives user interactions.
+   * @param world         the game world model that encapsulates the game's state,
+   *                      including rooms, players, and target character
+   *                      information.
+   * @param worldFilePath the file path to the world specification file, used for
+   *                      loading the game's world data.
+   * @param maxTurns      the maximum number of turns allowed in the game,
+   *                      determining the game's duration.
+   * @throws IllegalArgumentException if any of the provided arguments are
+   *                                  {@code null}.
    */
   public ViewController(GameView view, WorldInterface world, String worldFilePath, int maxTurns) {
     this.view = view;
@@ -143,6 +154,12 @@ public class ViewController implements ViewControllerInterface {
     view.dispose();
   }
 
+  /**
+   * {@code GameMouseListener} is a custom mouse event handler that processes
+   * mouse interactions within the game. It responds to user clicks, enabling
+   * functionality such as player movement to a clicked room or displaying
+   * information about a clicked player.
+   */
   public class GameMouseListener extends MouseAdapter {
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -179,7 +196,11 @@ public class ViewController implements ViewControllerInterface {
     }
   }
 
-  // Handles keyboard commands
+  /**
+   * {@code GameKeyListener} is a custom keyboard event handler that processes key
+   * inputs during the game. It maps specific key presses to corresponding game
+   * actions such as moving, picking up items, attacking, and looking around.
+   */
   public class GameKeyListener implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {

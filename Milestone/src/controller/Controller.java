@@ -44,7 +44,19 @@ public class Controller implements ControllerInterface {
   }
 
   /**
-   * Starts the game and handles user input for game interaction.
+   * Starts the game and handles user input for game interaction. This method
+   * initializes the game with the provided world, maximum turns, and random
+   * generator. It displays the maximum number of turns allowed and facilitates
+   * interaction with the game through the given streams.
+   *
+   * @param world    the game world containing the game's state, rooms, players,
+   *                 items, and other elements.
+   * @param maxTurns the maximum number of turns allowed in the game before it
+   *                 ends automatically.
+   * @param random   a {@link Random} object used to introduce randomness in the
+   *                 game logic (e.g., pet movement, item generation).
+   * @throws IOException if an error occurs during interaction or output
+   *                     operations.
    */
   public void start(WorldInterface world, int maxTurns, Random random) throws IOException {
     // Display maximum turns allowed in the game

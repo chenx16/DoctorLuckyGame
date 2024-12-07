@@ -8,9 +8,22 @@ import room.RoomInterface;
 import view.GameView;
 import view.GameViewInterface;
 
+/**
+ * A mock implementation of the {@link GameView} for testing purposes. This
+ * class extends {@code GameView} and overrides its behavior to log interactions
+ * for validation during testing.
+ */
 public class MockGameView extends GameView implements GameViewInterface {
+
   private StringBuilder log;
 
+  /**
+   * Constructs a {@code MockGameView} instance with a provided log for capturing
+   * interactions.
+   *
+   * @param log a {@link StringBuilder} used to record method calls and
+   *            interactions for testing.
+   */
   public MockGameView(StringBuilder log) {
     super(null, "", 0);
     this.log = log;
