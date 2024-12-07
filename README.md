@@ -328,6 +328,7 @@ The game currently supports only one human-controlled player and one computer-co
 ---
 
 ### Assumptions
+- The maximum number of turns allowed is specified as a positive integer; if not provided, a default value of 20 is used.
 - The game world specification file is correctly formatted and valid.
 - A graphical representation is available for all entities (players, target, rooms).
 - Players cannot perform invalid moves, such as moving to non-adjacent rooms.
