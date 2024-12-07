@@ -319,11 +319,23 @@ The game currently supports only one human-controlled player and one computer-co
 ---
 
 ### Design Changes
-- Refactored the **controller** to follow the **command design pattern**.
-- Separated the **text-based** and **graphical** interfaces by redesigning the controller and decoupling logic from the view.
-- Added a `GameView` implementation using Java Swing for the graphical interface.
-- Integrated scrolling for large worlds in the graphical view.
-- Updated the model to support dynamic turn updates and graphical player representation.
+- **Model Updates:**
+  - Did not significantly modify the model.
+  - Added several getters in `World.java` to support the graphical interface and dynamic updates.
+
+- **Testing Enhancements:**
+  - Expanded testing for pet and player interactions to ensure robustness.
+
+- **Controller Changes:**
+  - Introduced a separate controller for the graphical interface using the **command design pattern**.
+  - Decoupled the text-based and graphical interfaces by redesigning the controller logic.
+
+- **Graphical View Enhancements:**
+  - Implemented `GameView` using Java Swing.
+  - Added scrolling support for large worlds to ensure usability.
+
+- **Model Integration:**
+  - Enhanced the model to support dynamic turn updates and graphical player representations.
 
 ---
 
