@@ -138,8 +138,6 @@ public class ViewControllerInterfaceTest {
         .contains("showMessage called with: Invalid move! Click on a neighboring room."));
     assertTrue(log.toString()
         .contains("getRoomAtLocation called with clickPoint: java.awt.Point[x=50,y=50]"));
-    assertTrue(log.toString()
-        .contains("showMessage called with: Invalid move! Click on a neighboring room."));
   }
 
   /**
